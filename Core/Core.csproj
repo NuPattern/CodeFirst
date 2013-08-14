@@ -7,8 +7,8 @@
     <ProjectGuid>{039BBFB1-F8EB-49C7-ABCF-701D62183FF9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Core</RootNamespace>
-    <AssemblyName>Core</AssemblyName>
+    <RootNamespace>NuPattern</RootNamespace>
+    <AssemblyName>NuPattern.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
