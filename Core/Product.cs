@@ -16,14 +16,14 @@
 
         public string Toolkit
         {
-            get { return (string)product.GetValue("Toolkit"); }
-            set { product.Property("Toolkit").Value = value; }
+            get { return product.Get(() => Toolkit); }
+            set { product.Set(() => Toolkit, value); }
         }
 
         public string Version
         {
-            get { return (string)product.GetValue("Version"); }
-            set { product.Property("Version").Value = value; }
+            get { return product.Get(() => Version); }
+            set { product.Set(() => Version, value); }
         }
     }
 }

@@ -4,13 +4,13 @@
     <Position X="1.886" Y="4.521" Height="0.854" Width="2.627" />
   </Comment>
   <Interface Name="NuPattern.ICollection">
-    <Position X="8" Y="4.75" Width="1.25" />
+    <Position X="8.25" Y="5" Width="1.25" />
     <InheritanceLine Type="NuPattern.IContainer" FixedToPoint="true">
       <Path>
-        <Point X="7.625" Y="3.867" />
-        <Point X="7.625" Y="4.375" />
-        <Point X="8.625" Y="4.375" />
-        <Point X="8.625" Y="4.75" />
+        <Point X="7.875" Y="4.367" />
+        <Point X="7.875" Y="4.625" />
+        <Point X="8.875" Y="4.625" />
+        <Point X="8.875" Y="5" />
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
@@ -19,17 +19,21 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="NuPattern.IComponent">
-    <Position X="4" Y="2.25" Width="1.75" />
+    <Position X="4" Y="2.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACAAAAAAQAQAAAAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>IComponent.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Parent" />
+      <Property Name="Root" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Properties" />
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.IContainer">
-    <Position X="6.75" Y="2.25" Width="1.75" />
+    <Position X="7" Y="2.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQIAAAAAAAAAgAQAAAAAAAAgAAAAAAAA=</HashCode>
       <FileName>IContainer.cs</FileName>
@@ -40,7 +44,7 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.IElement">
-    <Position X="6" Y="4.75" Width="1.25" />
+    <Position X="6" Y="5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IElement.cs</FileName>
@@ -54,7 +58,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="NuPattern.IProduct">
-    <Position X="9.5" Y="2.25" Width="1.5" />
+    <Position X="7" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>IProduct.cs</FileName>
@@ -71,7 +75,7 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="NuPattern.IStore">
-    <Position X="9.5" Y="0.5" Width="1.5" />
+    <Position X="9.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>IStore.cs</FileName>

@@ -28,23 +28,15 @@
             remove { component.PropertyChanged -= value; }
         }
 
+        public string Definition
+        {
+            get { return component.Get(() => Definition); }
+        }
+
         public string Name
         {
-            get { return (string)component.GetValue("Name"); }
-            set { component.Property("Name").Value = value; }
-        }
-
-        public IComponent Parent
-        {
-            get
-            {
-                return component.Parent == null ? null : component.Ancestors().OfType<JObject>().First().AsComponent();
-            }
-        }
-
-        public IProduct Root
-        {
-            get { throw new NotImplementedException(); }
+            get { return component.Get(() => Name); }
+            set { component.Set(() => Name, value); }
         }
 
         public IEnumerable<IProperty> Properties
@@ -52,9 +44,17 @@
             get { return component.Properties().Select(x => new Property(x)); }
         }
 
-        public string Definition
+        public IComponent Parent
         {
-            get { return (string)component.GetValue("Definition"); }
+            get
+            {
+                return component.Parent == null ? null : component.Ancestors().OfType<JObject>().Select(x => x.AsComponent()).FirstOrDefault();
+            }
+        }
+
+        public IProduct Root
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }
