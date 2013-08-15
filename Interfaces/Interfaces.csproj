@@ -48,9 +48,17 @@
     <Compile Include="IInstance.cs" />
     <Compile Include="IStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\IInstanceSchema.cs" />
+    <Compile Include="Schema\IPatternSchema.cs" />
+    <Compile Include="Schema\IContainerSchema.cs" />
+    <Compile Include="Schema\IElementSchema.cs" />
+    <Compile Include="Schema\ICollectionSchema.cs" />
+    <Compile Include="Schema\IComponentSchema.cs" />
+    <Compile Include="Schema\IPropertySchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Interfaces.cd" />
+    <None Include="Schema.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

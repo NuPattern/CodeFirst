@@ -3,21 +3,6 @@
   <Comment CommentText="IProductElement &gt; IComponent. We don't have IAbstractElement which was used to add View to both elements and collections.">
     <Position X="1.886" Y="4.521" Height="0.854" Width="2.627" />
   </Comment>
-  <Interface Name="NuPattern.ICollection">
-    <Position X="8.25" Y="5" Width="1.25" />
-    <InheritanceLine Type="NuPattern.IContainer" FixedToPoint="true">
-      <Path>
-        <Point X="7.875" Y="4.367" />
-        <Point X="7.875" Y="4.625" />
-        <Point X="8.875" Y="4.625" />
-        <Point X="8.875" Y="5" />
-      </Path>
-    </InheritanceLine>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ICollection.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Interface Name="NuPattern.IComponent">
     <Position X="4" Y="2.5" Width="1.75" />
     <TypeIdentifier>
@@ -44,7 +29,7 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.IElement">
-    <Position X="6" Y="5" Width="1.25" />
+    <Position X="6.25" Y="5" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IElement.cs</FileName>
@@ -83,6 +68,13 @@
     <ShowAsCollectionAssociation>
       <Property Name="Products" />
     </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="NuPattern.ICollection">
+    <Position X="8.25" Y="5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ICollection.cs</FileName>
+    </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
