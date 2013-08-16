@@ -12,6 +12,8 @@
 
         Type PropertyType { get; set; }
 
+        new IComponentSchema Parent { get; }
+
         // object DefaultValue { get; set; }
         // ValueProvider DefaultValueProvider?
         // TypeConverter TypeConverter { get; set; }

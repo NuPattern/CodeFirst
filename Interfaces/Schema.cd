@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Interface Name="NuPattern.Schema.ICollectionSchema">
-    <Position X="7" Y="4.5" Width="1.75" />
+    <Position X="7" Y="4.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\ICollectionSchema.cs</FileName>
@@ -28,7 +28,7 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.Schema.IElementSchema">
-    <Position X="9.5" Y="4.5" Width="1.5" />
+    <Position X="9.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\IElementSchema.cs</FileName>
@@ -55,7 +55,7 @@
   <Interface Name="NuPattern.Schema.IPropertySchema">
     <Position X="2" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAACAAAACAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAQAAAAAAAAAAAAAACAAAACAA=</HashCode>
       <FileName>Schema\IPropertySchema.cs</FileName>
     </TypeIdentifier>
   </Interface>
