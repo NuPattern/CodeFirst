@@ -6,7 +6,7 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal class ContainerSchema : ComponentSchema, IContainerSchema
+    internal abstract class ContainerSchema : ComponentSchema, IContainerSchema
     {
         public ContainerSchema()
         {
@@ -24,14 +24,20 @@
 
         private void OnElementsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            foreach (var component in e.NewItems.OfType<ComponentSchema>())
+            if (e.NewItems != null)
             {
-                component.Parent = this;
+                foreach (var component in e.NewItems.OfType<ComponentSchema>())
+                {
+                    component.Parent = this;
+                }
             }
 
-            foreach (var component in e.OldItems.OfType<ComponentSchema>())
+            if (e.OldItems != null)
             {
-                component.Parent = null;
+                foreach (var component in e.OldItems.OfType<ComponentSchema>())
+                {
+                    component.Parent = null;
+                }
             }
         }
     }

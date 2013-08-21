@@ -18,7 +18,7 @@
             set { base.Parent = value; }
         }
 
-        // object DefaultValue { get; set; }
+        // object DefaultValue { get; set; };
         // ValueProvider DefaultValueProvider?
         // TypeConverter TypeConverter { get; set; }
         // ValueProvider ValueProvider { get; set; }

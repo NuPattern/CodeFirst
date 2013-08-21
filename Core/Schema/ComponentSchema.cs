@@ -6,7 +6,7 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal class ComponentSchema : InstanceSchema, IComponentSchema
+    internal abstract class ComponentSchema : InstanceSchema, IComponentSchema
     {
         public ComponentSchema()
         {
@@ -21,14 +21,20 @@
 
         private void OnPropertiesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            foreach (var property in e.NewItems.OfType<ComponentSchema>())
+            if (e.NewItems != null)
             {
-                property.Parent = this;
+                foreach (var property in e.NewItems.OfType<PropertySchema>())
+                {
+                    property.Parent = this;
+                }
             }
 
-            foreach (var property in e.OldItems.OfType<ComponentSchema>())
+            if (e.OldItems != null)
             {
-                property.Parent = null;
+                foreach (var property in e.OldItems.OfType<PropertySchema>())
+                {
+                    property.Parent = null;
+                }
             }
         }
     }

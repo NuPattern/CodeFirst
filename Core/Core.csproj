@@ -51,6 +51,7 @@
     <Compile Include="Element.cs" />
     <Compile Include="JTransientProperty.cs" />
     <Compile Include="JsonExtensions.cs" />
+    <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
