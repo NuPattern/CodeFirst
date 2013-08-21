@@ -4,6 +4,6 @@
 
     public interface IPatternSchema : IContainerSchema
     {
-        IToolkit Toolkit { get; }
+        IToolkitSchema Toolkit { get; }
     }
 }

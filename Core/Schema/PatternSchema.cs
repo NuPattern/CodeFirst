@@ -4,6 +4,6 @@
 
     internal class PatternSchema : ContainerSchema, IPatternSchema
     {
-        public IToolkit Toolkit { get; set; }
+        public IToolkitSchema Toolkit { get; set; }
     }
 }

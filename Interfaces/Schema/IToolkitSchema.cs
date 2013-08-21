@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public interface IToolkit
+    public interface IToolkitSchema
     {
         string Id { get; }
         string Version { get; }

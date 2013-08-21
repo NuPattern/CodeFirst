@@ -6,9 +6,9 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal class Toolkit : IToolkit
+    internal class ToolkitSchema : IToolkitSchema
     {
-        public Toolkit()
+        public ToolkitSchema()
         {
             var patterns = new ObservableCollection<PatternSchema>();
             patterns.CollectionChanged += OnPatternsChanged;
@@ -17,7 +17,7 @@
 
         public string Id { get; set; }
         public string Version { get; set; }
-        IEnumerable<IPatternSchema> IToolkit.Patterns { get { return Patterns; }}
+        IEnumerable<IPatternSchema> IToolkitSchema.Patterns { get { return Patterns; }}
 
         public ICollection<PatternSchema> Patterns { get; private set; }
 

@@ -56,7 +56,7 @@
     <Compile Include="Schema\ICollectionSchema.cs" />
     <Compile Include="Schema\IComponentSchema.cs" />
     <Compile Include="Schema\IPropertySchema.cs" />
-    <Compile Include="Schema\IToolkit.cs" />
+    <Compile Include="Schema\IToolkitSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Interfaces.cd" />

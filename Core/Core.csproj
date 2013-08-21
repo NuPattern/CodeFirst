@@ -62,7 +62,7 @@
     <Compile Include="Schema\InstanceSchema.cs" />
     <Compile Include="Schema\PatternSchema.cs" />
     <Compile Include="Schema\PropertySchema.cs" />
-    <Compile Include="Schema\Toolkit.cs" />
+    <Compile Include="Schema\ToolkitSchema.cs" />
     <Compile Include="Toolkit.cs" />
     <Compile Include="ToolkitInfo.cs" />
   </ItemGroup>
