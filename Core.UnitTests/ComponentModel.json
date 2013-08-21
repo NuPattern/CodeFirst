@@ -1,0 +1,25 @@
+﻿{
+    "Name": "NuPattern",
+    "Definition": "NuPattern.Toolkit", 
+    "IsCool": true,
+    "Count": 10, 
+    "Components": [
+        {
+            "Name": "ComponentA", 
+            "Definition": "Element", 
+            "Something": "something"
+        },
+        {
+            "Name": "ComponentB", 
+            "Definition": "Collection", 
+            "Something": "something"
+        }
+    ],
+    "Extensions": [
+        {
+            "Name": "ExtensionA", 
+            "Definition": "Extension", 
+            "Foo": "bar"
+        }
+    ]
+}
