@@ -47,6 +47,7 @@
     <Compile Include="IComponent.cs" />
     <Compile Include="IInstance.cs" />
     <Compile Include="IStore.cs" />
+    <Compile Include="IToolkitInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schema\IInstanceSchema.cs" />
     <Compile Include="Schema\IPatternSchema.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Schema\ICollectionSchema.cs" />
     <Compile Include="Schema\IComponentSchema.cs" />
     <Compile Include="Schema\IPropertySchema.cs" />
+    <Compile Include="Schema\IToolkit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Interfaces.cd" />

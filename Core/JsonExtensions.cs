@@ -76,6 +76,20 @@
 
             var propertyName = ((MemberExpression)property.Body).Member.Name;
 
+            return Get<T>(json, propertyName);
+        }
+
+        public static void Set<T>(this JObject json, Expression<Func<T>> property, T value)
+        {
+            if (property.Body.NodeType != ExpressionType.MemberAccess)
+                throw new ArgumentException("Invalid property expression " + property);
+
+            var propertyName = ((MemberExpression)property.Body).Member.Name;
+            Set<T>(json, propertyName, value);
+        }
+
+        public static T Get<T>(this JObject json, string propertyName)
+        {
             object getter = null;
             if (!getters.TryGetValue(typeof(T), out getter))
                 throw new ArgumentException(string.Format(
@@ -85,12 +99,8 @@
             return ((Func<JObject, string, T>)getter).Invoke(json, propertyName);
         }
 
-        public static void Set<T>(this JObject json, Expression<Func<T>> property, T value)
+        public static void Set<T>(this JObject json, string propertyName, T value)
         {
-            if (property.Body.NodeType != ExpressionType.MemberAccess)
-                throw new ArgumentException("Invalid property expression " + property);
-
-            var propertyName = ((MemberExpression)property.Body).Member.Name;
             var jprop = json.Property(propertyName);
 
             if (value == null)

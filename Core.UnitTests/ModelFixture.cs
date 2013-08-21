@@ -20,6 +20,8 @@
             IProduct product = new Product(json);
 
             Assert.Equal("NuPattern", product.Name);
+            Assert.Equal("AWS", product.Toolkit.Id);
+            Assert.Equal("1.0.0", product.Toolkit.Version);
             Assert.Equal("NuPattern.Toolkit", product.Definition);
             Assert.True((bool)product.Properties.First(x => x.Definition == "IsCool").Value);
             Assert.Equal(10, (long)product.Properties.First(x => x.Definition == "Count").Value);

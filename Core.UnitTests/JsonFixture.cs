@@ -1,9 +1,12 @@
 ﻿namespace NuPattern
 {
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -51,6 +54,19 @@
 
             Assert.Equal("kzu", json.Get(() => Name));
         }
+
+        [Fact]
+        public void when_deserializing_model_then_can_traverse_all_jobjects()
+        {
+            var json = File.ReadAllText("ComponentModel.json");
+            JObject obj = (JObject)JsonConvert.DeserializeObject(json);
+
+            var objs = obj.Descendants().OfType<JObject>().Reverse().Concat(new [] { obj }).ToList();
+
+            Assert.Equal(6, objs.Count);
+        }
+
+        public class JsonModel : JObject { }
 
         //[Fact]
         public void when_action_then_assert()

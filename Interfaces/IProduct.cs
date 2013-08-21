@@ -5,13 +5,8 @@
     public interface IProduct : IContainer
     {
         /// <summary>
-        /// Identifier of the toolkit that provided this product.
+        /// Information about the toolkit that provided the schema for this product.
         /// </summary>
-        string Toolkit { get; }
-
-        /// <summary>
-        /// Version of the toolkit used to author this product.
-        /// </summary>
-        string Version { get; }
+        IToolkitInfo Toolkit { get; }
     }
 }

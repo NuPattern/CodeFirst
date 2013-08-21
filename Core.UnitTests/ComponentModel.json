@@ -7,7 +7,13 @@
         {
             "Name": "ComponentA", 
             "Definition": "Element", 
-            "Something": "something"
+            "Something": "something",
+            "Components": [
+                {
+                    "Name": "NestedA", 
+                    "Definition": "Element"
+                }
+            ]
         },
         {
             "Name": "ComponentB", 
@@ -21,5 +27,9 @@
             "Definition": "Extension", 
             "Foo": "bar"
         }
-    ]
+    ],
+    "Toolkit": {
+        "Id": "AWS", 
+        "Version": "1.0.0" 
+    }
 }

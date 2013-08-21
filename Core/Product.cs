@@ -12,18 +12,17 @@
         {
             this.product = product;
             product.SetModel(this);
+
+            var toolkit = product.Property("Toolkit");
+            if (toolkit == null)
+            {
+                toolkit = new JProperty("Toolkit", new JObject());
+                product.Add(toolkit);
+            }
+
+            this.Toolkit = new ToolkitInfo((JObject)toolkit.Value);
         }
 
-        public string Toolkit
-        {
-            get { return product.Get(() => Toolkit); }
-            set { product.Set(() => Toolkit, value); }
-        }
-
-        public string Version
-        {
-            get { return product.Get(() => Version); }
-            set { product.Set(() => Version, value); }
-        }
+        public IToolkitInfo Toolkit { get; private set; }
     }
 }
