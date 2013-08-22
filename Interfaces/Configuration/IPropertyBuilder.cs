@@ -1,18 +1,18 @@
-﻿namespace NuPattern.Schema
+﻿namespace NuPattern.Configuration
 {
     using System;
     using System.ComponentModel;
     using System.Linq;
 
-    public interface IPropertySchema : IInstanceSchema
+    public interface IPropertyBuilder : IInstanceBuilder
     {
-        string Category { get; set; }
+        IPropertyBuilder Category(string category);
 
-        bool IsReadOnly { get; set; }
+        IPropertyBuilder ReadOnly();
 
-        Type Type { get; set; }
+        IPropertyBuilder Typed(Type propertyType);
 
-        new IComponentSchema Parent { get; }
+        new IComponentBuilder Parent { get; }
 
         // object DefaultValue { get; set; }
         // ValueProvider DefaultValueProvider?

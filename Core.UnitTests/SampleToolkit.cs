@@ -1,4 +1,4 @@
-﻿namespace NuPattern
+﻿namespace NuPattern.Sample
 {
     using System;
     using System.ComponentModel;

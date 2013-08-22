@@ -10,7 +10,7 @@
 
         public bool IsReadOnly { get; set; }
 
-        public Type PropertyType { get; set; }
+        public Type Type { get; set; }
 
         public new IComponentSchema Parent
         {

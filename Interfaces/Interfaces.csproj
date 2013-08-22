@@ -39,8 +39,16 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="Configuration\ICollectionBuilder.cs" />
+    <Compile Include="Configuration\IComponentBuilder.cs" />
+    <Compile Include="Configuration\IContainerBuilder.cs" />
+    <Compile Include="Configuration\IElementBuilder.cs" />
+    <Compile Include="Configuration\IInstanceBuilder.cs" />
+    <Compile Include="Configuration\IPatternBuilder.cs" />
+    <Compile Include="Configuration\IPropertyBuilder.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
+    <Compile Include="IPatternBuilder.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IContainer.cs" />

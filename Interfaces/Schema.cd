@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Interface Name="NuPattern.Schema.ICollectionSchema">
-    <Position X="7" Y="4.75" Width="1.75" />
+    <Position X="6.25" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\ICollectionSchema.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="NuPattern.Schema.IComponentSchema">
-    <Position X="5.5" Y="3" Width="1.75" />
+    <Position X="4.75" Y="3" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>Schema\IComponentSchema.cs</FileName>
@@ -18,7 +18,7 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.Schema.IContainerSchema">
-    <Position X="8.25" Y="3" Width="1.5" />
+    <Position X="7.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\IContainerSchema.cs</FileName>
@@ -28,14 +28,14 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.Schema.IElementSchema">
-    <Position X="9.5" Y="4.75" Width="1.5" />
+    <Position X="8.75" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\IElementSchema.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="NuPattern.Schema.IInstanceSchema">
-    <Position X="4" Y="0.5" Width="1.5" />
+    <Position X="3.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAgECAAAAAAQAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\IInstanceSchema.cs</FileName>
@@ -46,18 +46,31 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="NuPattern.Schema.IPatternSchema">
-    <Position X="8.25" Y="1.25" Width="1.5" />
+    <Position X="7.5" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>Schema\IPatternSchema.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Toolkit" />
+    </ShowAsAssociation>
   </Interface>
   <Interface Name="NuPattern.Schema.IPropertySchema">
-    <Position X="2" Y="3" Width="1.5" />
+    <Position X="1.25" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAQAAAAAAAAAAAAAACAAAACAA=</HashCode>
       <FileName>Schema\IPropertySchema.cs</FileName>
     </TypeIdentifier>
+  </Interface>
+  <Interface Name="NuPattern.Schema.IToolkitSchema">
+    <Position X="10.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Schema\IToolkitSchema.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Patterns" />
+    </ShowAsCollectionAssociation>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

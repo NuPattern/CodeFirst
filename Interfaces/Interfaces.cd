@@ -5,6 +5,14 @@
   </Comment>
   <Interface Name="NuPattern.IComponent">
     <Position X="4" Y="2.5" Width="1.75" />
+    <AssociationLine Name="Root" Type="NuPattern.IProduct" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="2.688" />
+        <Point X="6.125" Y="2.688" />
+        <Point X="6.125" Y="0.999" />
+        <Point X="7" Y="0.999" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACAAAAAAQAQAAAAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>IComponent.cs</FileName>
@@ -44,10 +52,21 @@
   </Interface>
   <Interface Name="NuPattern.IProduct">
     <Position X="7" Y="0.5" Width="1.75" />
+    <AssociationLine Name="Toolkit" Type="NuPattern.IToolkitInfo" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.75" Y="1.188" />
+        <Point X="9.219" Y="1.188" />
+        <Point X="9.219" Y="2.875" />
+        <Point X="9.75" Y="2.875" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>IProduct.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Toolkit" />
+    </ShowAsAssociation>
   </Interface>
   <Interface Name="NuPattern.IProperty">
     <Position X="1.5" Y="2.25" Width="1.5" />
@@ -74,6 +93,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ICollection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NuPattern.IToolkitInfo">
+    <Position X="9.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IToolkitInfo.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

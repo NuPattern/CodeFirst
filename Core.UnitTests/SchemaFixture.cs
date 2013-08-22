@@ -19,8 +19,8 @@
                         Name = "Foo", 
                         Properties = 
                         {
-                            new PropertySchema { Name = "Id", PropertyType = typeof(int) },
-                            new PropertySchema { Name = "Text", PropertyType = typeof(string) },                            
+                            new PropertySchema { Name = "Id", Type = typeof(int) },
+                            new PropertySchema { Name = "Text", Type = typeof(string) },                            
                         }
                     },
                     new CollectionSchema 
@@ -33,8 +33,8 @@
                                 Name = "Bar", 
                                 Properties = 
                                 {
-                                    new PropertySchema { Name = "Id", PropertyType = typeof(int) },
-                                    new PropertySchema { Name = "Text", PropertyType = typeof(string) },                            
+                                    new PropertySchema { Name = "Id", Type = typeof(int) },
+                                    new PropertySchema { Name = "Text", Type = typeof(string) },                            
                                 }
                             },
                         }
@@ -60,8 +60,8 @@
                         Name = "Foo", 
                         Properties = 
                         {
-                            new PropertySchema { Name = "Id", PropertyType = typeof(int) },
-                            new PropertySchema { Name = "Text", PropertyType = typeof(string) },                            
+                            new PropertySchema { Name = "Id", Type = typeof(int) },
+                            new PropertySchema { Name = "Text", Type = typeof(string) },                            
                         }
                     },
                     new CollectionSchema 
@@ -74,8 +74,8 @@
                                 Name = "Bar", 
                                 Properties = 
                                 {
-                                    new PropertySchema { Name = "Id", PropertyType = typeof(int) },
-                                    new PropertySchema { Name = "Text", PropertyType = typeof(string) },                            
+                                    new PropertySchema { Name = "Id", Type = typeof(int) },
+                                    new PropertySchema { Name = "Text", Type = typeof(string) },                            
                                 }
                             },
                         }

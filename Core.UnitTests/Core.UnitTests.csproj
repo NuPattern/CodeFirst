@@ -53,8 +53,11 @@
     <Compile Include="ModelFixture.cs" />
     <Compile Include="JsonMigrations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionSchemaBuilderFixture.cs" />
     <Compile Include="SampleToolkit.cs" />
     <Compile Include="SchemaFixture.cs" />
+    <Compile Include="Tookit\Builder.cs" />
+    <Compile Include="Tookit\Model.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ComponentModel.json">
@@ -62,6 +65,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
