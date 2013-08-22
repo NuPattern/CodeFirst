@@ -81,9 +81,9 @@
       <Project>{039bbfb1-f8eb-49c7-abcf-701d62183ff9}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+    <ProjectReference Include="..\Interfaces\NuPattern.csproj">
       <Project>{073a74cd-380c-4c3c-8d73-3d08efec9700}</Project>
-      <Name>Interfaces</Name>
+      <Name>NuPattern</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
