@@ -2,7 +2,8 @@
 {
     using System;
 
-    public interface IElementBuilder: IContainerBuilder
+    public interface IKeyedConfiguration
     {
+        object Key { get; }
     }
 }

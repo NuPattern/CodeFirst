@@ -55,15 +55,6 @@
     <Compile Include="Product.cs" />
     <Compile Include="Property.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Schema\CollectionSchema.cs" />
-    <Compile Include="Schema\ComponentSchema.cs" />
-    <Compile Include="Schema\ContainerSchema.cs" />
-    <Compile Include="Schema\ElementSchema.cs" />
-    <Compile Include="Schema\InstanceSchema.cs" />
-    <Compile Include="Schema\PatternSchema.cs" />
-    <Compile Include="Schema\PropertySchema.cs" />
-    <Compile Include="Schema\ReflectionSchemaBuilder.cs" />
-    <Compile Include="Schema\ToolkitSchema.cs" />
     <Compile Include="Toolkit.cs" />
     <Compile Include="ToolkitInfo.cs" />
   </ItemGroup>
@@ -79,7 +70,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Interfaces\NuPattern.csproj">
+    <ProjectReference Include="..\Source\NuPattern.csproj">
       <Project>{073a74cd-380c-4c3c-8d73-3d08efec9700}</Project>
       <Name>NuPattern</Name>
     </ProjectReference>

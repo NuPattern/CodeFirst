@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
@@ -39,16 +40,28 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
-    <Compile Include="Configuration\ICollectionBuilder.cs" />
-    <Compile Include="Configuration\IComponentBuilder.cs" />
-    <Compile Include="Configuration\IContainerBuilder.cs" />
-    <Compile Include="Configuration\IElementBuilder.cs" />
-    <Compile Include="Configuration\IInstanceBuilder.cs" />
-    <Compile Include="Configuration\IPatternBuilder.cs" />
-    <Compile Include="Configuration\IPropertyBuilder.cs" />
+    <Compile Include="Configuration\Cardinality.cs" />
+    <Compile Include="Configuration\ConfigurationBase.cs" />
+    <Compile Include="Configuration\ConfigurationRegistry.cs" />
+    <Compile Include="Configuration\ComponentConfiguration.cs" />
+    <Compile Include="Configuration\ContainerConfiguration.cs" />
+    <Compile Include="Configuration\CollectionConfiguration.cs" />
+    <Compile Include="Configuration\AssociationPropertyConfiguration.cs" />
+    <Compile Include="Configuration\Fluent\ComponentConfiguration`.cs" />
+    <Compile Include="Configuration\Fluent\CollectionConfiguration`.cs" />
+    <Compile Include="Configuration\Fluent\AssociationPropertyConfiguration`.cs" />
+    <Compile Include="Configuration\Fluent\ElementConfiguration`.cs" />
+    <Compile Include="Configuration\ElementConfiguration.cs" />
+    <Compile Include="Configuration\IKeyedConfiguration.cs" />
+    <Compile Include="Configuration\InstanceConfiguration.cs" />
+    <Compile Include="Configuration\PatternConfiguration.cs" />
+    <Compile Include="Configuration\Fluent\PatternConfiguration`.cs" />
+    <Compile Include="Configuration\PropertyConfiguration.cs" />
+    <Compile Include="Configuration\Fluent\PropertyConfiguration`.cs" />
+    <Compile Include="Configuration\ToolkitBuilder.cs" />
+    <Compile Include="Configuration\ToolkitConfiguration.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
-    <Compile Include="IPatternBuilder.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IContainer.cs" />
@@ -57,7 +70,12 @@
     <Compile Include="IStore.cs" />
     <Compile Include="IToolkitInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\CollectionSchema.cs" />
+    <Compile Include="Schema\ComponentSchema.cs" />
+    <Compile Include="Schema\ContainerSchema.cs" />
+    <Compile Include="Schema\ElementSchema.cs" />
     <Compile Include="Schema\IInstanceSchema.cs" />
+    <Compile Include="Schema\InstanceSchema.cs" />
     <Compile Include="Schema\IPatternSchema.cs" />
     <Compile Include="Schema\IContainerSchema.cs" />
     <Compile Include="Schema\IElementSchema.cs" />
@@ -65,11 +83,15 @@
     <Compile Include="Schema\IComponentSchema.cs" />
     <Compile Include="Schema\IPropertySchema.cs" />
     <Compile Include="Schema\IToolkitSchema.cs" />
+    <Compile Include="Schema\PatternSchema.cs" />
+    <Compile Include="Schema\PropertySchema.cs" />
+    <Compile Include="Schema\ToolkitSchema.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Interfaces.cd" />
     <None Include="Schema.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
