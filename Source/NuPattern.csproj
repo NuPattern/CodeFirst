@@ -62,6 +62,8 @@
     <Compile Include="Configuration\ToolkitConfiguration.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
+    <Compile Include="INamed.cs" />
+    <Compile Include="IPattern.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IContainer.cs" />

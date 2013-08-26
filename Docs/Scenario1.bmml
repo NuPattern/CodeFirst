@@ -1,8 +1,8 @@
-<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1334" measuredH="749" mockupW="1288" mockupH="715">
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1334" measuredH="813" mockupW="1314" mockupH="779">
   <controls>
     <control controlID="0" controlTypeID="com.balsamiq.mockups::Paragraph" x="46" y="34" w="317" h="411" measuredW="200" measuredH="80" zOrder="0" locked="false" isInGroup="-1">
       <controlProperties>
-        <text>public%20interface%20IAmazonWebServices%20%3A%20IProduct%0A%7B%0A%20%20%20%20string%20AccessKey%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20string%20SecretKey%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20IStorage%20Storage%20%7B%20get%3B%20set%3B%20%7D%0A%7D%0A%20%0Apublic%20interface%20IStorage%0A%7B%0A%20%20%20%20bool%20RefreshOnLoad%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20IEnumerable%3CIBucket%3E%20Buckets%20%7B%20get%3B%20set%3B%20%7D%0A%7D%0A%20%0Apublic%20interface%20IBucket%20%3A%20INamed%0A%7B%0A%20%20%20%20string%20Name%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20Permissions%20Permissions%20%7B%20get%3B%20set%3B%20%7D%0A%7D</text>
+        <text>public%20interface%20IAmazonWebServices%20%3A%20IProduct%0A%7B%0A%20%20%20%20string%20Name%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20string%20AccessKey%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20string%20SecretKey%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20IStorage%20Storage%20%7B%20get%3B%20set%3B%20%7D%0A%7D%0A%20%0Apublic%20interface%20IStorage%0A%7B%0A%20%20%20%20bool%20RefreshOnLoad%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20IEnumerable%3CIBucket%3E%20Buckets%20%7B%20get%3B%20set%3B%20%7D%0A%7D%0A%20%0Apublic%20interface%20IBucket%20%3A%20INamed%0A%7B%0A%20%20%20%20string%20Name%20%7B%20get%3B%20set%3B%20%7D%0A%20%20%20%20Permissions%20Permissions%20%7B%20get%3B%20set%3B%20%7D%0A%7D%0A%20%0A//%20IProduct%20%3A%20INamed</text>
       </controlProperties>
     </control>
     <control controlID="9" controlTypeID="__group__" x="690" y="34" w="252" h="225" measuredW="252" measuredH="225" zOrder="1" locked="false" isInGroup="-1">
@@ -152,7 +152,7 @@
         <text>Buckets%20is%20called%20such%20because%3A%0A-%20It%27s%20an%20enumeration%20of%20instances%2C%20so%20we%20pick%20as%20a%20default%20the%20property%20name%0A-%20If%20DisplayName%20were%20specified%20on%20the%20property%2C%20that%20would%20become%20the%20node%20name%0A-%20Enumeration%20nodes%20can%27t%20be%20renamed%20either.%0A-%20There%20should%20be%20an%20option%20to%20avoid%20having%20a%20node%20%22Buckets%22%20altogether%2C%20just%20like%20%5BDesignerSerializationVisibility%28DesignerSerializationVisibility.Content%29%5D%20behaves%2C%20essentially%20replicating%20the%20behavior%20of%20an%20element%20having%20N%20child%20elements%20directly%20underneath%20%28in%20current%20NuPattern%29.%20In%20our%20experience%2C%20you%20typically%20want%20to%20to%20have%20the%20grouping%20node%20and%20end%20up%20introducing%20collections%20just%20for%20the%20purpose%20of%20organizing%20the%20tree%20better%2C%20so%20we%27ll%20make%20that%20behavior%20the%20default%20instead%2C%20and%20make%20the%20other%20%28no%20grouping%20node%29%20an%20exception%20instead.</text>
       </controlProperties>
     </control>
-    <control controlID="17" controlTypeID="com.balsamiq.mockups::StickyNote" x="276" y="656" w="295" h="93" measuredW="109" measuredH="123" zOrder="9" locked="false" isInGroup="-1">
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::StickyNote" x="382" y="661" w="295" h="93" measuredW="109" measuredH="123" zOrder="9" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Buckets%20foo%20and%20bar%20are%20called%20such%20because%3A%0A-%20IBucket%20implements%20INamed%2C%20so%20we%20pick%20the%20instance%20name</text>
       </controlProperties>
@@ -160,6 +160,41 @@
     <control controlID="18" controlTypeID="com.balsamiq.mockups::StickyNote" x="735" y="619" w="103" h="123" measuredW="109" measuredH="123" zOrder="10" locked="false" isInGroup="-1">
       <controlProperties>
         <text>Properties%20support%20enumerations%20OOB</text>
+      </controlProperties>
+    </control>
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::StickyNote" x="87" y="347" w="276" h="139" measuredW="109" measuredH="123" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>This%20INamed%20implementation%20would%20make%20a%20node%20custom-named%2C%20but%20only%20via%20API%2C%20not%20by%20the%20user%3A%0A%20%0A%5B%5BReadOnly%5D%5D%0Astring%20Name%20%7B%20get%3B%20set%3B%20%7D%0A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="22" controlTypeID="com.balsamiq.mockups::CallOut" x="25" y="104" w="-1" h="-1" measuredW="33" measuredH="39" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>1</text>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::CallOut" x="20" y="201" w="-1" h="-1" measuredW="36" measuredH="43" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>2</text>
+      </controlProperties>
+    </control>
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::Paragraph" x="32" y="517" w="344" h="296" measuredW="200" measuredH="80" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*1%29*%20Any%20property%20type%20that%20is%20not%20a%20primitive%2C%20is%20an%20Element%2C%20like%20IStorage%0A*2%29*%20IEnumerable%3CT%3E%20properties%20are%20implicit%20Collections%2C%20such%20as%20IStorage.Buckets%0A*3%29*%20Not%20implementing%20INamed%20on%20collections%20would%20be%20quite%20rare%2C%20but%20in%20that%20case%20we%20could%20singularize%20the%20property%20name%20%28i.e.%20Buckets%20-%3E%20Bucket%29%20for%20each%20instance%2C%20or%20use%20a%20%5B%5BDisplayName%5D%5D%20on%20the%20interface.%0A*4%29*%20Elements%20do%20not%20need%20to%20be%20INamed.%20In%201..1%20configuration-style%20models%2C%20they%20are%20typically%20named%20just%20like%20the%20property%20%28i.e.%20Storage%29%0A*5%29*%20Storage%20is%20shown%20as%20a%20node%2C%20not%20a%20property%2C%20because%20it%27s%20an%20implicit%20element.%20References%20to%20other%20nodes%20in%20the%20graph%20would%20have%20to%20be%20marked%20with%20something%20like%20%5B%5BReference%5D%5D.%20TBD%3A%20how%20should%20those%20display%3F</text>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::CallOut" x="245" y="244" w="-1" h="-1" measuredW="36" measuredH="43" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>3</text>
+      </controlProperties>
+    </control>
+    <control controlID="27" controlTypeID="com.balsamiq.mockups::CallOut" x="198" y="133" w="-1" h="-1" measuredW="36" measuredH="37" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>4</text>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::CallOut" x="519" y="65" w="-1" h="-1" measuredW="39" measuredH="39" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>5</text>
       </controlProperties>
     </control>
   </controls>

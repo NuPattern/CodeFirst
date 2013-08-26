@@ -2,6 +2,7 @@
 {
     using NuPattern.Configuration;
     using NuPattern.Schema;
+    using NuPattern.Tookit.Simple;
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -14,7 +15,7 @@
     {
         public override IToolkitSchema Build()
         {
-            this.Pattern<IAws>()
+            this.Pattern<IAmazonWebServices>()
                 .HasDisplayName("foo")
                 .HasName("bar")
                 .Property(x => x.AccessKey).Hidden();
@@ -24,7 +25,7 @@
     }
 
 
-    public class AwsConfiguration : PatternConfiguration<IAws>
+    public class AwsConfiguration : PatternConfiguration<IAmazonWebServices>
     {
         public AwsConfiguration()
         {
