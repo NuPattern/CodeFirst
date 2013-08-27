@@ -10,24 +10,50 @@
         private JObject container;
 
         public Container(JObject container)
-            : base(container)
+            : this(container, null)
+        {
+        }
+
+        public Container(JObject container, JProperty property)
+            : base(container, property)
         {
             this.container = container;
         }
 
         public IEnumerable<IComponent> Components
         {
-            get { return container.GetValue("Components").OfType<JObject>().Select(x => x.AsComponent()); }
+            get
+            {
+                return container.Children<JProperty>()
+                    .Where(x =>
+                        !x.Name.StartsWith("$") &&
+                        x.Value is JObject &&
+                        ((JObject)x.Value).Property(Prop.Toolkit) == null)
+                    .Select(x => ((JObject)x.Value).AsComponent(x));
+            }
         }
 
         public IEnumerable<IProduct> Extensions
         {
-            get { return container.GetValue("Extensions").OfType<JObject>().Select(x => x.AsProduct()); }
+            get
+            {
+                return container.Children<JProperty>()
+                    .Where(x =>
+                        !x.Name.StartsWith("$") &&
+                        x.Value is JObject &&
+                        ((JObject)x.Value).Property(Prop.Toolkit) != null)
+                    .Select(x => ((JObject)x.Value).AsExtension(x));
+            }
         }
 
         public ICollection CreateCollection(string name, string definition)
         {
             return new Collection(AddObject(name, definition));
+        }
+
+        public ICollection CreateCollection(string name)
+        {
+            return new Collection(AddObject(name, null));
         }
 
         public IElement CreateElement(string name, string definition)
@@ -40,13 +66,16 @@
             return new Product(AddObject(name, definition));
         }
 
-        private JObject AddObject(string name, string definition)
+        protected JObject AddObject(string name, string definition)
         {
-            var json = new JObject(
-                new JProperty("Name", name),
-                new JProperty("Definition", definition));
+            var json = new JObject();
+            if (!string.IsNullOrEmpty(definition))
+                json.Add(new JProperty(Prop.Schema, definition));
 
-            container.Add(json);
+            // TODO: validate it doesn't exist already.
+            var prop = new JProperty(name, json);
+
+            container.Add(prop);
 
             return json;
         }

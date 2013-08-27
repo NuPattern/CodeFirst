@@ -1,5 +1,6 @@
 ﻿namespace NuPattern
 {
+    using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -25,5 +26,15 @@
         IProduct Root { get; }
 
         IEnumerable<IProperty> Properties { get; }
+
+        /// <summary>
+        /// Gets the schema id for this instance.
+        /// </summary>
+        string SchemaId { get; }
+
+        IComponentSchema Schema { get; }
+
+        T Get<T>(string propertyName);
+        IComponent Set<T>(string propertyName, T value);
     }
 }

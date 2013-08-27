@@ -4,6 +4,12 @@
     using System;
     using System.Linq;
 
+    internal enum Kind
+    {
+        Value,
+        Reference,
+    }
+
     internal class Property : IProperty
     {
         private JProperty property;
@@ -12,6 +18,8 @@
         {
             this.property = property;
         }
+
+        public string Name { get { return property.Name; } }
 
         public IComponent Owner
         {
@@ -24,14 +32,14 @@
             set { property.Value = new JValue(value); }
         }
 
+        public Kind Kind
+        {
+            get { return property.Value is JValue ? Kind.Value : Kind.Reference; }
+        }
+
         public void Reset()
         {
             throw new NotImplementedException();
-        }
-
-        public string Definition
-        {
-            get { return property.Name; }
         }
     }
 }

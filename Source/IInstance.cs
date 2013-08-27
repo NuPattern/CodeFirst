@@ -4,6 +4,5 @@
 
     public interface IInstance // IDynamicMetaObjectProvider?
     {
-        string Definition { get; }
     }
 }

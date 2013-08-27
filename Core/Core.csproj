@@ -47,6 +47,7 @@
     </Compile>
     <Compile Include="Collection.cs" />
     <Compile Include="Component.cs" />
+    <Compile Include="Prop.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="JTransientProperty.cs" />

@@ -1,0 +1,37 @@
+﻿{
+    "$schema": "NuPattern.Toolkit.Simple.IAmazonWebServices", 
+    "Name": "Amazon",
+    "AccessKey": "asdf",
+    "SecretKey": "1234",
+    "Storage": { 
+        "$schema": "NuPattern.Toolkit.Simple.IStorage", 
+        "RefreshOnLoad": true,
+        "Buckets": { 
+            "RefreshOnLoad": true,
+            "$items": [
+                { 
+                    "$schema": "NuPattern.Toolkit.Simple.IBucket", 
+                    "Name": "foo", 
+                    "Permissions": "ReadOnly" 
+                },
+                { 
+                    "$schema": "NuPattern.Toolkit.Simple.IBucket", 
+                    "Name": "bar", 
+                    "Permissions": "ReadOnly" 
+                }
+            ]
+        }
+    }, 
+    "Authentication": { 
+        "$schema": "NuPattern.Toolkit.Simple.OAuthExtension.IAuthentication",
+        "AplicationKey": "asdf",
+        "$toolkit": {
+            "Id": "AWS.OAuth", 
+            "Version": "1.0.0" 
+        }
+    },
+    "$toolkit": {
+        "Id": "AWS", 
+        "Version": "1.0.0" 
+    }
+}

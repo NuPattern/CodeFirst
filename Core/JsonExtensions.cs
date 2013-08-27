@@ -36,19 +36,42 @@
             return (Product)component.GetModel() ?? new Product(component);
         }
 
+        public static Product AsExtension(this JObject component, JProperty property)
+        {
+            return (Product)component.GetModel() ?? new Product(component, property);
+        }
+
         public static Component AsComponent(this JObject component)
+        {
+            return AsComponent(component, null);
+        }
+
+        public static Component AsComponent(this JObject component, JProperty property)
         {
             var result = (Component)component.GetModel();
             if (result == null)
             {
-                var definition = (string)component.Property("Definition").Value;
-                if (definition == "Element")
-                    result = new Element(component);
-                else if (definition == "Collection")
-                    result = new Collection(component);
+                var isExtension = component.Property(Prop.Toolkit) != null;
+                var isCollection = component.Property(Prop.Items) != null;
+                if (isExtension)
+                    return new Product(component, property);
+                else if (isCollection)
+                    return new Collection(component, property);
+                else
+                    return new Element(component, property);
             }
 
             return result;
+        }
+
+        public static Collection AsCollection(this JObject component)
+        {
+            return (Collection)component.GetModel() ?? new Collection(component);
+        }
+
+        public static Element AsElement(this JObject component)
+        {
+            return (Element)component.GetModel() ?? new Element(component);
         }
 
         public static object GetModel(this JObject json)
@@ -92,9 +115,19 @@
         {
             object getter = null;
             if (!getters.TryGetValue(typeof(T), out getter))
+            {
+                // Special case for enums
+                if (typeof(T).IsEnum)
+                {
+                    var enumGetter = (Func<JObject, string, int>)getters[typeof(int)];
+                    var enumValue = enumGetter.Invoke(json, propertyName);
+                    return (T)Enum.ToObject(typeof(T), enumValue);
+                }
+
                 throw new ArgumentException(string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Could not determine JSON object type for type {0} from property {1}.", typeof(T), propertyName));
+                        CultureInfo.InvariantCulture,
+                        "Could not determine JSON object type for type {0} from property {1}.", typeof(T), propertyName));
+            }
 
             return ((Func<JObject, string, T>)getter).Invoke(json, propertyName);
         }
@@ -129,7 +162,7 @@
             var expression = Expression.Lambda(
                 funcType,
                 Expression.Condition(
-                    Expression.Equal(Expression.Call(jParam, getValue, nameParam), Expression.Constant(null)), 
+                    Expression.Equal(Expression.Call(jParam, getValue, nameParam), Expression.Constant(null)),
                     Expression.Default(returnType),
                     Expression.Convert(
                         Expression.Call(jParam, getValue, nameParam),

@@ -15,6 +15,7 @@
             this.Properties = properties;
         }
 
+        public string Id { get; set; }
         public ICollection<PropertySchema> Properties { get; private set; }
 
         IEnumerable<IPropertySchema> IComponentSchema.Properties { get { return this.Properties; } }

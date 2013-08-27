@@ -4,5 +4,6 @@
 
     internal class CollectionSchema : ContainerSchema, ICollectionSchema
     {
+        public string ItemSchema { get; set; }
     }
 }

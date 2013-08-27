@@ -33,7 +33,7 @@
         {
             var json = new JObject();
 
-            Assert.Throws<ArgumentException>(() => json.Get(() => Platform));
+            Assert.Throws<ArgumentException>(() => json.Get(() => Uri));
         }
 
         [Fact]
@@ -63,7 +63,7 @@
 
             var objs = obj.Descendants().OfType<JObject>().Reverse().Concat(new [] { obj }).ToList();
 
-            Assert.Equal(6, objs.Count);
+            Assert.Equal(7, objs.Count);
         }
 
         public class JsonModel : JObject { }
@@ -86,6 +86,6 @@
         public bool IsGreat { get; set; }
         public int Count { get; set; }
         public DateTimeOffset When { get; set; }
-        public PlatformID Platform { get; set; }
+        public UriBuilder Uri { get; set; }
     }
 }

@@ -1,34 +1,32 @@
 ﻿{
+    "$schema": "NuPattern.Toolkit", 
     "Name": "NuPattern",
-    "Definition": "NuPattern.Toolkit", 
     "IsCool": true,
     "Count": 10, 
-    "Components": [
-        {
-            "Name": "ComponentA", 
-            "Definition": "Element", 
+    "ComponentA":
+        { 
+            "$schema": "Element", 
             "Something": "something",
-            "Components": [
-                {
-                    "Name": "NestedA", 
-                    "Definition": "Element"
+            "NestedA":
+                {  
+                    "$schema": "Element"
                 }
-            ]
         },
-        {
-            "Name": "ComponentB", 
-            "Definition": "Collection", 
+    "ComponentB":
+        { 
+            "$schema": "Collection", 
             "Something": "something"
-        }
-    ],
-    "Extensions": [
+        },
+    "ExtensionA": 
         {
-            "Name": "ExtensionA", 
-            "Definition": "Extension", 
-            "Foo": "bar"
-        }
-    ],
-    "Toolkit": {
+            "$schema": "Extension", 
+            "Foo": "bar",
+            "$toolkit": {
+                "Id": "AWS.Extension", 
+                "Version": "1.0.0" 
+            }
+        },
+    "$toolkit": {
         "Id": "AWS", 
         "Version": "1.0.0" 
     }

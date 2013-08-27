@@ -8,9 +8,9 @@
     public interface IProperty : IInstance
     {
         /// <summary>
-        /// The owning component.
+        /// Gets the name of the property.
         /// </summary>
-        IComponent Owner { get; }
+        string Name { get; }
 
         /// <summary>
         /// Gets or sets the typed property value.
@@ -23,5 +23,10 @@
         /// value provider, if any.
         /// </summary>
         void Reset();
+
+        /// <summary>
+        /// The owning component.
+        /// </summary>
+        IComponent Owner { get; }
     }
 }
