@@ -5,7 +5,7 @@
     using System.Linq;
 
     // Product
-    public interface IAmazonWebServices : IPattern
+    public interface IAmazonWebServices : IProduct
     {
         // Primitive properties
         string AccessKey { get; set; }

@@ -21,12 +21,12 @@
 
             foreach (var config in configuration.Patterns)
             {
-                var pattern = new PatternSchema();
+                var pattern = new ProductSchema();
                 config.Configure(pattern);
 
                 // Here we'd apply conventions.
 
-                schema.Patterns.Add(pattern);
+                schema.Products.Add(pattern);
             }
 
             return schema;

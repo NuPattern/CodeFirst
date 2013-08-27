@@ -5,7 +5,7 @@
 
     public interface IContainerSchema : IComponentSchema
     {
-        IEnumerable<IComponentSchema> Elements { get; }
+        IEnumerable<IComponentSchema> Components { get; }
 
         //IEnumerable<IExtensionPointSchema> Extensions { get; }
     }

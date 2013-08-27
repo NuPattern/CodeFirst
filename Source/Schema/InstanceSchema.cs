@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    internal class InstanceSchema : IInstanceSchema, IValidatableObject
+    internal abstract class InstanceSchema : IInstanceSchema, IValidatableObject
     {
         [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
@@ -18,16 +18,16 @@
 
         public IInstanceSchema Parent { get; set; }
 
-        public IPatternSchema Root
+        public IProductSchema Root
         {
             get
             {
                 IInstanceSchema current = this;
-                IPatternSchema pattern = this as IPatternSchema;
+                IProductSchema pattern = this as IProductSchema;
                 while (current != null && pattern == null)
                 {
                     current = current.Parent;
-                    pattern = current as IPatternSchema;
+                    pattern = current as IProductSchema;
                 }
 
                 return pattern;

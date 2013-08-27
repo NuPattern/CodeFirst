@@ -5,7 +5,7 @@
 
     public interface IProduct : IContainer
     {
-        new IPatternSchema Schema { get; }
+        new IProductSchema Schema { get; }
 
         /// <summary>
         /// Information about the toolkit that provided the schema for this product.

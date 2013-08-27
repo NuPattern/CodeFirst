@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class PatternSchema : ContainerSchema, IPatternSchema
+    internal class ProductSchema : ContainerSchema, IProductSchema
     {
         public IToolkitSchema Toolkit { get; set; }
     }

@@ -12,13 +12,13 @@
         {
             var elements = new ObservableCollection<ComponentSchema>();
             elements.CollectionChanged += OnElementsChanged;
-            this.Elements = elements;
+            this.Components = elements;
         }
 
-        public ICollection<ComponentSchema> Elements { get; private set; }
+        public ICollection<ComponentSchema> Components { get; private set; }
         public new ComponentSchema Parent { get { return (ComponentSchema)base.Parent; } }
 
-        IEnumerable<IComponentSchema> IContainerSchema.Elements { get { return this.Elements; } }
+        IEnumerable<IComponentSchema> IContainerSchema.Components { get { return this.Components; } }
 
         //IEnumerable<IExtensionPointSchema> Extensions { get; }
 

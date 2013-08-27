@@ -28,7 +28,7 @@
             this.Toolkit = new ToolkitInfo((JObject)toolkit.Value);
         }
 
-        public new IPatternSchema Schema { get; set; }
+        public new IProductSchema Schema { get; set; }
 
         public IToolkitInfo Toolkit { get; private set; }
 

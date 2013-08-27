@@ -18,7 +18,7 @@
 
         object IKeyedConfiguration.Key { get { return this.key; } }
 
-        internal void Configure(PatternSchema schema)
+        internal void Configure(ProductSchema schema)
         {
             // TODO: do pattern-specific configuration here.
             base.Configure((ContainerSchema)schema);

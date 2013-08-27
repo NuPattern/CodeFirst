@@ -10,7 +10,7 @@
         [Fact]
         public void when_building_model_then_can_represent_graph()
         {
-            var pattern = new PatternSchema
+            var pattern = new ProductSchema
             {
                 Name = "IAmazonWebServices",
                 Properties = 
@@ -26,7 +26,7 @@
                          Type = typeof(string),
                     },
                 },
-                Elements =
+                Components =
                 {
                     new ElementSchema
                     {
@@ -41,14 +41,14 @@
                                 Type = typeof(bool),
                             }, 
                         },
-                        Elements = 
+                        Components = 
                         {
                             new CollectionSchema
                             {
                                 // TBD: IEnumerable<Buckets> ?
                                 Name = "Buckets",
                                 //DisplayName = "Buckets",
-                                Elements = 
+                                Components = 
                                 {
                                     new ElementSchema
                                     {

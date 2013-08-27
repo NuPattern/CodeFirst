@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IPatternSchema : IContainerSchema
+    public interface IProductSchema : IContainerSchema
     {
         IToolkitSchema Toolkit { get; }
     }

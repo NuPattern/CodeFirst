@@ -11,6 +11,6 @@
         bool IsVisible { get; set; }
 
         IInstanceSchema Parent { get; }
-        IPatternSchema Root { get; }
+        IProductSchema Root { get; }
     }
 }

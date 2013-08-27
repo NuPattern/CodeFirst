@@ -7,6 +7,6 @@
     {
         string Id { get; }
         string Version { get; }
-        IEnumerable<IPatternSchema> Patterns { get; }
+        IEnumerable<IProductSchema> Products { get; }
     }
 }

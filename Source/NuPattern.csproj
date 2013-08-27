@@ -63,7 +63,6 @@
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="INamed.cs" />
-    <Compile Include="IPattern.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IContainer.cs" />
@@ -78,14 +77,14 @@
     <Compile Include="Schema\ElementSchema.cs" />
     <Compile Include="Schema\IInstanceSchema.cs" />
     <Compile Include="Schema\InstanceSchema.cs" />
-    <Compile Include="Schema\IPatternSchema.cs" />
+    <Compile Include="Schema\IProductSchema.cs" />
     <Compile Include="Schema\IContainerSchema.cs" />
     <Compile Include="Schema\IElementSchema.cs" />
     <Compile Include="Schema\ICollectionSchema.cs" />
     <Compile Include="Schema\IComponentSchema.cs" />
     <Compile Include="Schema\IPropertySchema.cs" />
     <Compile Include="Schema\IToolkitSchema.cs" />
-    <Compile Include="Schema\PatternSchema.cs" />
+    <Compile Include="Schema\ProductSchema.cs" />
     <Compile Include="Schema\PropertySchema.cs" />
     <Compile Include="Schema\ToolkitSchema.cs" />
   </ItemGroup>
