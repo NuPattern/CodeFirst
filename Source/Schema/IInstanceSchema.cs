@@ -4,11 +4,11 @@
 
     public interface IInstanceSchema
     {
-        string Name { get; set; }
-        string DisplayName { get; set; }
-        string Description { get; set; }
+        string Name { get; }
+        string DisplayName { get; }
+        string Description { get; }
 
-        bool IsVisible { get; set; }
+        bool IsVisible { get; }
 
         IInstanceSchema Parent { get; }
         IProductSchema Root { get; }

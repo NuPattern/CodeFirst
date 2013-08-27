@@ -6,6 +6,12 @@
 
     internal class PropertySchema : InstanceSchema, IPropertySchema
     {
+        public PropertySchema(string name, Type type)
+            : base(name)
+        {
+            this.Type = type;
+        }
+
         public string Category { get; set; }
 
         public bool IsReadOnly { get; set; }

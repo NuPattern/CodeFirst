@@ -10,31 +10,31 @@
         [Fact]
         public void when_building_schema_hierarchy_then_can_retrieve_root_schema()
         {
-            var schema = new ProductSchema
+            var schema = new ProductSchema("Product")
             {
                 Components =
                 {
-                    new ElementSchema 
+                    new ElementSchema("Element")
                     { 
                         Name = "Foo", 
                         Properties = 
                         {
-                            new PropertySchema { Name = "Id", Type = typeof(int) },
-                            new PropertySchema { Name = "Text", Type = typeof(string) },                            
+                            new PropertySchema("Id", typeof(string)),
+                            new PropertySchema("Text", typeof(string)),
                         }
                     },
-                    new CollectionSchema 
+                    new CollectionSchema("Collection")
                     {
                         Name = "Bars",
                         Components = 
                         {
-                            new ElementSchema 
+                            new ElementSchema("Element")
                             { 
                                 Name = "Bar", 
                                 Properties = 
                                 {
-                                    new PropertySchema { Name = "Id", Type = typeof(int) },
-                                    new PropertySchema { Name = "Text", Type = typeof(string) },                            
+                                    new PropertySchema("Id", typeof(string)),
+                                    new PropertySchema("Text", typeof(string)),
                                 }
                             },
                         }
@@ -51,31 +51,31 @@
         [Fact]
         public void when_building_schema_hierarchy_then_sets_proper_parents()
         {
-            var schema = new ProductSchema
+            var schema = new ProductSchema("Product")
             {
                 Components =
                 {
-                    new ElementSchema 
+                    new ElementSchema("Element")
                     { 
                         Name = "Foo", 
                         Properties = 
                         {
-                            new PropertySchema { Name = "Id", Type = typeof(int) },
-                            new PropertySchema { Name = "Text", Type = typeof(string) },                            
+                            new PropertySchema("Id", typeof(string)),
+                            new PropertySchema("Text", typeof(string)),
                         }
                     },
-                    new CollectionSchema 
+                    new CollectionSchema("Collection")
                     {
                         Name = "Bars",
                         Components = 
                         {
-                            new ElementSchema 
+                            new ElementSchema("Element")
                             { 
                                 Name = "Bar", 
                                 Properties = 
                                 {
-                                    new PropertySchema { Name = "Id", Type = typeof(int) },
-                                    new PropertySchema { Name = "Text", Type = typeof(string) },                            
+                                    new PropertySchema("Id", typeof(string)),
+                                    new PropertySchema("Text", typeof(string)),
                                 }
                             },
                         }
@@ -85,7 +85,7 @@
 
             Assert.Null(schema.Parent);
 
-            var toolkit = new ToolkitSchema { Products = { schema } };
+            var toolkit = new ToolkitSchema("FooToolkit", "1.0") { Products = { schema } };
 
             Assert.NotNull(schema.Toolkit);
             Assert.Same(toolkit, schema.Toolkit);
@@ -107,8 +107,8 @@
         [Fact]
         public void when_removing_pattern_from_toolkit_resets_its_toolkit_property()
         {
-            var schema = new ProductSchema();
-            var toolkit = new ToolkitSchema { Products = { schema } };
+            var schema = new ProductSchema("Product");
+            var toolkit = new ToolkitSchema("FooToolkit", "1.0") { Products = { schema } };
 
             Assert.NotNull(schema.Toolkit);
             Assert.Same(toolkit, schema.Toolkit);
@@ -121,8 +121,8 @@
         [Fact]
         public void when_removing_element_from_pattern_resets_its_parent_property()
         {
-            var schema = new ProductSchema();
-            var element = new ElementSchema();
+            var schema = new ProductSchema("Product");
+            var element = new ElementSchema("Element");
 
             schema.Components.Add(element);
 
@@ -137,8 +137,8 @@
         [Fact]
         public void when_removing_collection_from_pattern_resets_its_parent_property()
         {
-            var schema = new ProductSchema();
-            var collection = new CollectionSchema();
+            var schema = new ProductSchema("Product");
+            var collection = new CollectionSchema("Collection");
 
             schema.Components.Add(collection);
 
@@ -153,8 +153,8 @@
         [Fact]
         public void when_removing_element_from_element_resets_its_parent_property()
         {
-            var parent = new ElementSchema();
-            var child = new ElementSchema();
+            var parent = new ElementSchema("Element");
+            var child = new ElementSchema("Element");
 
             parent.Components.Add(child);
 
@@ -169,8 +169,8 @@
         [Fact]
         public void when_removing_element_from_collection_resets_its_parent_property()
         {
-            var parent = new CollectionSchema();
-            var child = new ElementSchema();
+            var parent = new CollectionSchema("Collection");
+            var child = new ElementSchema("Element");
 
             parent.Components.Add(child);
 
@@ -185,8 +185,8 @@
         [Fact]
         public void when_removing_collection_from_element_resets_its_parent_property()
         {
-            var parent = new ElementSchema();
-            var child = new CollectionSchema();
+            var parent = new ElementSchema("Element");
+            var child = new CollectionSchema("Collection");
 
             parent.Components.Add(child);
 
@@ -201,8 +201,8 @@
         [Fact]
         public void when_removing_collection_from_collection_resets_its_parent_property()
         {
-            var parent = new CollectionSchema();
-            var child = new CollectionSchema();
+            var parent = new CollectionSchema("Collection");
+            var child = new CollectionSchema("Collection");
 
             parent.Components.Add(child);
 
@@ -217,8 +217,8 @@
         [Fact]
         public void when_removing_property_from_component_resets_its_parent_property()
         {
-            var parent = new ElementSchema();
-            var property = new PropertySchema();
+            var parent = new ElementSchema("Element");
+            var property = new PropertySchema("Property", typeof(string));
 
             parent.Properties.Add(property);
 

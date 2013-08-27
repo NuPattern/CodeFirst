@@ -17,11 +17,11 @@
 
         public virtual IToolkitSchema Build()
         {
-            var schema = new ToolkitSchema();
+            var schema = new ToolkitSchema("foo", "1.0");
 
             foreach (var config in configuration.Patterns)
             {
-                var pattern = new ProductSchema();
+                var pattern = new ProductSchema("foo");
                 config.Configure(pattern);
 
                 // Here we'd apply conventions.

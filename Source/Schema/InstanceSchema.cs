@@ -2,12 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    internal abstract class InstanceSchema : IInstanceSchema, IValidatableObject
+    internal abstract class InstanceSchema : IInstanceSchema
     {
-        [Required(AllowEmptyStrings = false)]
+        protected InstanceSchema(string name)
+        {
+            Guard.NotNullOrEmpty(() => name, name);
+
+            this.Name = name;
+
+            this.IsVisible = true;
+        }
+
         public string Name { get; set; }
 
         public string DisplayName { get; set; }
@@ -32,25 +41,6 @@
 
                 return pattern;
             }
-        }
-
-        public void Validate()
-        {
-            var validationContext = new ValidationContext(this, null, null);
-            Validator.ValidateObject(this, validationContext, true);
-        }
-
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            var validationResults = new List<ValidationResult>();
-
-            OnValidate(validationContext, validationResults);
-
-            return validationResults;
-        }
-
-        protected virtual void OnValidate(ValidationContext validationContext, ICollection<ValidationResult> validationResults)
-        {
         }
     }
 }

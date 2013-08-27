@@ -4,5 +4,10 @@
 
     internal class ElementSchema : ContainerSchema, IElementSchema
     {
+        public ElementSchema(string name)
+            : base(name)
+        {
+
+        }
     }
 }

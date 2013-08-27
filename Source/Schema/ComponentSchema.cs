@@ -8,7 +8,8 @@
 
     internal abstract class ComponentSchema : InstanceSchema, IComponentSchema
     {
-        public ComponentSchema()
+        public ComponentSchema(string name)
+            : base(name)
         {
             var properties = new ObservableCollection<PropertySchema>();
             properties.CollectionChanged += OnPropertiesChanged;

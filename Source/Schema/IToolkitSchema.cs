@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public interface IToolkitSchema
     {
         string Id { get; }
-        string Version { get; }
+        SemanticVersion Version { get; }
         IEnumerable<IProductSchema> Products { get; }
     }
 }

@@ -6,11 +6,11 @@
 
     public interface IPropertySchema : IInstanceSchema
     {
-        string Category { get; set; }
+        string Category { get; }
 
-        bool IsReadOnly { get; set; }
+        bool IsReadOnly { get; }
 
-        Type Type { get; set; }
+        Type Type { get; }
 
         new IComponentSchema Parent { get; }
 

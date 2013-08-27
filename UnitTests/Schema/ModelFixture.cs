@@ -10,61 +10,38 @@
         [Fact]
         public void when_building_model_then_can_represent_graph()
         {
-            var pattern = new ProductSchema
+            var pattern = new ProductSchema("IAmazonWebServices")
             {
-                Name = "IAmazonWebServices",
                 Properties = 
                 {
-                    new PropertySchema
-                    {
-                         Name = "AccessKey",
-                         Type = typeof(string),
-                    },
-                    new PropertySchema
-                    {
-                         Name = "SecretKey",
-                         Type = typeof(string),
-                    },
+                    new PropertySchema("AccessKey", typeof(string)),
+                    new PropertySchema("SecretKey", typeof(string)),
                 },
                 Components =
                 {
-                    new ElementSchema
+                    new ElementSchema("IStorage")
                     {
-                        Name = "IStorage",
                         // TBD: where do we specify the Storage property name?
                         //DisplayName = "Storage",
                         Properties = 
                         {
-                            new PropertySchema 
-                            {
-                                Name = "RefreshOnLoad",
-                                Type = typeof(bool),
-                            }, 
+                            new PropertySchema("RefreshOnLoad", typeof(bool))
                         },
                         Components = 
                         {
-                            new CollectionSchema
+                            new CollectionSchema("Buckets")
                             {
                                 // TBD: IEnumerable<Buckets> ?
                                 Name = "Buckets",
                                 //DisplayName = "Buckets",
                                 Components = 
                                 {
-                                    new ElementSchema
+                                    new ElementSchema("IBucket")
                                     {
-                                        Name = "IBucket",
                                         Properties = 
                                         {
-                                            new PropertySchema
-                                            {
-                                                 Name = "Name",
-                                                 Type = typeof(string),
-                                            },
-                                            new PropertySchema
-                                            {
-                                                 Name = "Permissions",
-                                                 Type = typeof(Permissions),
-                                            },
+                                            new PropertySchema("Name", typeof(string)),
+                                            new PropertySchema("Permissions", typeof(Permissions)),
                                         },
                                     }
                                 }
