@@ -38,6 +38,20 @@
             Assert.Equal("Bar", ex.ValidationResult.MemberNames.First());
         }
 
+        [Fact]
+        public void when_validating_then_succeeds()
+        {
+            var schema = new ValidatingSchema { Name = "Foo", Id = 23 };
+
+            schema.Validate();
+        }
+
+        private class ValidatingSchema : InstanceSchema
+        {
+            [Required]
+            public int? Id { get; set; }
+        }
+
         private class ConcreteSchema : InstanceSchema
         {
             [Required]
