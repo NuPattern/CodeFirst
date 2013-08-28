@@ -29,13 +29,19 @@
         }
 
         public new IProductSchema Schema { get; set; }
+        public ToolkitInfo Toolkit { get; set; }
 
-        public IToolkitInfo Toolkit { get; private set; }
-
-        public new IProduct Set<T>(string propertyName, T value)
+        public new Product Set<T>(string propertyName, T value)
         {
             base.Set(propertyName, value);
             return this;
+        }
+
+        IToolkitInfo IProduct.Toolkit { get { return Toolkit; } }
+
+        IProduct IProduct.Set<T>(string propertyName, T value)
+        {
+            return Set<T>(propertyName, value);
         }
     }
 }

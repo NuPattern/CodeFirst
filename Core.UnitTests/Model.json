@@ -1,4 +1,4 @@
-﻿{
+﻿[{
     "$schema": "NuPattern.Toolkit.Simple.IAmazonWebServices", 
     "Name": "Amazon",
     "AccessKey": "asdf",
@@ -34,4 +34,4 @@
         "Id": "AWS", 
         "Version": "1.0.0" 
     }
-}
+}]

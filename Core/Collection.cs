@@ -36,7 +36,7 @@
 
         public new ICollectionSchema Schema { get; set; }
 
-        public IEnumerable<IComponent> Items
+        public IEnumerable<Component> Items
         {
             get
             {
@@ -44,7 +44,7 @@
             }
         }
 
-        public IComponent CreateItem(string name)
+        public Component CreateItem(string name)
         {
             if (this.Schema == null)
                 throw new InvalidOperationException();
@@ -52,13 +52,26 @@
             var element = new JObject(new JProperty("Name", name));
             this.items.Add(element);
 
+            // TODO: can the item be a collection in turn?
+            // TODO: set the item schema.
             return new Element(element) { SchemaId = this.Schema.ItemSchema };
         }
 
-        public new ICollection Set<T>(string propertyName, T value)
+        public new Collection Set<T>(string propertyName, T value)
         {
             base.Set(propertyName, value);
             return this;
+        }
+
+        IEnumerable<IComponent> ICollection.Items { get { return Items; } }
+        IComponent ICollection.CreateItem(string name)
+        {
+            return CreateItem(name);
+        }
+
+        ICollection ICollection.Set<T>(string propertyName, T value)
+        {
+            return Set<T>(propertyName, value);
         }
     }
 }

@@ -17,6 +17,7 @@
 
         private Func<string> getName;
         private Action<string> setName;
+        private IComponentSchema schema;
 
         public Component(JObject component)
             : this(component, null)
@@ -56,7 +57,15 @@
             remove { component.PropertyChanged -= value; }
         }
 
-        public IComponentSchema Schema { get; set; }
+        public IComponentSchema Schema
+        {
+            get { return schema; }
+            set
+            {
+                schema = value;
+                SchemaId = schema.Id;
+            }
+        }
 
         public string SchemaId
         {
@@ -70,22 +79,56 @@
             set { setName(value); }
         }
 
-        public IEnumerable<IProperty> Properties
+        public IEnumerable<Property> Properties
         {
             get { return component.Properties().Where(x => x.Value is JValue).Select(x => new Property(x)); }
         }
 
-        public IComponent Parent
+        public Component Parent
         {
             get
             {
-                return component.Parent == null ? null : component.Ancestors().OfType<JObject>().Select(x => x.AsComponent()).FirstOrDefault();
+                return component.Parent == null ? null : component
+                    .Ancestors().OfType<JObject>()
+                    .Select(x => x.AsComponent()).FirstOrDefault();
             }
         }
 
-        public IProduct Root
+        public Product Product
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return component.Parent == null ? null : component
+                    .Ancestors().OfType<JObject>()
+                    .Select(x => x.AsComponent())
+                    .OfType<Product>()
+                    .FirstOrDefault();
+            }
+        }
+
+        public Product Root
+        {
+            get
+            {
+                return component.Parent == null ? null : component
+                    .Ancestors().OfType<JObject>()
+                    .Select(x => x.AsComponent())
+                    .OfType<Product>()
+                    .LastOrDefault();
+            }
+        }
+
+        public Property CreateProperty(string name)
+        {
+            // TODO: verify it doesn't exist already.
+            var prop = new JProperty(name);
+            component.Add(prop);
+            return new Property(prop);
+        }
+
+        public void Delete()
+        {
+            component.Remove();
         }
 
         public virtual T Get<T>(string propertyName)
@@ -93,10 +136,25 @@
             return component.Get<T>(propertyName);
         }
 
-        public virtual IComponent Set<T>(string propertyName, T value)
+        public virtual Component Set<T>(string propertyName, T value)
         {
             component.Set(propertyName, value);
             return this;
+        }
+
+        IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }
+        IComponent IComponent.Parent { get { return Parent; } }
+        IProduct IComponent.Product { get { return Product; } }
+        IProduct IComponent.Root { get { return Root; } }
+
+        IProperty IComponent.CreateProperty(string name)
+        {
+            return CreateProperty(name);
+        }
+
+        IComponent IComponent.Set<T>(string propertyName, T value)
+        {
+            return Set<T>(propertyName, value);
         }
     }
 }

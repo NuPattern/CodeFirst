@@ -3,10 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    public interface IStore
+    public interface IProductStore
     {
         IEnumerable<IProduct> Products { get; }
-
         void Save();
     }
 }

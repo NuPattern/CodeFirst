@@ -42,6 +42,8 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="ComponentModel\IValueSerializer.cs" />
+    <Compile Include="ComponentModel\ValueSerializerAttribute.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="INamed.cs" />
@@ -50,7 +52,7 @@
     <Compile Include="IContainer.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="IInstance.cs" />
-    <Compile Include="IStore.cs" />
+    <Compile Include="IProductStore.cs" />
     <Compile Include="IToolkitInfo.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

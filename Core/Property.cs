@@ -21,9 +21,11 @@
 
         public string Name { get { return property.Name; } }
 
-        public IComponent Owner
+        IComponent IProperty.Owner { get { return Owner; } }
+
+        public Component Owner
         {
-            get { return ((JObject)property.Parent).AsComponent(); }
+            get { return property.Parent == null ? null : ((JObject)property.Parent).AsComponent(); }
         }
 
         public object Value
@@ -35,6 +37,11 @@
         public Kind Kind
         {
             get { return property.Value is JValue ? Kind.Value : Kind.Reference; }
+        }
+
+        public void Delete()
+        {
+            property.Remove();
         }
 
         public void Reset()

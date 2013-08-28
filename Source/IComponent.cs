@@ -19,6 +19,15 @@
         IComponent Parent { get; }
 
         /// <summary>
+        /// Gets the owning product for this component instance.
+        /// For a component in an extension product this is the extension product, 
+        /// not the extended (parent) product.
+        /// For a non-extension product component, this value equals the 
+        /// the root product (<see cref="Root" />).
+        /// </summary>
+        IProduct Product { get; }
+
+        /// <summary>
         /// Gets the root pattern ancestor for this instance. Note that for a pattern, 
         /// this may be an ancestor pattern if it has been instantiated as an 
         /// extension point.
@@ -34,6 +43,7 @@
 
         IComponentSchema Schema { get; }
 
+        IProperty CreateProperty(string name);
         T Get<T>(string propertyName);
         IComponent Set<T>(string propertyName, T value);
     }

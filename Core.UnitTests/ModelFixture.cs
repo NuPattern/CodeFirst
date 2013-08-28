@@ -18,12 +18,12 @@
         [Fact]
         public void when_reading_json_then_can_build_component_layer()
         {
-            var json = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("ComponentModel.json"));
-            IProduct product = new Product(json);
+            var json = (JArray)JsonConvert.DeserializeObject(File.ReadAllText("ComponentModel.json"));
+            IProduct product = new Product((JObject)json[0]);
 
             Assert.Equal("NuPattern", product.Name);
             Assert.Equal("AWS", product.Toolkit.Id);
-            Assert.Equal("1.0.0", product.Toolkit.Version);
+            Assert.Equal("1.0.0", product.Toolkit.Version.ToString());
             Assert.Equal("NuPattern.Toolkit", product.SchemaId);
             Assert.True((bool)product.Properties.First(x => x.Name == "IsCool").Value);
             Assert.Equal(10, (long)product.Properties.First(x => x.Name == "Count").Value);
@@ -48,8 +48,8 @@
         [Fact]
         public void when_reading_json_then_toolkit_element_is_not_component()
         {
-            var json = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("Model.json"));
-            IProduct product = new Product(json);
+            var json = (JArray)JsonConvert.DeserializeObject(File.ReadAllText("Model.json"));
+            IProduct product = new Product((JObject)json[0]);
 
             Assert.Equal(1, product.Components.Count());
         }
@@ -57,12 +57,12 @@
         [Fact]
         public void when_reading_json_then_can_build_collections_with_properties()
         {
-            var json = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("Model.json"));
-            IProduct product = new Product(json);
+            var json = (JArray)JsonConvert.DeserializeObject(File.ReadAllText("Model.json"));
+            IProduct product = new Product((JObject)json[0]);
 
             Assert.Equal("Amazon", product.Name);
             Assert.Equal("AWS", product.Toolkit.Id);
-            Assert.Equal("1.0.0", product.Toolkit.Version);
+            Assert.Equal("1.0.0", product.Toolkit.Version.ToString());
             Assert.Equal("asdf", (string)product.Properties.First(x => x.Name == "AccessKey").Value);
 
             Assert.Equal(1, product.Components.Count());
@@ -79,8 +79,8 @@
         [Fact]
         public void when_converting_to_model_twice_then_retrieves_same_instance()
         {
-            var json = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("ComponentModel.json"));
-            IProduct product = new Product(json);
+            var json = (JArray)JsonConvert.DeserializeObject(File.ReadAllText("Model.json"));
+            IProduct product = new Product((JObject)json[0]);
 
             Assert.Same(product.Components.First(), product.Components.First());
         }
@@ -88,8 +88,8 @@
         [Fact]
         public void when_accessing_extension_then_retrieves_as_product()
         {
-            var json = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("ComponentModel.json"));
-            IProduct product = new Product(json);
+            var json = (JArray)JsonConvert.DeserializeObject(File.ReadAllText("ComponentModel.json"));
+            IProduct product = new Product((JObject)json[0]);
 
             var extension = product.Extensions.First();
 
@@ -102,8 +102,8 @@
         [Fact]
         public void when_changing_property_value_then_raises_property_events()
         {
-            var json = (JObject)JsonConvert.DeserializeObject(File.ReadAllText("ComponentModel.json"));
-            var product = (IProduct)new Product(json);
+            var json = (JArray)JsonConvert.DeserializeObject(File.ReadAllText("ComponentModel.json"));
+            IProduct product = new Product((JObject)json[0]);
 
             var changing = "";
             var changed = "";

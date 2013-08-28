@@ -4,5 +4,6 @@
 
     public interface IInstance // IDynamicMetaObjectProvider?
     {
+        void Delete();
     }
 }

@@ -5,6 +5,6 @@
     public interface IToolkitInfo
     {
         string Id { get; }
-        string Version { get; }
+        SemanticVersion Version { get; }
     }
 }

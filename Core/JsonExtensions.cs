@@ -31,6 +31,11 @@
                     op => CompileGetter(op.LambdaType, op.ReturnType));
         }
 
+        public static bool IsNative(Type valueType)
+        {
+            return getters.ContainsKey(valueType);
+        }
+
         public static Product AsProduct(this JObject component)
         {
             return (Product)component.GetModel() ?? new Product(component);
@@ -51,9 +56,9 @@
             var result = (Component)component.GetModel();
             if (result == null)
             {
-                var isExtension = component.Property(Prop.Toolkit) != null;
+                var isProductOrExtension = component.Property(Prop.Toolkit) != null;
                 var isCollection = component.Property(Prop.Items) != null;
-                if (isExtension)
+                if (isProductOrExtension)
                     return new Product(component, property);
                 else if (isCollection)
                     return new Collection(component, property);

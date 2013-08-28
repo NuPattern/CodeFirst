@@ -1,4 +1,4 @@
-﻿{
+﻿[{
     "$schema": "NuPattern.Toolkit", 
     "Name": "NuPattern",
     "IsCool": true,
@@ -30,4 +30,4 @@
         "Id": "AWS", 
         "Version": "1.0.0" 
     }
-}
+}]

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Comment CommentText="IProductElement &gt; IComponent. We don't have IAbstractElement which was used to add View to both elements and collections.">
-    <Position X="1.886" Y="4.521" Height="0.854" Width="2.627" />
+    <Position X="1.865" Y="5.417" Height="0.854" Width="2.627" />
   </Comment>
   <Interface Name="NuPattern.IComponent">
     <Position X="4" Y="2.5" Width="1.75" />
@@ -14,7 +14,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAACAAAAAAQAQAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <HashCode>IAAAAAAAAAAABCBAAAAAQAQEAAAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>IComponent.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -39,14 +39,14 @@
   <Interface Name="NuPattern.IElement">
     <Position X="6.25" Y="5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IElement.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="NuPattern.IInstance">
     <Position X="4.25" Y="0.5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IInstance.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -61,7 +61,7 @@
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAEAAAAQAAAAAAAAAAAAAA=</HashCode>
       <FileName>IProduct.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -71,18 +71,18 @@
   <Interface Name="NuPattern.IProperty">
     <Position X="1.5" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAABAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAABAAAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>IProperty.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Owner" />
     </ShowAsAssociation>
   </Interface>
-  <Interface Name="NuPattern.IStore">
+  <Interface Name="NuPattern.IProductStore">
     <Position X="9.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
-      <FileName>IStore.cs</FileName>
+      <FileName>IProductStore.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Products" />
@@ -91,7 +91,7 @@
   <Interface Name="NuPattern.ICollection">
     <Position X="8.25" Y="5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAAAAAAAADAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ICollection.cs</FileName>
     </TypeIdentifier>
   </Interface>

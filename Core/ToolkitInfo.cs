@@ -7,6 +7,7 @@
     public class ToolkitInfo : IToolkitInfo
     {
         private JObject info;
+        private SemanticVersion version;
 
         public ToolkitInfo(JObject info)
         {
@@ -19,10 +20,24 @@
             set { info.Set(() => Id, value); }
         }
 
-        public string Version
+        public SemanticVersion Version
         {
-            get { return info.Get(() => Version); }
-            set { info.Set(() => Version, value); }
+            get 
+            {
+                if (version != null)
+                    return version;
+
+                var value = info.Get<string>("Version");
+                if (string.IsNullOrEmpty(value) || !SemanticVersion.TryParse(value, out version))
+                    return null;
+
+                return version;
+            }
+            set 
+            {
+                version = value;
+                info.Set("Version", version.ToString());
+            }
         }
     }
 }

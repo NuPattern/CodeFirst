@@ -59,9 +59,9 @@
         public void when_deserializing_model_then_can_traverse_all_jobjects()
         {
             var json = File.ReadAllText("ComponentModel.json");
-            JObject obj = (JObject)JsonConvert.DeserializeObject(json);
+            var obj = (JArray)JsonConvert.DeserializeObject(json);
 
-            var objs = obj.Descendants().OfType<JObject>().Reverse().Concat(new [] { obj }).ToList();
+            var objs = obj.Descendants().OfType<JObject>().Reverse().ToList();
 
             Assert.Equal(7, objs.Count);
         }

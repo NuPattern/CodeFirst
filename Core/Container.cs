@@ -20,7 +20,30 @@
             this.container = container;
         }
 
-        public IEnumerable<IComponent> Components
+        IEnumerable<IComponent> IContainer.Components { get { return Components; } }
+        IEnumerable<IProduct> IContainer.Extensions { get { return Extensions; } }
+
+        ICollection IContainer.CreateCollection(string name, string definition)
+        {
+            return CreateCollection(name, definition);
+        }
+
+        ICollection IContainer.CreateCollection(string name)
+        {
+            return CreateCollection(name);
+        }
+
+        IElement IContainer.CreateElement(string name, string definition)
+        {
+            return CreateElement(name, definition);
+        }
+
+        IProduct IContainer.CreateExtension(string name, string definition)
+        {
+            return CreateExtension(name, definition);
+        }
+
+        public IEnumerable<Component> Components
         {
             get
             {
@@ -33,7 +56,7 @@
             }
         }
 
-        public IEnumerable<IProduct> Extensions
+        public IEnumerable<Product> Extensions
         {
             get
             {
@@ -46,22 +69,22 @@
             }
         }
 
-        public ICollection CreateCollection(string name, string definition)
+        public Collection CreateCollection(string name, string definition)
         {
             return new Collection(AddObject(name, definition));
         }
 
-        public ICollection CreateCollection(string name)
+        public Collection CreateCollection(string name)
         {
             return new Collection(AddObject(name, null));
         }
 
-        public IElement CreateElement(string name, string definition)
+        public Element CreateElement(string name, string definition)
         {
             return new Element(AddObject(name, definition));
         }
 
-        public IProduct CreateExtension(string name, string definition)
+        public Product CreateExtension(string name, string definition)
         {
             return new Product(AddObject(name, definition));
         }
