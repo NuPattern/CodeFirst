@@ -42,26 +42,6 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
-    <Compile Include="Configuration\Cardinality.cs" />
-    <Compile Include="Configuration\ConfigurationBase.cs" />
-    <Compile Include="Configuration\ConfigurationRegistry.cs" />
-    <Compile Include="Configuration\ComponentConfiguration.cs" />
-    <Compile Include="Configuration\ContainerConfiguration.cs" />
-    <Compile Include="Configuration\CollectionConfiguration.cs" />
-    <Compile Include="Configuration\AssociationPropertyConfiguration.cs" />
-    <Compile Include="Configuration\Fluent\ComponentConfiguration`.cs" />
-    <Compile Include="Configuration\Fluent\CollectionConfiguration`.cs" />
-    <Compile Include="Configuration\Fluent\AssociationPropertyConfiguration`.cs" />
-    <Compile Include="Configuration\Fluent\ElementConfiguration`.cs" />
-    <Compile Include="Configuration\ElementConfiguration.cs" />
-    <Compile Include="Configuration\IKeyedConfiguration.cs" />
-    <Compile Include="Configuration\InstanceConfiguration.cs" />
-    <Compile Include="Configuration\PatternConfiguration.cs" />
-    <Compile Include="Configuration\Fluent\PatternConfiguration`.cs" />
-    <Compile Include="Configuration\PropertyConfiguration.cs" />
-    <Compile Include="Configuration\Fluent\PropertyConfiguration`.cs" />
-    <Compile Include="Configuration\ToolkitBuilder.cs" />
-    <Compile Include="Configuration\ToolkitConfiguration.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
     <Compile Include="INamed.cs" />
