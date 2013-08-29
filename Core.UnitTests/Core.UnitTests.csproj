@@ -54,6 +54,8 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="CollectionFixture.cs" />
+    <Compile Include="ComponentFixture.cs" />
     <Compile Include="JsonFixture.cs" />
     <Compile Include="ModelFixture.cs" />
     <Compile Include="JsonMigrations.cs" />

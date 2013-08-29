@@ -21,11 +21,11 @@
         {
             this.collection = collection;
 
-            var itemsProp = this.collection.Property("$Items");
+            var itemsProp = this.collection.Property(Prop.Items);
             if (itemsProp == null)
             {
                 this.items = new JArray();
-                itemsProp = new JProperty("$Items", this.items);
+                itemsProp = new JProperty(Prop.Items, this.items);
                 this.collection.Add(itemsProp);
             }
             else

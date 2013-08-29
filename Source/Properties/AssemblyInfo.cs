@@ -6,3 +6,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Provides the core APIs for consumers of NuPattern.")]
 
 [assembly: InternalsVisibleTo("NuPattern.UnitTests")]
+[assembly: InternalsVisibleTo("NuPattern.Core.UnitTests")]

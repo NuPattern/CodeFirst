@@ -3,11 +3,12 @@
     using Newtonsoft.Json.Linq;
     using NuPattern.Schema;
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
 
-    internal abstract class Component : IComponent
+    internal abstract class Component : IComponent, ISupportInitialize, ISupportInitializeNotification
     {
         private JObject component;
         // The property where the component is used.
@@ -18,6 +19,7 @@
         private Func<string> getName;
         private Action<string> setName;
         private IComponentSchema schema;
+        private ConcurrentDictionary<JProperty, Property> properties = new ConcurrentDictionary<JProperty, Property>();
 
         public Component(JObject component)
             : this(component, null)
@@ -39,9 +41,16 @@
             }
             else
             {
-                // We have a property on a component
                 getName = () => property.Name;
-                setName = value => property.Replace(new JProperty(value, property.Value));
+                setName = value =>
+                {
+                    var newProp = new JProperty(value, property.Value);
+                    // TODO: JLinq already verifies duplicate properties
+                    // but we should throw with a NuPattern-specific message.
+                    // We have a property on a component
+                    property.Replace(newProp);
+                    property = newProp;
+                };
             }
         }
 
@@ -81,7 +90,12 @@
 
         public IEnumerable<Property> Properties
         {
-            get { return component.Properties().Where(x => x.Value is JValue).Select(x => new Property(x)); }
+            get
+            {
+                return component.Properties()
+                    .Where(x => !x.Name.StartsWith("$") && x.Value is JValue)
+                    .Select(x => properties.GetOrAdd(x, j => new Property(j)));
+            }
         }
 
         public Component Parent
@@ -120,9 +134,17 @@
 
         public Property CreateProperty(string name)
         {
-            // TODO: verify it doesn't exist already.
-            var prop = new JProperty(name);
+            // TODO: JLinq already checks for duplicate props, 
+            // but we should throw a NuPattern-specific exception.
+            var prop = new JProperty(name, "");
             component.Add(prop);
+
+            // If component has already been initialized, we 
+            // sort now, otherwise, we defer to when initialization 
+            // is finished.
+            if (IsInitialized)
+                SortProperties();
+
             return new Property(prop);
         }
 
@@ -142,6 +164,21 @@
             return this;
         }
 
+        internal void DeleteProperty(Property property)
+        {
+            // A reverse index might speed up things, but removing properties 
+            // is not a common operation, so this should be fine.
+            var key = properties.Where(pair => pair.Value == property).Select(pair => pair.Key).FirstOrDefault();
+            if (key != null)
+                properties.TryRemove(key, out property);
+        }
+
+        private IPropertySchema FindSchema(string propertyName)
+        {
+            return schema == null ? null :
+                schema.Properties.FirstOrDefault(p => p.Name == propertyName);
+        }
+
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }
         IComponent IComponent.Parent { get { return Parent; } }
         IProduct IComponent.Product { get { return Product; } }
@@ -156,5 +193,31 @@
         {
             return Set<T>(propertyName, value);
         }
+
+        public event EventHandler Initialized = (sender, args) => { };
+
+        public virtual void BeginInit()
+        {
+            IsInitialized = false;
+        }
+
+        public virtual void EndInit()
+        {
+            SortProperties();
+            IsInitialized = true;
+            Initialized(this, EventArgs.Empty);
+        }
+
+        private void SortProperties()
+        {
+            // Reorder properties. This is costly, but it's done 
+            // by the schema sync only the first time 
+            // a certain property is created.
+            var jprops = component.Properties().OrderBy(p => p.Name).ToList();
+            jprops.ForEach(p => p.Remove());
+            jprops.ForEach(p => component.Add(p));
+        }
+
+        public bool IsInitialized { get; private set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace NuPattern
 {
     using Newtonsoft.Json.Linq;
+    using NuPattern.Schema;
     using System;
     using System.Linq;
 
@@ -41,6 +42,7 @@
 
         public void Delete()
         {
+            Owner.DeleteProperty(this);
             property.Remove();
         }
 
@@ -48,5 +50,7 @@
         {
             throw new NotImplementedException();
         }
+
+        public IPropertySchema Schema { get; set; }
     }
 }

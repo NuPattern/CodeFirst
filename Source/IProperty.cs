@@ -1,5 +1,6 @@
 ﻿namespace NuPattern
 {
+    using NuPattern.Schema;
     using System;
 
     // Properties should not have their own individual 
@@ -28,5 +29,7 @@
         /// The owning component.
         /// </summary>
         IComponent Owner { get; }
+
+        IPropertySchema Schema { get; }
     }
 }
