@@ -4,11 +4,15 @@
 
     internal class CollectionSchema : ContainerSchema, ICollectionSchema
     {
-        public CollectionSchema(string name)
+        public CollectionSchema(string name, ComponentSchema items)
             : base(name)
         {
+            items.Parent = this;
+            this.Items = items;
         }
 
-        public string ItemSchema { get; set; }
+        public IComponentSchema Items { get; set; }
+
+        IComponentSchema ICollectionSchema.Items { get { return Items; } }
     }
 }

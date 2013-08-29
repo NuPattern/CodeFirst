@@ -8,15 +8,28 @@
 
     internal abstract class ComponentSchema : InstanceSchema, IComponentSchema
     {
-        public ComponentSchema(string name)
-            : base(name)
+        public ComponentSchema(string id)
         {
+            Guard.NotNullOrEmpty(() => id, id);
+
             var properties = new ObservableCollection<PropertySchema>();
             properties.CollectionChanged += OnPropertiesChanged;
+
+            this.Id = id;
+            this.DefaultName = id;
+            this.CanRename = true;
             this.Properties = properties;
+
+            // TODO: see if this behavior needs to be removed from here.
+            if (this.DefaultName.IndexOf('.') != -1)
+                this.DefaultName = this.DefaultName.Substring(this.DefaultName.LastIndexOf('.') + 1);
+            if (this.DefaultName.StartsWith("I"))
+                this.DefaultName = this.DefaultName.Substring(1);
         }
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
+        public string DefaultName { get; set; }
+        public bool CanRename { get; set; }
         public ICollection<PropertySchema> Properties { get; private set; }
 
         IEnumerable<IPropertySchema> IComponentSchema.Properties { get { return this.Properties; } }

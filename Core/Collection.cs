@@ -48,13 +48,21 @@
         {
             if (this.Schema == null)
                 throw new InvalidOperationException();
+            if (this.Schema.Items == null)
+                throw new InvalidOperationException();
 
-            var element = new JObject(new JProperty("Name", name));
-            this.items.Add(element);
+            // TODO: check for duplicate names.
 
-            // TODO: can the item be a collection in turn?
-            // TODO: set the item schema.
-            return new Element(element) { SchemaId = this.Schema.ItemSchema };
+            var json = new JObject(new JProperty("Name", name));
+            this.items.Add(json);
+
+            if (this.Schema.Items is ICollectionSchema)
+                return SchemaMapper.SyncCollection(new Collection(json), (ICollectionSchema)this.Schema.Items);
+            else if (this.Schema.Items is IElementSchema)
+                return SchemaMapper.SyncElement(new Element(json), (IElementSchema)this.Schema.Items);
+
+            // TODO: should never happen? BadSchemaException or the like?
+            throw new NotSupportedException();
         }
 
         public new Collection Set<T>(string propertyName, T value)

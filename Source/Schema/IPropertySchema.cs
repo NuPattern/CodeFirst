@@ -6,6 +6,8 @@
 
     public interface IPropertySchema : IInstanceSchema
     {
+        string Name { get; }
+
         string Category { get; }
 
         bool IsReadOnly { get; }

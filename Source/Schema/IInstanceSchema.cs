@@ -4,7 +4,6 @@
 
     public interface IInstanceSchema
     {
-        string Name { get; }
         string DisplayName { get; }
         string Description { get; }
 

@@ -7,21 +7,34 @@
 
     internal static class SchemaMapper
     {
-        internal static void SynchProduct(Product product, IProductSchema schema)
+        public static Product SynchProduct(Product product, IProductSchema schema)
         {
             product.Toolkit.Id = schema.Toolkit.Id;
             product.Toolkit.Version = schema.Toolkit.Version;
 
             SyncContainer(product, schema);
+
+            return product;
         }
 
-        internal static void SyncCollection(Collection collection, ICollectionSchema schema)
+        public static Collection SyncCollection(Collection collection, ICollectionSchema schema)
         {
-            // TODO: collection-specifc properties.
+            // TODO: collection-specific properties.
+            SyncContainer(collection, schema);
+            foreach (var component in collection.Items)
+            {
+                SyncComponent(component, schema.Components.First(x => x.Id == component.SchemaId));
+            }
+
+            return collection;
         }
 
-        internal static void SyncElement(Element element, IElementSchema schema)
+        public static Element SyncElement(Element element, IElementSchema schema)
         {
+            // TODO: element-specific properties.
+            SyncContainer(element, schema);
+
+            return element;
         }
 
         private static void SyncContainer(Container container, IContainerSchema schema)
@@ -53,7 +66,7 @@
             //singletonElements.OfType<ICollectionInfo>().ForEach(x => element.CreateCollection(e => e.DefinitionId = x.Id));
 
             SyncComponent(container, schema);
-            foreach (var component in container.Components.OfType<Component>())
+            foreach (var component in container.Components)
             {
                 SyncComponent(component, schema.Components.First(x => x.Id == component.SchemaId));
             }

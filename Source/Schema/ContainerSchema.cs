@@ -8,8 +8,8 @@
 
     internal abstract class ContainerSchema : ComponentSchema, IContainerSchema
     {
-        public ContainerSchema(string name)
-            : base(name)
+        public ContainerSchema(string id)
+            : base(id)
         {
             var elements = new ObservableCollection<ComponentSchema>();
             elements.CollectionChanged += OnElementsChanged;

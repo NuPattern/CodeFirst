@@ -117,7 +117,7 @@
             Assert.Equal("Name", changed);
         }
 
-        [Fact]
+        [Fact(Skip = "Model without schema cannot create anything.")]
         public void when_creating_product_then_can_add_properties()
         {
             var json = new JObject();
@@ -133,7 +133,7 @@
             storage.Set("RefreshOnLoad", true);
             var buckets = (Collection)storage.CreateCollection("Buckets");
             buckets.Set("RefreshOnLoad", true);
-            buckets.Schema = Mock.Of<ICollectionSchema>(c => c.ItemSchema == "IBucket");
+            buckets.Schema = Mock.Of<ICollectionSchema>(c => c.Items.Id == "IBucket");
 
             var foo = buckets.CreateItem("foo").Set("Permissions", PlatformID.Win32NT);
             var bar = buckets.CreateItem("bar").Set("Permissions", PlatformID.MacOSX);

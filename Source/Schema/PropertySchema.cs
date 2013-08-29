@@ -7,10 +7,15 @@
     internal class PropertySchema : InstanceSchema, IPropertySchema
     {
         public PropertySchema(string name, Type type)
-            : base(name)
         {
+            Guard.NotNullOrEmpty(() => name, name);
+            Guard.NotNull(() => type, type);
+
+            this.Name = name;
             this.Type = type;
         }
+
+        public string Name { get; private set; }
 
         public string Category { get; set; }
 
@@ -18,11 +23,13 @@
 
         public Type Type { get; set; }
 
-        public new IComponentSchema Parent
+        public new ComponentSchema Parent
         {
-            get { return (IComponentSchema)base.Parent; }
+            get { return (ComponentSchema)base.Parent; }
             set { base.Parent = value; }
         }
+
+        IComponentSchema IPropertySchema.Parent { get { return Parent; } }
 
         // object DefaultValue { get; set; };
         // ValueProvider DefaultValueProvider?

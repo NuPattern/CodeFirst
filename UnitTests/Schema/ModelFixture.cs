@@ -29,22 +29,18 @@
                         },
                         Components = 
                         {
-                            new CollectionSchema("Buckets")
-                            {
-                                // TBD: IEnumerable<Buckets> ?
-                                Name = "Buckets",
-                                //DisplayName = "Buckets",
-                                Components = 
-                                {
-                                    new ElementSchema("IBucket")
+                            // TBD: IEnumerable<Buckets> ?
+                            new CollectionSchema("Buckets", new ElementSchema("IBucket")
                                     {
                                         Properties = 
                                         {
                                             new PropertySchema("Name", typeof(string)),
                                             new PropertySchema("Permissions", typeof(Permissions)),
                                         },
-                                    }
-                                }
+                                    })
+                            {
+                                DefaultName = "Buckets",
+                                //DisplayName = "Buckets",
                             }
                         }
                     },
