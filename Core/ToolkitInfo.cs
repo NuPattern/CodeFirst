@@ -11,6 +11,8 @@
 
         public ToolkitInfo(JObject info)
         {
+            Guard.NotNull(() => info, info);
+
             this.info = info;
         }
 
@@ -35,6 +37,7 @@
             }
             set 
             {
+                Guard.NotNull(() => Version, value);
                 version = value;
                 info.Set("Version", version.ToString());
             }

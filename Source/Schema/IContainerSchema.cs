@@ -5,8 +5,11 @@
 
     public interface IContainerSchema : IComponentSchema
     {
-        IEnumerable<IComponentSchema> Components { get; }
-
+        IEnumerable<IComponentSchema> ComponentSchemas { get; }
         //IEnumerable<IExtensionPointSchema> Extensions { get; }
+
+        IElementSchema CreateElementSchema(string schemaId);
+        ICollectionSchema CreateCollectionSchema(string schemaId);
+        // IExtensionPointSchema CreateExtensionPointSchema(string id);
     }
 }

@@ -8,18 +8,52 @@
 
     internal abstract class ContainerSchema : ComponentSchema, IContainerSchema
     {
-        public ContainerSchema(string id)
-            : base(id)
+        /// <summary>
+        /// Internal constructor used by tests to allow for easy 
+        /// functional construction.
+        /// </summary>
+        internal ContainerSchema(string schemaId)
+            : this(schemaId, null)
+        {
+        }
+
+        public ContainerSchema(string schemaId, ComponentSchema parentSchema)
+            : base(schemaId, parentSchema)
         {
             var elements = new ObservableCollection<ComponentSchema>();
             elements.CollectionChanged += OnElementsChanged;
-            this.Components = elements;
+            this.ComponentSchemas = elements;
         }
 
-        public ICollection<ComponentSchema> Components { get; private set; }
-        public new ComponentSchema Parent { get { return (ComponentSchema)base.Parent; } }
+        public ICollection<ComponentSchema> ComponentSchemas { get; private set; }
 
-        IEnumerable<IComponentSchema> IContainerSchema.Components { get { return this.Components; } }
+        public new ComponentSchema Parent 
+        { 
+            get { return (ComponentSchema)base.Parent; }
+            set { base.Parent = value; }
+        }
+
+        public IElementSchema CreateElementSchema(string schemaId)
+        {
+            return new ElementSchema(schemaId, this);
+        }
+
+        public ICollectionSchema CreateCollectionSchema(string schemaId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IComponentSchema> IContainerSchema.ComponentSchemas { get { return this.ComponentSchemas; } }
+
+        IElementSchema IContainerSchema.CreateElementSchema(string schemaId)
+        {
+            return CreateElementSchema(schemaId);
+        }
+
+        ICollectionSchema IContainerSchema.CreateCollectionSchema(string schemaId)
+        {
+            return CreateCollectionSchema(schemaId);
+        }
 
         //IEnumerable<IExtensionPointSchema> Extensions { get; }
 

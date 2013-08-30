@@ -12,12 +12,12 @@
         {
             var schema = new ProductSchema("Product")
             {
-                Components =
+                ComponentSchemas =
                 {
                     new ElementSchema("Element"),
                     new CollectionSchema("Collection", new ElementSchema("Item"))
                     {
-                        Components = 
+                        ComponentSchemas = 
                         {
                             new ElementSchema("Element")
                         }
@@ -27,9 +27,9 @@
 
             Assert.Null(schema.Parent);
             Assert.Same(schema, schema.Root);
-            Assert.Same(schema, schema.Components.First().Root);
-            Assert.Same(schema, schema.Components.OfType<ICollectionSchema>().First().Components.First().Root);
-            Assert.Same(schema, schema.Components.OfType<ICollectionSchema>().First().Items.Root);
+            Assert.Same(schema, schema.ComponentSchemas.First().Root);
+            Assert.Same(schema, schema.ComponentSchemas.OfType<ICollectionSchema>().First().ComponentSchemas.First().Root);
+            Assert.Same(schema, schema.ComponentSchemas.OfType<ICollectionSchema>().First().ItemSchema.Root);
         }
 
         [Fact]
@@ -37,13 +37,13 @@
         {
             var schema = new ProductSchema("Product")
             {
-                Components =
+                ComponentSchemas =
                 {
                     new ElementSchema("Element")
                     { 
                         DefaultName = "Foo", 
                         CanRename = false,
-                        Properties = 
+                        PropertySchemas = 
                         {
                             new PropertySchema("Id", typeof(string)),
                             new PropertySchema("Text", typeof(string)),
@@ -53,11 +53,11 @@
                     {
                         DefaultName = "Bars",
                         CanRename = false,
-                        Components = 
+                        ComponentSchemas = 
                         {
                             new ElementSchema("Element")
                             {
-                                Properties = 
+                                PropertySchemas = 
                                 {
                                     new PropertySchema("Id", typeof(string)),
                                     new PropertySchema("Text", typeof(string)),
@@ -70,23 +70,23 @@
 
             Assert.Null(schema.Parent);
 
-            var toolkit = new ToolkitSchema("FooToolkit", "1.0") { Products = { schema } };
+            var toolkit = new ToolkitSchema("FooToolkit", "1.0") { ProductSchemas = { schema } };
 
-            Assert.NotNull(schema.Toolkit);
-            Assert.Same(toolkit, schema.Toolkit);
-            Assert.Equal(1, toolkit.Products.Count);
-            Assert.Equal(1, ((IToolkitSchema)toolkit).Products.Count());
+            Assert.NotNull(schema.ToolkitSchema);
+            Assert.Same(toolkit, schema.ToolkitSchema);
+            Assert.Equal(1, toolkit.ProductSchemas.Count);
+            Assert.Equal(1, ((IToolkitSchema)toolkit).ProductSchemas.Count());
 
-            var foo = (IElementSchema)schema.Components.First();
+            var foo = (IElementSchema)schema.ComponentSchemas.First();
             Assert.Same(schema, foo.Parent);
-            Assert.True(foo.Properties.All(p => p.Parent == foo));
+            Assert.True(foo.PropertySchemas.All(p => p.Parent == foo));
 
-            var bars = (ICollectionSchema)schema.Components.Skip(1).First();
+            var bars = (ICollectionSchema)schema.ComponentSchemas.Skip(1).First();
             Assert.Same(schema, bars.Parent);
-            Assert.True(bars.Components.All(c => c.Parent == bars));
+            Assert.True(bars.ComponentSchemas.All(c => c.Parent == bars));
 
-            var bar = bars.Components.First();
-            Assert.True(bar.Properties.All(c => c.Parent == bar));
+            var bar = bars.ComponentSchemas.First();
+            Assert.True(bar.PropertySchemas.All(c => c.Parent == bar));
         }
     }
 }

@@ -9,8 +9,14 @@
     internal abstract class InstanceSchema : IInstanceSchema
     {
         protected InstanceSchema()
+            : this(null)
+        {
+        }
+
+        protected InstanceSchema(InstanceSchema parentSchema)
         {
             this.IsVisible = true;
+            this.Parent = parentSchema;
         }
 
         public string DisplayName { get; set; }

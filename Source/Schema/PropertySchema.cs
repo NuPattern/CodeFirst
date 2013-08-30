@@ -6,22 +6,27 @@
 
     internal class PropertySchema : InstanceSchema, IPropertySchema
     {
-        public PropertySchema(string name, Type type)
+        public PropertySchema(string propertyName)
+            : this(propertyName, typeof(string))
         {
-            Guard.NotNullOrEmpty(() => name, name);
-            Guard.NotNull(() => type, type);
-
-            this.Name = name;
-            this.Type = type;
         }
 
-        public string Name { get; private set; }
+        public PropertySchema(string propertyName, Type propertyType)
+        {
+            Guard.NotNullOrEmpty(() => propertyName, propertyName);
+            Guard.NotNull(() => propertyType, propertyType);
+
+            this.PropertyName = propertyName;
+            this.PropertyType = propertyType;
+        }
+
+        public string PropertyName { get; private set; }
 
         public string Category { get; set; }
 
         public bool IsReadOnly { get; set; }
 
-        public Type Type { get; set; }
+        public Type PropertyType { get; set; }
 
         public new ComponentSchema Parent
         {

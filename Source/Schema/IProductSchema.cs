@@ -4,6 +4,6 @@
 
     public interface IProductSchema : IContainerSchema
     {
-        IToolkitSchema Toolkit { get; }
+        IToolkitSchema ToolkitSchema { get; }
     }
 }

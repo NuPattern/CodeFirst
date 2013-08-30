@@ -8,17 +8,23 @@
 
     internal abstract class ComponentSchema : InstanceSchema, IComponentSchema
     {
-        public ComponentSchema(string id)
+        public ComponentSchema(string schemaId)
+            : this(schemaId, null)
         {
-            Guard.NotNullOrEmpty(() => id, id);
+        }
+
+        public ComponentSchema(string schemaId, ComponentSchema parentSchema)
+            : base(parentSchema)
+        {
+            Guard.NotNullOrEmpty(() => schemaId, schemaId);
 
             var properties = new ObservableCollection<PropertySchema>();
             properties.CollectionChanged += OnPropertiesChanged;
 
-            this.Id = id;
-            this.DefaultName = id;
+            this.Id = schemaId;
+            this.DefaultName = schemaId;
             this.CanRename = true;
-            this.Properties = properties;
+            this.PropertySchemas = properties;
 
             // TODO: see if this behavior needs to be removed from here.
             if (this.DefaultName.IndexOf('.') != -1)
@@ -30,9 +36,21 @@
         public string Id { get; private set; }
         public string DefaultName { get; set; }
         public bool CanRename { get; set; }
-        public ICollection<PropertySchema> Properties { get; private set; }
+        public ICollection<PropertySchema> PropertySchemas { get; private set; }
 
-        IEnumerable<IPropertySchema> IComponentSchema.Properties { get { return this.Properties; } }
+        public IPropertySchema CreatePropertySchema(string propertyName)
+        {
+            var property = new PropertySchema(propertyName);
+            PropertySchemas.Add(property);
+            return property;
+        }
+
+        IEnumerable<IPropertySchema> IComponentSchema.PropertySchemas { get { return this.PropertySchemas; } }
+
+        IPropertySchema IComponentSchema.CreatePropertySchema(string propertyName)
+        {
+            return CreatePropertySchema(propertyName);
+        }
 
         private void OnPropertiesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

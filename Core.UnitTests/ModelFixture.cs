@@ -133,7 +133,7 @@
             storage.Set("RefreshOnLoad", true);
             var buckets = (Collection)storage.CreateCollection("Buckets");
             buckets.Set("RefreshOnLoad", true);
-            buckets.Schema = Mock.Of<ICollectionSchema>(c => c.Items.Id == "IBucket");
+            buckets.Schema = Mock.Of<ICollectionSchema>(c => c.ItemSchema.Id == "IBucket");
 
             var foo = buckets.CreateItem("foo").Set("Permissions", PlatformID.Win32NT);
             var bar = buckets.CreateItem("bar").Set("Permissions", PlatformID.MacOSX);

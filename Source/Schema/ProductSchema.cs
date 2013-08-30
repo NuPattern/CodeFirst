@@ -4,11 +4,23 @@
 
     internal class ProductSchema : ContainerSchema, IProductSchema
     {
-        public ProductSchema(string name)
-            : base(name)
+        /// <summary>
+        /// Internal constructor used by tests to allow for easy 
+        /// functional construction.
+        /// </summary>
+        internal ProductSchema(string schemaId)
+            : base(schemaId, null)
         {
         }
+        
+        public ProductSchema(string schemaId, ToolkitSchema toolkitSchema)
+            : base(schemaId)
+        {
+            this.ToolkitSchema = toolkitSchema;
+        }
 
-        public IToolkitSchema Toolkit { get; set; }
+        public ToolkitSchema ToolkitSchema { get; set; }
+
+        IToolkitSchema IProductSchema.ToolkitSchema { get { return ToolkitSchema; } }
     }
 }

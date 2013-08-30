@@ -48,7 +48,7 @@
             var parent = new TestComponentSchema("Element");
             var property = new PropertySchema("Property", typeof(string));
 
-            parent.Properties.Add(property);
+            parent.PropertySchemas.Add(property);
 
             Assert.NotNull(property.Parent);
             Assert.Same(parent, property.Parent);
@@ -60,8 +60,8 @@
             var parent = new TestComponentSchema("Element");
             var property = new PropertySchema("Property", typeof(string));
 
-            parent.Properties.Add(property);
-            parent.Properties.Remove(property);
+            parent.PropertySchemas.Add(property);
+            parent.PropertySchemas.Remove(property);
 
             Assert.Null(property.Parent);
         }

@@ -24,7 +24,9 @@
         /// </summary>
         bool CanRename { get; }
 
-        IEnumerable<IPropertySchema> Properties { get; }
+        IEnumerable<IPropertySchema> PropertySchemas { get; }
+
+        IPropertySchema CreatePropertySchema(string propertyName);
 
         // string Icon { get; set; }
     }

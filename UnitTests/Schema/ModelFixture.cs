@@ -12,27 +12,27 @@
         {
             var pattern = new ProductSchema("IAmazonWebServices")
             {
-                Properties = 
+                PropertySchemas = 
                 {
                     new PropertySchema("AccessKey", typeof(string)),
                     new PropertySchema("SecretKey", typeof(string)),
                 },
-                Components =
+                ComponentSchemas =
                 {
                     new ElementSchema("IStorage")
                     {
                         // TBD: where do we specify the Storage property name?
                         //DisplayName = "Storage",
-                        Properties = 
+                        PropertySchemas = 
                         {
                             new PropertySchema("RefreshOnLoad", typeof(bool))
                         },
-                        Components = 
+                        ComponentSchemas = 
                         {
                             // TBD: IEnumerable<Buckets> ?
                             new CollectionSchema("Buckets", new ElementSchema("IBucket")
                                     {
-                                        Properties = 
+                                        PropertySchemas = 
                                         {
                                             new PropertySchema("Name", typeof(string)),
                                             new PropertySchema("Permissions", typeof(Permissions)),

@@ -15,13 +15,13 @@
         private List<IProduct> products = new List<IProduct>();
         private bool isOpen;
 
-        public ProductStore(string storeFile, IEnumerable<IProductSchema> schemas)
+        public ProductStore(string storeFile, IEnumerable<IToolkitSchema> toolkits)
         {
             Guard.NotNullOrEmpty(() => storeFile, storeFile);
-            Guard.NotNull(() => schemas, schemas);
+            Guard.NotNull(() => toolkits, toolkits);
 
             this.storeFile = storeFile;
-            this.Schemas = schemas;
+            this.Toolkits = toolkits;
         }
 
         public IEnumerable<IProduct> Products 
@@ -33,14 +33,15 @@
             } 
         }
 
-        public IEnumerable<IProductSchema> Schemas { get; private set; }
+        public IEnumerable<IToolkitSchema> Toolkits { get; private set; }
 
-        public IProduct CreateProduct(IProductSchema schema, string name)
+        public IProduct CreateProduct(string name, string schemaId)
         {
-            Guard.NotNull(() => schema, schema);
             Guard.NotNullOrEmpty(() => name, name);
+            Guard.NotNullOrEmpty(() => schemaId, schemaId);
 
-            if (!Schemas.Any(x => x == schema))
+            var schema = Toolkits.SelectMany(x => x.ProductSchemas).FirstOrDefault(x => x.Id == schemaId);
+            if (schema == null)
                 throw new ArgumentException();
 
             EnsureOpen();
@@ -69,10 +70,14 @@
                 {
                     // TODO: use more efficient than large string.
                     var contents = File.ReadAllText(storeFile);
-                    json = (JArray)JsonConvert.DeserializeObject(contents);
-
+                    json = (JArray)JsonConvert.DeserializeObject(contents) ?? new JArray();
                     // TODO: must reload all IProducts, set their schemas, initialize the 
                     // properties, etc. etc.
+                    // Maybe we do all that lazily?
+                }
+                else
+                {
+                    json = new JArray();
                 }
 
                 isOpen = true;

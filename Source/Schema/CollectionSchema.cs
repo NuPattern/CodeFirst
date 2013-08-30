@@ -4,15 +4,34 @@
 
     internal class CollectionSchema : ContainerSchema, ICollectionSchema
     {
-        public CollectionSchema(string name, ComponentSchema items)
-            : base(name)
+        /// <summary>
+        /// Internal constructor used by tests to allow for easy 
+        /// functional construction.
+        /// </summary>
+        internal CollectionSchema(string schemaId)
+            : this(schemaId, null)
         {
-            items.Parent = this;
-            this.Items = items;
         }
 
-        public IComponentSchema Items { get; set; }
+        public CollectionSchema(string schemaId, ElementSchema itemSchema)
+            : base(schemaId)
+        {
+            itemSchema.Parent = this;
+            this.ItemSchema = itemSchema;
+        }
 
-        IComponentSchema ICollectionSchema.Items { get { return Items; } }
+        public ElementSchema ItemSchema { get; set; }
+
+        public ElementSchema CreateItemSchema(string schemaId)
+        {
+            return new ElementSchema(schemaId) { Parent = this };
+        }
+
+        IElementSchema ICollectionSchema.ItemSchema { get { return ItemSchema; } }
+
+        IElementSchema ICollectionSchema.CreateItemSchema(string schemaId)
+        {
+            return CreateItemSchema(schemaId);
+        }
     }
 }

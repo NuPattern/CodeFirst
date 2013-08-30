@@ -9,8 +9,8 @@
     {
         public static Product SynchProduct(Product product, IProductSchema schema)
         {
-            product.Toolkit.Id = schema.Toolkit.Id;
-            product.Toolkit.Version = schema.Toolkit.Version;
+            product.Toolkit.Id = schema.ToolkitSchema.Id;
+            product.Toolkit.Version = schema.ToolkitSchema.Version;
 
             SyncContainer(product, schema);
 
@@ -23,7 +23,7 @@
             SyncContainer(collection, schema);
             foreach (var component in collection.Items)
             {
-                SyncComponent(component, schema.Components.First(x => x.Id == component.SchemaId));
+                SyncComponent(component, schema.ComponentSchemas.First(x => x.Id == component.SchemaId));
             }
 
             return collection;
@@ -41,7 +41,7 @@
         {
             // Delete child elements that don't have their corresponding schema.
             container.Components
-                .Where(c => !schema.Components.Any(i => i.Id == c.SchemaId))
+                .Where(c => !schema.ComponentSchemas.Any(i => i.Id == c.SchemaId))
                 .ToArray()
                 .ForEach(c => c.Delete());
 
@@ -68,7 +68,7 @@
             SyncComponent(container, schema);
             foreach (var component in container.Components)
             {
-                SyncComponent(component, schema.Components.First(x => x.Id == component.SchemaId));
+                SyncComponent(component, schema.ComponentSchemas.First(x => x.Id == component.SchemaId));
             }
         }
 
@@ -78,15 +78,15 @@
 
             // Delete existing properties that don't have a corresponding definition.
             component.Properties
-                .Where(p => !schema.Properties.Any(info => info.Name == p.Name))
+                .Where(p => !schema.PropertySchemas.Any(info => info.PropertyName == p.Name))
                 .ToArray()
                 .ForEach(p => p.Delete());
 
             // Initialize all the new properties. Existing ones are not modified.
-            foreach (var info in schema.Properties.Where(info => !component.Properties.Any(p => p.Name == info.Name)))
+            foreach (var info in schema.PropertySchemas.Where(info => !component.Properties.Any(p => p.Name == info.PropertyName)))
             {
                 // Assigning the DefinitionId on create automatically loads the Info property.
-                var property = component.CreateProperty(info.Name);
+                var property = component.CreateProperty(info.PropertyName);
                 // Reset evaluates VP and default value.
                 property.Reset();
             }

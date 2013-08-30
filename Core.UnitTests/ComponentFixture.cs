@@ -155,7 +155,7 @@
             {
                 Schema = new ElementSchema("Test")
                 {
-                    Properties =
+                    PropertySchemas =
                     {
                         new PropertySchema("foo", typeof(string))
                     }

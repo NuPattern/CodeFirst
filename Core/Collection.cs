@@ -48,7 +48,7 @@
         {
             if (this.Schema == null)
                 throw new InvalidOperationException();
-            if (this.Schema.Items == null)
+            if (this.Schema.ItemSchema == null)
                 throw new InvalidOperationException();
 
             // TODO: check for duplicate names.
@@ -56,10 +56,10 @@
             var json = new JObject(new JProperty("Name", name));
             this.items.Add(json);
 
-            if (this.Schema.Items is ICollectionSchema)
-                return SchemaMapper.SyncCollection(new Collection(json), (ICollectionSchema)this.Schema.Items);
-            else if (this.Schema.Items is IElementSchema)
-                return SchemaMapper.SyncElement(new Element(json), (IElementSchema)this.Schema.Items);
+            if (this.Schema.ItemSchema is ICollectionSchema)
+                return SchemaMapper.SyncCollection(new Collection(json), (ICollectionSchema)this.Schema.ItemSchema);
+            else if (this.Schema.ItemSchema is IElementSchema)
+                return SchemaMapper.SyncElement(new Element(json), (IElementSchema)this.Schema.ItemSchema);
 
             // TODO: should never happen? BadSchemaException or the like?
             throw new NotSupportedException();

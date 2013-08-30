@@ -176,7 +176,7 @@
         private IPropertySchema FindSchema(string propertyName)
         {
             return schema == null ? null :
-                schema.Properties.FirstOrDefault(p => p.Name == propertyName);
+                schema.PropertySchemas.FirstOrDefault(p => p.PropertyName == propertyName);
         }
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }

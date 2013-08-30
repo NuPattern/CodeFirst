@@ -7,6 +7,10 @@
         /// <summary>
         /// Gets the schema the items contained in this collection.
         /// </summary>
-        IComponentSchema Items { get; }
+        IElementSchema ItemSchema { get; }
+
+        IElementSchema CreateItemSchema(string schemaId);
+
+        // TODO: CreateExtensionPointItemSchema
     }
 }

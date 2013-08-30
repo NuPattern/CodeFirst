@@ -22,15 +22,25 @@
             var patterns = new ObservableCollection<ProductSchema>();
             patterns.CollectionChanged += OnPatternsChanged;
             
-            this.Products = patterns;
+            this.ProductSchemas = patterns;
+            this.Version = toolkitVersion;
         }
 
         public string Id { get; private set; }
         public SemanticVersion Version { get; private set; }
+        public ICollection<ProductSchema> ProductSchemas { get; private set; }
 
-        IEnumerable<IProductSchema> IToolkitSchema.Products { get { return Products; }}
+        public IProductSchema CreateProductSchema(string schemaId)
+        {
+            return new ProductSchema(schemaId, this);
+        }
 
-        public ICollection<ProductSchema> Products { get; private set; }
+        IEnumerable<IProductSchema> IToolkitSchema.ProductSchemas { get { return ProductSchemas; } }
+
+        IProductSchema IToolkitSchema.CreateProductSchema(string schemaId)
+        {
+            return CreateProductSchema(schemaId);
+        }
 
         private void OnPatternsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -38,7 +48,7 @@
             {
                 foreach (var pattern in e.NewItems.OfType<ProductSchema>())
                 {
-                    pattern.Toolkit = this;
+                    pattern.ToolkitSchema = this;
                 }
             }
 
@@ -46,7 +56,7 @@
             {
                 foreach (var pattern in e.OldItems.OfType<ProductSchema>())
                 {
-                    pattern.Toolkit = null;
+                    pattern.ToolkitSchema = null;
                 }
             }
         }
