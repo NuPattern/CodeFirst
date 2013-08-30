@@ -31,6 +31,12 @@
         public new IProductSchema Schema { get; set; }
         public ToolkitInfo Toolkit { get; set; }
 
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : InstanceVisitor
+        {
+            visitor.VisitProduct(this);
+            return visitor;
+        }
+
         public new Product Set<T>(string propertyName, T value)
         {
             base.Set(propertyName, value);

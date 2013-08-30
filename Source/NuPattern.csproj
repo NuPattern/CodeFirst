@@ -46,7 +46,9 @@
     <Compile Include="ComponentModel\ValueSerializerAttribute.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
+    <Compile Include="IVisitableInstance.cs" />
     <Compile Include="INamed.cs" />
+    <Compile Include="InstanceVisitor.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IProperty.cs" />
     <Compile Include="IContainer.cs" />

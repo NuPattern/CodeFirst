@@ -44,6 +44,12 @@
             }
         }
 
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : InstanceVisitor
+        {
+            visitor.VisitCollection(this);
+            return visitor;
+        }
+
         public Component CreateItem(string name)
         {
             if (this.Schema == null)

@@ -6,12 +6,12 @@
 
     public interface ICollection : IContainer
     {
-        IEnumerable<IComponent> Items { get; }
+        IEnumerable<IElement> Items { get; }
         new ICollectionSchema Schema { get; }
 
         // The definition of the items is taken from 
         // the collection schema ItemId property.
-        IComponent CreateItem(string name);
+        IElement CreateItem(string name);
 
         new ICollection Set<T>(string propertyName, T value);
     }

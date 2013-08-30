@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
 
-    public interface IComponent : IInstance, INotifyPropertyChanging, INotifyPropertyChanged
+    public interface IComponent : IInstance, INotifyPropertyChanging, INotifyPropertyChanged, IVisitableInstance
     {
         /// <summary>
         /// The instance name of the component. Should be unique within the product?
