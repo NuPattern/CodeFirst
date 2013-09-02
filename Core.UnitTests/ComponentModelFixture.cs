@@ -1,10 +1,11 @@
-﻿namespace NuPattern
+﻿namespace NuPattern.ComponentModelFixture
 {
+    using NuPattern.Schema;
     using System;
     using System.Linq;
     using Xunit;
 
-    public class ComponentModelFixture
+    public class given_a_product
     {
         [Fact]
         public void when_creating_element_then_references_parent_product()
@@ -223,6 +224,103 @@
 
             Assert.Throws<ArgumentException>(() => collection.CreateItem("Item", "IItem"));
         }
+    }
 
+    public class given_a_product_with_schema
+    {
+        [Fact]
+        public void when_creating_element_then_it_has_schema()
+        {
+            var product = new Product("Foo", "IFoo");
+            product.Schema = new ProductSchema("IFoo")
+            {
+                ComponentSchemas =
+                {
+                    new ElementSchema("IElement"),
+                }
+            };
+
+            var child = product.CreateElement("Element", "IElement");
+
+            Assert.NotNull(child.Schema);
+        }
+
+        [Fact]
+        public void when_creating_collection_then_it_has_schema()
+        {
+            var product = new Product("Foo", "IFoo");
+            product.Schema = new ProductSchema("IFoo")
+            {
+                ComponentSchemas =
+                {
+                    new CollectionSchema("ICollection", new ElementSchema("IElement")),
+                }
+            };
+
+            var child = product.CreateCollection("Buckets", "ICollection");
+
+            Assert.NotNull(child.Schema);
+        }
+
+        [Fact]
+        public void when_creating_property_then_it_has_schema()
+        {
+            var product = new Product("Foo", "IFoo");
+            product.Schema = new ProductSchema("IFoo")
+            {
+                PropertySchemas = 
+                {
+                    new PropertySchema("IsPublic", typeof(bool))
+                }
+            };
+
+            var prop = product.CreateProperty("IsPublic");
+
+            Assert.NotNull(prop.Schema);
+        }
+
+        [Fact]
+        public void when_creating_collection_item_then_it_has_schema()
+        {
+            var product = new Product("Product", "IProduct");
+            product.Schema = new ProductSchema("IFoo")
+            {
+                ComponentSchemas =
+                {
+                    new CollectionSchema("ICollection", new ElementSchema("IElement")),
+                }
+            };
+            
+            var collection = product.CreateCollection("Collection", "ICollection");
+            var item = collection.CreateItem("Item", "IElement");
+
+            Assert.NotNull(item.Schema);
+        }
+
+        [Fact]
+        public void when_creating_element_then_it_has_schema_defined_properties()
+        {
+            var product = new Product("Foo", "IFoo");
+            product.Schema = new ProductSchema("IFoo")
+            {
+                ComponentSchemas =
+                {
+                    new ElementSchema("IElement")
+                    {
+                        PropertySchemas = 
+                        {
+                            new PropertySchema("IsPublic", typeof(bool))
+                        }
+                    },
+                }
+            };
+
+            var child = product.CreateElement("Element", "IElement");
+
+            Assert.Equal(1, child.Properties.Count());
+            Assert.Equal("IsPublic", child.Properties.First().Name);
+            Assert.NotNull(child.Properties.First().Schema);
+            Assert.Equal(typeof(bool), child.Properties.First().Schema.PropertyType);
+        }
     }
 }

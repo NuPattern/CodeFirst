@@ -58,6 +58,9 @@
 
             var property = new Property(name, this);
             properties[name] = property;
+            if (this.Schema != null)
+                property.Schema = this.Schema.PropertySchemas.FirstOrDefault(x => x.PropertyName == name);
+
             return property;
         }
 

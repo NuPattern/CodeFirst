@@ -1,9 +1,10 @@
 ﻿namespace NuPattern
 {
     using NuPattern.Properties;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+using NuPattern.Schema;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
     internal abstract class Container : Component, IContainer
     {
@@ -19,10 +20,26 @@
             get { return this.components.AsReadOnly(); }
         }
 
+        public new IContainerSchema Schema
+        {
+            get { return (IContainerSchema)base.Schema; }
+            set { base.Schema = value; }
+        }
+
         public Collection CreateCollection(string name, string schemaId)
         {
             ThrowIfDuplicate(name);
             var collection = new Collection(name, schemaId, this);
+
+            if (Schema != null)
+            {
+                var schema = Schema.ComponentSchemas
+                    .OfType<ICollectionSchema>()
+                    .FirstOrDefault(x => x.Id == schemaId);
+                if (schema != null)
+                    SchemaMapper.SyncCollection(collection, schema);
+            }
+
             components.Add(collection);
             return collection;
         }
@@ -31,6 +48,16 @@
         {
             ThrowIfDuplicate(name);
             var element = new Element(name, schemaId, this);
+
+            if (Schema != null)
+            {
+                var schema = Schema.ComponentSchemas
+                    .OfType<IElementSchema>()
+                    .FirstOrDefault(x => x.Id == schemaId);
+                if (schema != null)
+                    SchemaMapper.SyncElement(element, schema);
+            }
+
             components.Add(element);
             return element;
         }
