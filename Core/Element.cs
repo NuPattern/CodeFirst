@@ -5,9 +5,10 @@
 
     internal class Element : Container, IElement
     {
-        public Element(Component parent)
-            : base(parent)
+        public Element(string name, string schemaId, Component parent)
+            : base(name, schemaId, parent)
         {
+            Guard.NotNull(() => parent, parent);
         }
 
         public new IElementSchema Schema { get; set; }

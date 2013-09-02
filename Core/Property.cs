@@ -18,7 +18,7 @@
 
         public Component Owner { get; private set; }
 
-        object IProperty.Value
+        public object Value
         {
             get { return ValueHandler.Get(this); }
             set { ValueHandler.Set(this, value); }
@@ -29,6 +29,7 @@
         public void Delete()
         {
             Owner.DeleteProperty(this);
+            Owner = null;
         }
 
         internal object GetValue()

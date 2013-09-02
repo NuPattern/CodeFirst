@@ -5,8 +5,8 @@
 
     internal class Product : Container, IProduct
     {
-        public Product(Component parent)
-            : base(parent)
+        public Product(string name, string schemaId)
+            : base(name, schemaId, null)
         {
         }
 

@@ -54,8 +54,10 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="ComponentModelFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleToolkit.cs" />
+    <Compile Include="VisitableFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

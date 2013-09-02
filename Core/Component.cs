@@ -1,5 +1,6 @@
 ﻿namespace NuPattern
 {
+    using NuPattern.Properties;
     using NuPattern.Schema;
     using System;
     using System.Collections.Concurrent;
@@ -12,8 +13,10 @@
         private IComponentSchema schema;
         private ConcurrentDictionary<string, Property> properties = new ConcurrentDictionary<string, Property>();
 
-        public Component(Component parent)
+        public Component(string name, string schemaId, Component parent)
         {
+            this.Name = name;
+            this.SchemaId = schemaId;
             this.Parent = parent;
         }
 
@@ -33,73 +36,73 @@
 
         public IEnumerable<Property> Properties
         {
-            get
-            {
-                return Enumerable.Empty<Property>();
-            }
+            get { return properties.Values; }
         }
 
         public Component Parent { get; private set; }
 
         public Product Product
         {
-            get 
+            get
             {
                 return this.Ancestors().OfType<Product>().FirstOrDefault();
             }
         }
 
-        public Product Root
-        {
-            get
-            {
-                return this.Ancestors().OfType<Product>().LastOrDefault();
-            }
-        }
+        //public Product Root
+        //{
+        //    get
+        //    {
+        //        return this.Ancestors().OfType<Product>().LastOrDefault();
+        //    }
+        //}
 
         public Property CreateProperty(string name)
         {
-            // TODO: should check for duplicate property names
+            if (properties.ContainsKey(name))
+                throw new ArgumentException(Strings.Component.DuplicatePropertyName(name));
+
             // TODO: should retrieve schema for property
             // TODO: if no schema for property, consider it a dynamic property
-            throw new NotImplementedException();
+
+            var property = new Property(name, this);
+            properties[name] = property;
+            return property;
         }
 
         public void Delete()
         {
+            var container = this.Parent as Container;
+            if (container != null)
+                container.DeleteComponent(this);
         }
 
-        public virtual T Get<T>(string propertyName)
+        public T Get<T>(string propertyName)
         {
-            throw new NotImplementedException();
+            Property property;
+            if (properties.TryGetValue(propertyName, out property))
+                return property.Value == null ? default(T) : (T)property.Value;
+
+            return default(T);
         }
 
-        public virtual Component Set<T>(string propertyName, T value)
+        public Component Set<T>(string propertyName, T value)
         {
-            throw new NotImplementedException();
+            properties.GetOrAdd(propertyName, name => CreateProperty(name)).Value = value;
+            return this;
         }
 
         public abstract TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : InstanceVisitor;
 
         internal void DeleteProperty(Property property)
         {
-            // A reverse index might speed up things, but removing properties 
-            // is not a common operation, so this should be fine.
-            var key = properties.Where(pair => pair.Value == property).Select(pair => pair.Key).FirstOrDefault();
-            if (key != null)
-                properties.TryRemove(key, out property);
-        }
-
-        private IPropertySchema FindSchema(string propertyName)
-        {
-            return schema == null ? null :
-                schema.PropertySchemas.FirstOrDefault(p => p.PropertyName == propertyName);
+            properties.TryRemove(property.Name, out property);
         }
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }
         IComponent IComponent.Parent { get { return Parent; } }
         IProduct IComponent.Product { get { return Product; } }
-        IProduct IComponent.Root { get { return Root; } }
+        //IProduct IComponent.Root { get { return Root; } }
 
         IProperty IComponent.CreateProperty(string name)
         {

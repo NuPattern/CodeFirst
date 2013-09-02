@@ -11,7 +11,7 @@
 
         // The definition of the items is taken from 
         // the collection schema ItemId property.
-        IElement CreateItem(string name);
+        IElement CreateItem(string name, string schemaId);
 
         new ICollection Set<T>(string propertyName, T value);
     }

@@ -1,56 +1,55 @@
 ﻿namespace NuPattern
 {
+    using NuPattern.Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     internal abstract class Container : Component, IContainer
     {
-        public Container(Component parent)
-            : base(parent)
+        private List<Component> components = new List<Component>();
+
+        public Container(string name, string schemaId, Component parent)
+            : base(name, schemaId, parent)
         {
         }
 
         public IEnumerable<Component> Components
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return this.components.AsReadOnly(); }
         }
 
-        public IEnumerable<Product> Extensions
+        public Collection CreateCollection(string name, string schemaId)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            ThrowIfDuplicate(name);
+            var collection = new Collection(name, schemaId, this);
+            components.Add(collection);
+            return collection;
         }
 
-        public Collection CreateCollection(string name, string definition)
+        public Element CreateElement(string name, string schemaId)
         {
-            throw new NotImplementedException();
+            ThrowIfDuplicate(name);
+            var element = new Element(name, schemaId, this);
+            components.Add(element);
+            return element;
         }
 
-        public Collection CreateCollection(string name)
+        internal void DeleteComponent(Component component)
         {
-            throw new NotImplementedException();
+            components.Remove(component);
         }
 
-        public Element CreateElement(string name, string definition)
+        private void ThrowIfDuplicate(string name)
         {
-            throw new NotImplementedException();
+            if (components.Any(c => c.Name == name))
+                throw new ArgumentException(Strings.Container.DuplicateComponentName(name));
         }
 
         IEnumerable<IComponent> IContainer.Components { get { return Components; } }
-        IEnumerable<IProduct> IContainer.Extensions { get { return Extensions; } }
         ICollection IContainer.CreateCollection(string name, string definition)
         {
             return CreateCollection(name, definition);
-        }
-        ICollection IContainer.CreateCollection(string name)
-        {
-            return CreateCollection(name);
         }
         IElement IContainer.CreateElement(string name, string definition)
         {

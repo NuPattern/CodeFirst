@@ -8,8 +8,6 @@
 
     public class InstanceVisitorFixture
     {
-        private ConcurrentDictionary<object, int> calls = new ConcurrentDictionary<object, int>();
-
         [Fact]
         public void when_visiting_root_then_visits_all_delegates()
         {

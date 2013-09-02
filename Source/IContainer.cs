@@ -7,12 +7,8 @@
     {
         IEnumerable<IComponent> Components { get; }
 
-        IEnumerable<IProduct> Extensions { get; }
+        ICollection CreateCollection(string name, string schemaId);
 
-        ICollection CreateCollection(string name);
-
-        ICollection CreateCollection(string name, string definition);
-
-        IElement CreateElement(string name, string definition);
+        IElement CreateElement(string name, string schemaId);
     }
 }

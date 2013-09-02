@@ -1,5 +1,6 @@
 ﻿namespace NuPattern
 {
+    using NuPattern.Properties;
     using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
@@ -7,20 +8,19 @@
 
     internal class Collection : Container, ICollection
     {
-        public Collection(Component parent)
-            : base(parent)
+        private List<Element> items = new List<Element>();
+
+        public Collection(string name, string schemaId, Component parent)
+            : base(name, schemaId, parent)
         {
+            Guard.NotNull(() => parent, parent);
         }
 
         public new ICollectionSchema Schema { get; set; }
 
-        public IEnumerable<IElement> Items
+        public IEnumerable<Element> Items
         {
-            get
-            {
-                throw new NotImplementedException();
-                throw new NotImplementedException();
-            }
+            get { return items; }
         }
 
         public override TVisitor Accept<TVisitor>(TVisitor visitor)
@@ -29,17 +29,14 @@
             return visitor;
         }
 
-        public IElement CreateItem(string name)
+        public Element CreateItem(string name, string schemaId)
         {
-            throw new NotImplementedException();
+            if (items.Any(x => x.Name == name))
+                throw new ArgumentException(Strings.Collection.DuplicateItemName(name));
 
-            //if (this.Schema.ItemSchema is ICollectionSchema)
-            //    return SchemaMapper.SyncCollection(new Collection(json), (ICollectionSchema)this.Schema.ItemSchema);
-            //else if (this.Schema.ItemSchema is IElementSchema)
-            //return SchemaMapper.SyncElement(new Element(json), (IElementSchema)this.Schema.ItemSchema);
-
-            // TODO: should never happen? BadSchemaException or the like?
-            throw new NotSupportedException();
+            var element = new Element(name, schemaId, this);
+            items.Add(element);
+            return element;
         }
 
         public new Collection Set<T>(string propertyName, T value)
@@ -49,9 +46,9 @@
         }
 
         IEnumerable<IElement> ICollection.Items { get { return Items; } }
-        IElement ICollection.CreateItem(string name)
+        IElement ICollection.CreateItem(string name, string schemaId)
         {
-            return CreateItem(name);
+            return CreateItem(name, schemaId);
         }
         ICollection ICollection.Set<T>(string propertyName, T value)
         {
