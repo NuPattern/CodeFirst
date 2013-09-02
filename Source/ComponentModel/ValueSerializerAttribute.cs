@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Struct)]
     public class ValueSerializerAttribute : Attribute
     {
         public ValueSerializerAttribute(string typeName)

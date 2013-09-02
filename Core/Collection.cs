@@ -1,6 +1,5 @@
 ﻿namespace NuPattern
 {
-    using Newtonsoft.Json.Linq;
     using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
@@ -8,64 +7,36 @@
 
     internal class Collection : Container, ICollection
     {
-        private JObject collection;
-        private JArray items;
-
-        public Collection(JObject collection)
-            : this(collection, null)
+        public Collection(Component parent)
+            : base(parent)
         {
-        }
-
-        public Collection(JObject collection, JProperty property)
-            : base(collection, property)
-        {
-            this.collection = collection;
-
-            var itemsProp = this.collection.Property(Prop.Items);
-            if (itemsProp == null)
-            {
-                this.items = new JArray();
-                itemsProp = new JProperty(Prop.Items, this.items);
-                this.collection.Add(itemsProp);
-            }
-            else
-            {
-                this.items = (JArray)itemsProp.Value;
-            }
         }
 
         public new ICollectionSchema Schema { get; set; }
 
-        public IEnumerable<Component> Items
+        public IEnumerable<IElement> Items
         {
             get
             {
-                return items.Children<JObject>().Select(x => x.AsComponent());
+                throw new NotImplementedException();
+                throw new NotImplementedException();
             }
         }
 
-        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : InstanceVisitor
+        public override TVisitor Accept<TVisitor>(TVisitor visitor)
         {
             visitor.VisitCollection(this);
             return visitor;
         }
 
-        public Component CreateItem(string name)
+        public IElement CreateItem(string name)
         {
-            if (this.Schema == null)
-                throw new InvalidOperationException();
-            if (this.Schema.ItemSchema == null)
-                throw new InvalidOperationException();
+            throw new NotImplementedException();
 
-            // TODO: check for duplicate names.
-
-            var json = new JObject(new JProperty("Name", name));
-            this.items.Add(json);
-
-            if (this.Schema.ItemSchema is ICollectionSchema)
-                return SchemaMapper.SyncCollection(new Collection(json), (ICollectionSchema)this.Schema.ItemSchema);
-            else if (this.Schema.ItemSchema is IElementSchema)
-                return SchemaMapper.SyncElement(new Element(json), (IElementSchema)this.Schema.ItemSchema);
+            //if (this.Schema.ItemSchema is ICollectionSchema)
+            //    return SchemaMapper.SyncCollection(new Collection(json), (ICollectionSchema)this.Schema.ItemSchema);
+            //else if (this.Schema.ItemSchema is IElementSchema)
+            //return SchemaMapper.SyncElement(new Element(json), (IElementSchema)this.Schema.ItemSchema);
 
             // TODO: should never happen? BadSchemaException or the like?
             throw new NotSupportedException();
@@ -77,12 +48,11 @@
             return this;
         }
 
-        IEnumerable<IComponent> ICollection.Items { get { return Items; } }
-        IComponent ICollection.CreateItem(string name)
+        IEnumerable<IElement> ICollection.Items { get { return Items; } }
+        IElement ICollection.CreateItem(string name)
         {
             return CreateItem(name);
         }
-
         ICollection ICollection.Set<T>(string propertyName, T value)
         {
             return Set<T>(propertyName, value);

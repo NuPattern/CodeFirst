@@ -34,9 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,12 +45,9 @@
     <Compile Include="Collection.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="netfx\System\Collections\Generic\IEnumerable\ForEach.cs" />
-    <Compile Include="ProductStore.cs" />
     <Compile Include="Prop.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Element.cs" />
-    <Compile Include="JTransientProperty.cs" />
-    <Compile Include="JsonExtensions.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Property.cs" />
@@ -61,6 +55,7 @@
     <Compile Include="SchemaMapper.cs" />
     <Compile Include="Toolkit.cs" />
     <Compile Include="ToolkitInfo.cs" />
+    <Compile Include="ValueHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

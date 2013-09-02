@@ -19,17 +19,12 @@
         object Value { get; set; }
 
         /// <summary>
-        /// Resets the property value to its initial value. If a default value 
-        /// was specified in the schema, it will be used, as well as a 
-        /// value provider, if any.
-        /// </summary>
-        void Reset();
-
-        /// <summary>
         /// The owning component.
         /// </summary>
         IComponent Owner { get; }
 
         IPropertySchema Schema { get; }
+
+        bool ShouldSerializeValue { get; }
     }
 }

@@ -14,7 +14,5 @@
         ICollection CreateCollection(string name, string definition);
 
         IElement CreateElement(string name, string definition);
-
-        IProduct CreateExtension(string name, string definition);
     }
 }

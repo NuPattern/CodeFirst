@@ -54,25 +54,11 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
-    <Compile Include="CollectionFixture.cs" />
-    <Compile Include="ComponentFixture.cs" />
-    <Compile Include="JsonFixture.cs" />
-    <Compile Include="ModelFixture.cs" />
-    <Compile Include="JsonMigrations.cs" />
-    <Compile Include="ProductStoreFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleToolkit.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ComponentModel.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
-    <None Include="Model.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

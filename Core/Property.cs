@@ -1,56 +1,52 @@
 ﻿namespace NuPattern
 {
-    using Newtonsoft.Json.Linq;
     using NuPattern.Schema;
     using System;
     using System.Linq;
 
-    internal enum Kind
-    {
-        Value,
-        Reference,
-    }
-
     internal class Property : IProperty
     {
-        private JProperty property;
+        private object value;
 
-        public Property(JProperty property)
+        public Property(string name, Component owner)
         {
-            this.property = property;
+            this.Name = name;
+            this.Owner = owner;
         }
 
-        public string Name { get { return property.Name; } }
+        public string Name { get; private set; }
 
-        IComponent IProperty.Owner { get { return Owner; } }
+        public Component Owner { get; private set; }
 
-        public Component Owner
+        object IProperty.Value
         {
-            get { return property.Parent == null ? null : ((JObject)property.Parent).AsComponent(); }
+            get { return ValueHandler.Get(this); }
+            set { ValueHandler.Set(this, value); }
         }
 
-        public object Value
-        {
-            get { return property.Values().OfType<JValue>().Select(v => v.Value).FirstOrDefault(); }
-            set { property.Value = new JValue(value); }
-        }
-
-        public Kind Kind
-        {
-            get { return property.Value is JValue ? Kind.Value : Kind.Reference; }
-        }
+        public IPropertySchema Schema { get; set; }
 
         public void Delete()
         {
             Owner.DeleteProperty(this);
-            property.Remove();
         }
 
-        public void Reset()
+        internal object GetValue()
         {
-            throw new NotImplementedException();
+            return this.value;
         }
 
-        public IPropertySchema Schema { get; set; }
+        internal void SetValue(object value)
+        {
+            this.value = value;
+        }
+
+        IComponent IProperty.Owner { get { return Owner; } }
+
+
+        public bool ShouldSerializeValue
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

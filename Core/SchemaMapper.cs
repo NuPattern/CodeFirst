@@ -23,7 +23,7 @@
             SyncContainer(collection, schema);
             foreach (var component in collection.Items)
             {
-                SyncComponent(component, schema.ComponentSchemas.First(x => x.Id == component.SchemaId));
+                SyncComponent((Component)component, schema.ComponentSchemas.First(x => x.Id == component.SchemaId));
             }
 
             return collection;
@@ -88,7 +88,7 @@
                 // Assigning the DefinitionId on create automatically loads the Info property.
                 var property = component.CreateProperty(info.PropertyName);
                 // Reset evaluates VP and default value.
-                property.Reset();
+                //property.Reset();
             }
         }
     }
