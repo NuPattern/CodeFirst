@@ -7,7 +7,7 @@
 
     internal static class SchemaMapper
     {
-        public static Product SynchProduct(Product product, IProductSchema schema)
+        public static Product SyncProduct(Product product, IProductSchema schema)
         {
             product.Toolkit.Id = schema.ToolkitSchema.Id;
             product.Toolkit.Version = schema.ToolkitSchema.Version;
@@ -19,11 +19,10 @@
 
         public static Collection SyncCollection(Collection collection, ICollectionSchema schema)
         {
-            // TODO: collection-specific properties.
             SyncContainer(collection, schema);
-            foreach (var component in collection.Items)
+            foreach (var item in collection.Items)
             {
-                SyncComponent((Component)component, schema.ComponentSchemas.First(x => x.Id == component.SchemaId));
+                SyncElement(item, schema.ItemSchema);
             }
 
             return collection;
@@ -31,7 +30,6 @@
 
         public static Element SyncElement(Element element, IElementSchema schema)
         {
-            // TODO: element-specific properties.
             SyncContainer(element, schema);
 
             return element;
@@ -39,9 +37,16 @@
 
         private static void SyncContainer(Container container, IContainerSchema schema)
         {
-            // Delete child elements that don't have their corresponding schema.
+            // Delete child elements that have a schema id but a matching 
+            // one does not exist anymore.
             container.Components
-                .Where(c => !schema.ComponentSchemas.Any(i => i.Id == c.SchemaId))
+                .OfType<ICollection>()
+                .Where(c => !schema.ComponentSchemas.OfType<ICollectionSchema>().Any(i => i.Id == c.SchemaId))
+                .ToArray()
+                .ForEach(c => c.Delete());
+            container.Components
+                .OfType<IElement>()
+                .Where(c => !schema.ComponentSchemas.OfType<IElementSchema>().Any(i => i.Id == c.SchemaId))
                 .ToArray()
                 .ForEach(c => c.Delete());
 
@@ -68,7 +73,13 @@
             SyncComponent(container, schema);
             foreach (var component in container.Components)
             {
-                SyncComponent(component, schema.ComponentSchemas.First(x => x.Id == component.SchemaId));
+                var collection = component as Collection;
+                var element = component as Element;
+
+                if (collection != null)
+                    SyncCollection(collection, schema.ComponentSchemas.OfType<ICollectionSchema>().First(x => x.Id == component.SchemaId));
+                else if (element != null)
+                    SyncElement(element, schema.ComponentSchemas.OfType<IElementSchema>().First(x => x.Id == component.SchemaId));
             }
         }
 
@@ -77,18 +88,28 @@
             component.Schema = schema;
 
             // Delete existing properties that don't have a corresponding definition.
+            // and are not system properties (starting with $)
             component.Properties
-                .Where(p => !schema.PropertySchemas.Any(info => info.PropertyName == p.Name))
+                .Where(p => !p.Name.StartsWith("$") && !schema.PropertySchemas.Any(info => info.PropertyName == p.Name))
                 .ToArray()
                 .ForEach(p => p.Delete());
 
             // Initialize all the new properties. Existing ones are not modified.
-            foreach (var info in schema.PropertySchemas.Where(info => !component.Properties.Any(p => p.Name == info.PropertyName)))
+            foreach (var propertySchema in schema.PropertySchemas)
             {
-                // Assigning the DefinitionId on create automatically loads the Info property.
-                var property = component.CreateProperty(info.PropertyName);
-                // Reset evaluates VP and default value.
-                //property.Reset();
+                var property = component.Properties.FirstOrDefault(x => x.Name == propertySchema.PropertyName);
+                if (property != null)
+                {
+                    property.Schema = propertySchema;
+                }
+                else
+                {
+                    property = component.CreateProperty(propertySchema.PropertyName);
+                    property.Schema = propertySchema;
+                }
+
+                // NOTE: unlike original NuPattern, we don't eagerly evaluate default values, 
+                // neither do we persist them.
             }
         }
     }

@@ -38,18 +38,18 @@
         public bool CanRename { get; set; }
         public ICollection<PropertySchema> PropertySchemas { get; private set; }
 
-        public IPropertySchema CreatePropertySchema(string propertyName)
+        public IPropertySchema CreatePropertySchema(string propertyName, Type propertyType)
         {
-            var property = new PropertySchema(propertyName);
+            var property = new PropertySchema(propertyName, propertyType);
             PropertySchemas.Add(property);
             return property;
         }
 
         IEnumerable<IPropertySchema> IComponentSchema.PropertySchemas { get { return this.PropertySchemas; } }
 
-        IPropertySchema IComponentSchema.CreatePropertySchema(string propertyName)
+        IPropertySchema IComponentSchema.CreatePropertySchema(string propertyName, Type propertyType)
         {
-            return CreatePropertySchema(propertyName);
+            return CreatePropertySchema(propertyName, propertyType);
         }
 
         private void OnPropertiesChanged(object sender, NotifyCollectionChangedEventArgs e)

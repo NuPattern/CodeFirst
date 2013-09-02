@@ -26,7 +26,7 @@
 
         IEnumerable<IPropertySchema> PropertySchemas { get; }
 
-        IPropertySchema CreatePropertySchema(string propertyName);
+        IPropertySchema CreatePropertySchema(string propertyName, Type propertyType);
 
         // string Icon { get; set; }
     }

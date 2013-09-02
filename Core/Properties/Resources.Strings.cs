@@ -56,6 +56,20 @@ namespace NuPattern.Properties
 					name = name,
 				});
 			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Component '{name}' has existing schema '{existingSchemaId}' which does not match the specified schema value with id '{newSchemaId}'.
+			/// </summary>
+			public static string SchemaMismatch(object name, object existingSchemaId, object newSchemaId)
+			{
+				return Resources.Component_SchemaMismatch.FormatWith(new 
+				{
+					name = name,
+					existingSchemaId = existingSchemaId,
+					newSchemaId = newSchemaId,
+				});
+			}
 		}
 		
 		///	<summary>

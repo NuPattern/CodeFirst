@@ -11,7 +11,11 @@
             Guard.NotNull(() => parent, parent);
         }
 
-        public new IElementSchema Schema { get; set; }
+        public new IElementSchema Schema 
+        {
+            get { return (IElementSchema)base.Schema; }
+            set { base.Schema = value; }
+        }
 
         public override TVisitor Accept<TVisitor>(TVisitor visitor)
         {

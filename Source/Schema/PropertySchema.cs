@@ -6,11 +6,6 @@
 
     internal class PropertySchema : InstanceSchema, IPropertySchema
     {
-        public PropertySchema(string propertyName)
-            : this(propertyName, typeof(string))
-        {
-        }
-
         public PropertySchema(string propertyName, Type propertyType)
         {
             Guard.NotNullOrEmpty(() => propertyName, propertyName);

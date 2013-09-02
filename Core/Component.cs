@@ -10,7 +10,6 @@
 
     internal abstract class Component : IComponent
     {
-        private IComponentSchema schema;
         private ConcurrentDictionary<string, Property> properties = new ConcurrentDictionary<string, Property>();
 
         public Component(string name, string schemaId, Component parent)
@@ -20,15 +19,7 @@
             this.Parent = parent;
         }
 
-        public IComponentSchema Schema
-        {
-            get { return schema; }
-            set
-            {
-                schema = value;
-                SchemaId = schema.Id;
-            }
-        }
+        public IComponentSchema Schema { get; internal set; }
 
         public string SchemaId { get; private set; }
 
@@ -75,6 +66,8 @@
             var container = this.Parent as Container;
             if (container != null)
                 container.DeleteComponent(this);
+
+            this.Parent = null;
         }
 
         public T Get<T>(string propertyName)

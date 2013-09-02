@@ -6,7 +6,9 @@
     {
         /// <summary>
         /// Internal constructor used by tests to allow for easy 
-        /// functional construction.
+        /// functional construction, by allowing you to create 
+        /// the ToolkitSchema first and the product right in 
+        /// the initializer.
         /// </summary>
         internal ProductSchema(string schemaId)
             : base(schemaId, null)
@@ -19,7 +21,7 @@
             this.ToolkitSchema = toolkitSchema;
         }
 
-        public ToolkitSchema ToolkitSchema { get; set; }
+        public ToolkitSchema ToolkitSchema { get; internal set; }
 
         IToolkitSchema IProductSchema.ToolkitSchema { get { return ToolkitSchema; } }
     }

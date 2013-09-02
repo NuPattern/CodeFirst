@@ -44,10 +44,9 @@
 
         IComponent IProperty.Owner { get { return Owner; } }
 
-
         public bool ShouldSerializeValue
         {
-            get { throw new NotImplementedException(); }
+            get { return ValueHandler.ShouldSerialize(this); }
         }
     }
 }

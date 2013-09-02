@@ -47,7 +47,6 @@
     <Compile Include="Component.cs" />
     <Compile Include="netfx\System\Collections\Generic\IEnumerable\ForEach.cs" />
     <Compile Include="netfx\System\StringFormatWith.cs" />
-    <Compile Include="Prop.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="netfx\System\Guard.cs" />

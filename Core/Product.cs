@@ -8,10 +8,16 @@
         public Product(string name, string schemaId)
             : base(name, schemaId, null)
         {
+            this.Toolkit = new ToolkitInfo();
         }
 
-        public new IProductSchema Schema { get; set; }
-        public ToolkitInfo Toolkit { get; set; }
+        public new IProductSchema Schema
+        {
+            get { return (IProductSchema)base.Schema; }
+            set { base.Schema = value; }
+        }
+
+        public ToolkitInfo Toolkit { get; private set; }
 
         public override TVisitor Accept<TVisitor>(TVisitor visitor)
         {

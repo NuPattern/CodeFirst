@@ -57,6 +57,7 @@
     <Compile Include="ComponentModelFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleToolkit.cs" />
+    <Compile Include="SchemaMapperFixture.cs" />
     <Compile Include="VisitableFixture.cs" />
   </ItemGroup>
   <ItemGroup>

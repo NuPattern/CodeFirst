@@ -79,6 +79,15 @@ namespace NuPattern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Component &apos;{name}&apos; has existing schema &apos;{existingSchemaId}&apos; which does not match the specified schema value with id &apos;{newSchemaId}&apos;..
+        /// </summary>
+        internal static string Component_SchemaMismatch {
+            get {
+                return ResourceManager.GetString("Component_SchemaMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A component with the same name &apos;{name}&apos; already exists..
         /// </summary>
         internal static string Container_DuplicateComponentName {

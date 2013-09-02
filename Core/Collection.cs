@@ -16,7 +16,11 @@
             Guard.NotNull(() => parent, parent);
         }
 
-        public new ICollectionSchema Schema { get; set; }
+        public new ICollectionSchema Schema
+        {
+            get { return (ICollectionSchema)base.Schema; }
+            set { base.Schema = value; }
+        }
 
         public IEnumerable<Element> Items
         {

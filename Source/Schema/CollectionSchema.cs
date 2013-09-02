@@ -4,15 +4,6 @@
 
     internal class CollectionSchema : ContainerSchema, ICollectionSchema
     {
-        /// <summary>
-        /// Internal constructor used by tests to allow for easy 
-        /// functional construction.
-        /// </summary>
-        internal CollectionSchema(string schemaId)
-            : this(schemaId, null)
-        {
-        }
-
         public CollectionSchema(string schemaId, ElementSchema itemSchema)
             : base(schemaId)
         {
@@ -20,7 +11,7 @@
             this.ItemSchema = itemSchema;
         }
 
-        public ElementSchema ItemSchema { get; set; }
+        public ElementSchema ItemSchema { get; internal set; }
 
         public ElementSchema CreateItemSchema(string schemaId)
         {
