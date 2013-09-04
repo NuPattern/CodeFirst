@@ -129,4 +129,25 @@
   <data name="Container_DuplicateComponentName" xml:space="preserve">
     <value>A component with the same name '{name}' already exists.</value>
   </data>
+  <data name="JsonProductSerializer_InvalidFormat" xml:space="preserve">
+    <value>Invalid document. Expected '$format' property with a valid version string (i.e. '2.0').</value>
+  </data>
+  <data name="JsonProductSerializer_InvalidItems" xml:space="preserve">
+    <value>Invalid document. Expected '$items' object property to contain collection elements.</value>
+  </data>
+  <data name="JsonProductSerializer_MissingFormat" xml:space="preserve">
+    <value>Invalid document. Expected '$format' property with the document version.</value>
+  </data>
+  <data name="JsonProductSerializer_MissingSchema" xml:space="preserve">
+    <value>Invalid document. Expected '$schema' property with component schema definition identifier.</value>
+  </data>
+  <data name="JsonProductSerializer_MissingToolkit" xml:space="preserve">
+    <value>Invalid document. Expected '$toolkit' property with the owning toolkit information.</value>
+  </data>
+  <data name="JsonProductSerializer_MissingToolkitId" xml:space="preserve">
+    <value>Invalid document. Expected '$id' property with the owning toolkit identifier.</value>
+  </data>
+  <data name="JsonProductSerializer_MissingToolkitVersion" xml:space="preserve">
+    <value>Invalid document. Expected '$version' property with the owning toolkit version.</value>
+  </data>
 </root>

@@ -17,7 +17,7 @@
             set { base.Schema = value; }
         }
 
-        public ToolkitInfo Toolkit { get; private set; }
+        public ToolkitInfo Toolkit { get; internal set; }
 
         public override TVisitor Accept<TVisitor>(TVisitor visitor)
         {
@@ -29,6 +29,11 @@
         {
             base.Set(propertyName, value);
             return this;
+        }
+
+        public override string ToString()
+        {
+            return Name + " : " + Toolkit.Id + "." + SchemaId + " (" + Toolkit.Version + ")";
         }
 
         IToolkitInfo IProduct.Toolkit { get { return Toolkit; } }

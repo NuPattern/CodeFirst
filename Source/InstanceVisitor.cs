@@ -1,6 +1,7 @@
 ﻿namespace NuPattern
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -42,11 +43,16 @@
         public virtual InstanceVisitor VisitCollection(ICollection collection)
         {
             VisitContainer(collection);
-            foreach (var item in collection.Items)
+            VisitCollectionItems(collection.Items);
+            return this;
+        }
+
+        protected virtual void VisitCollectionItems(IEnumerable<IElement> items)
+        {
+            foreach (var item in items)
             {
                 item.Accept(this);
             }
-            return this;
         }
 
         protected virtual void VisitContainer(IContainer container)

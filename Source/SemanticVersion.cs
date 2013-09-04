@@ -229,6 +229,11 @@
             return (version1 == version2) || (version1 > version2);
         }
 
+        public static implicit operator SemanticVersion(string value)
+        {
+            return Parse(value);
+        }
+
         public override string ToString()
         {
             return _originalString;

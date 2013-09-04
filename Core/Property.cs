@@ -32,6 +32,16 @@
             Owner = null;
         }
 
+        public bool ShouldSerializeValue
+        {
+            get { return ValueHandler.ShouldSerialize(this); }
+        }
+
+        public override string ToString()
+        {
+            return Name + " = " + Value;
+        }
+
         internal object GetValue()
         {
             return this.value;
@@ -43,10 +53,5 @@
         }
 
         IComponent IProperty.Owner { get { return Owner; } }
-
-        public bool ShouldSerializeValue
-        {
-            get { return ValueHandler.ShouldSerialize(this); }
-        }
     }
 }

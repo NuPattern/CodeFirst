@@ -66,6 +66,18 @@
             Assert.Null(property.Parent);
         }
 
+        [Fact]
+        public void when_creating_property__then_sets_its_parent_property_and_adds_to_collection()
+        {
+            var parent = new TestComponentSchema("Element");
+            var property = parent.CreatePropertySchema("Property", typeof(string));
+
+            Assert.NotNull(property.Parent);
+            Assert.Same(parent, property.Parent);
+            Assert.Equal(1, parent.PropertySchemas.Count);
+            Assert.Same(property, parent.PropertySchemas.First());
+        }
+
         private class TestComponentSchema : ComponentSchema
         {
             public TestComponentSchema(string id)

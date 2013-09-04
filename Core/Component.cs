@@ -90,6 +90,11 @@
 
         public abstract TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : InstanceVisitor;
 
+        public override string ToString()
+        {
+            return Name + " : " + SchemaId;
+        }
+
         internal void DeleteProperty(Property property)
         {
             properties.TryRemove(property.Name, out property);

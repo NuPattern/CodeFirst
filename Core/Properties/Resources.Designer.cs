@@ -95,5 +95,68 @@ namespace NuPattern.Properties {
                 return ResourceManager.GetString("Container_DuplicateComponentName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid document. Expected &apos;$format&apos; property with a valid version string (i.e. &apos;2.0&apos;)..
+        /// </summary>
+        internal static string JsonProductSerializer_InvalidFormat {
+            get {
+                return ResourceManager.GetString("JsonProductSerializer_InvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid document. Expected &apos;$items&apos; object property to contain collection elements..
+        /// </summary>
+        internal static string JsonProductSerializer_InvalidItems {
+            get {
+                return ResourceManager.GetString("JsonProductSerializer_InvalidItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid document. Expected &apos;$format&apos; property with the document version..
+        /// </summary>
+        internal static string JsonProductSerializer_MissingFormat {
+            get {
+                return ResourceManager.GetString("JsonProductSerializer_MissingFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid document. Expected &apos;$schema&apos; property with component schema definition identifier..
+        /// </summary>
+        internal static string JsonProductSerializer_MissingSchema {
+            get {
+                return ResourceManager.GetString("JsonProductSerializer_MissingSchema", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid document. Expected &apos;$toolkit&apos; property with the owning toolkit information..
+        /// </summary>
+        internal static string JsonProductSerializer_MissingToolkit {
+            get {
+                return ResourceManager.GetString("JsonProductSerializer_MissingToolkit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid document. Expected &apos;$id&apos; property with the owning toolkit identifier..
+        /// </summary>
+        internal static string JsonProductSerializer_MissingToolkitId {
+            get {
+                return ResourceManager.GetString("JsonProductSerializer_MissingToolkitId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid document. Expected &apos;$version&apos; property with the owning toolkit version..
+        /// </summary>
+        internal static string JsonProductSerializer_MissingToolkitVersion {
+            get {
+                return ResourceManager.GetString("JsonProductSerializer_MissingToolkitVersion", resourceCulture);
+            }
+        }
     }
 }

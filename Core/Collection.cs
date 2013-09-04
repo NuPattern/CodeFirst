@@ -53,6 +53,11 @@
             return this;
         }
 
+        public override string ToString()
+        {
+            return base.ToString() + " [" + Items.Count() + "]";
+        }
+
         IEnumerable<IElement> ICollection.Items { get { return Items; } }
         IElement ICollection.CreateItem(string name, string schemaId)
         {

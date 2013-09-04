@@ -1,10 +1,10 @@
 ﻿namespace NuPattern
 {
     using NuPattern.Properties;
-using NuPattern.Schema;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+    using NuPattern.Schema;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     internal abstract class Container : Component, IContainer
     {
@@ -17,7 +17,7 @@ using System.Linq;
 
         public IEnumerable<Component> Components
         {
-            get { return this.components.AsReadOnly(); }
+            get { return this.components; }
         }
 
         public new IContainerSchema Schema

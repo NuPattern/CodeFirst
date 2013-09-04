@@ -91,6 +91,56 @@ namespace NuPattern.Properties
 				});
 			}
 		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class JsonProductSerializer
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Invalid document. Expected '$format' property with a valid version string (i.e. '2.0').
+			/// </summary>
+			public static string InvalidFormat { get { return Resources.JsonProductSerializer_InvalidFormat; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Invalid document. Expected '$items' object property to contain collection elements.
+			/// </summary>
+			public static string InvalidItems { get { return Resources.JsonProductSerializer_InvalidItems; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Invalid document. Expected '$format' property with the document version.
+			/// </summary>
+			public static string MissingFormat { get { return Resources.JsonProductSerializer_MissingFormat; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Invalid document. Expected '$schema' property with component schema definition identifier.
+			/// </summary>
+			public static string MissingSchema { get { return Resources.JsonProductSerializer_MissingSchema; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Invalid document. Expected '$toolkit' property with the owning toolkit information.
+			/// </summary>
+			public static string MissingToolkit { get { return Resources.JsonProductSerializer_MissingToolkit; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Invalid document. Expected '$id' property with the owning toolkit identifier.
+			/// </summary>
+			public static string MissingToolkitId { get { return Resources.JsonProductSerializer_MissingToolkitId; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Invalid document. Expected '$version' property with the owning toolkit version.
+			/// </summary>
+			public static string MissingToolkitVersion { get { return Resources.JsonProductSerializer_MissingToolkitVersion; } }
+		}
 	}
 }
 

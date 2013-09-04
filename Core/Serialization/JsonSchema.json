@@ -1,0 +1,40 @@
+﻿{
+    "id": "http://nupattern.org/json-schema#",
+    "$schema": "http://json-schema.org/schema#",
+    "description": "Schema for NuPattern State",
+    "type": "object",
+    "required": [ "$format" ],
+    "additionalProperties": true,    
+    "properties": {
+        "$format": { "type": "string" }
+    },
+    "patternProperties": {
+        "^.+$": { 
+            "type": "object",
+            "oneOf": [
+                { "$ref": "#/definitions/element" },
+                { "$ref": "#/definitions/collection" }
+            ]
+        }
+    },
+    "definitions": {
+        "element": {
+            "additionalProperties": true,    
+            "required": [ "$schema" ],
+            "properties": {
+                "$schema": { "type": "string" }
+            },
+            "patternProperties": {
+                "^.+$": { 
+                    "type": "object",
+                    "oneOf": [
+                        { "$ref": "#/definitions/element" },
+                        { "$ref": "#/definitions/collection" }
+                    ]
+                }
+            }
+       },
+        "collection": {
+        }
+    }
+}
