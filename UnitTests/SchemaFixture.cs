@@ -15,7 +15,7 @@
                 ComponentSchemas =
                 {
                     new ElementSchema("Element"),
-                    new CollectionSchema("Collection", new ElementSchema("Item"))
+                    new CollectionSchema("Collection")
                     {
                         ComponentSchemas = 
                         {
@@ -29,6 +29,9 @@
             Assert.Same(schema, schema.Root);
             Assert.Same(schema, schema.ComponentSchemas.First().Root);
             Assert.Same(schema, schema.ComponentSchemas.OfType<ICollectionSchema>().First().ComponentSchemas.First().Root);
+
+            schema.ComponentSchemas.OfType<ICollectionSchema>().First().CreateItemSchema("Item");
+
             Assert.Same(schema, schema.ComponentSchemas.OfType<ICollectionSchema>().First().ItemSchema.Root);
         }
 
@@ -49,7 +52,7 @@
                             new PropertySchema("Text", typeof(string)),
                         }
                     },
-                    new CollectionSchema("Collection",  new ElementSchema("Item"))
+                    new CollectionSchema("Collection")
                     {
                         DefaultName = "Bars",
                         CanRename = false,

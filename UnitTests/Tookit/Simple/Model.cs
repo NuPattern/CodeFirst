@@ -5,7 +5,7 @@
     using System.Linq;
 
     // Product
-    public interface IAmazonWebServices : IProduct
+    public interface IAmazonWebServices
     {
         // Primitive properties
         string AccessKey { get; set; }
@@ -27,7 +27,7 @@
     }
 
     // Element
-    public interface IBucket : INamed
+    public interface IBucket
     {
         // Element primitive properties
         Permissions Permissions { get; set; }

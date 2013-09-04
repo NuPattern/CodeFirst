@@ -4,18 +4,17 @@
 
     internal class CollectionSchema : ContainerSchema, ICollectionSchema
     {
-        public CollectionSchema(string schemaId, ElementSchema itemSchema)
+        public CollectionSchema(string schemaId)
             : base(schemaId)
         {
-            itemSchema.Parent = this;
-            this.ItemSchema = itemSchema;
         }
 
         public ElementSchema ItemSchema { get; internal set; }
 
         public ElementSchema CreateItemSchema(string schemaId)
         {
-            return new ElementSchema(schemaId) { Parent = this };
+            ItemSchema = new ElementSchema(schemaId) { Parent = this };
+            return ItemSchema;
         }
 
         IElementSchema ICollectionSchema.ItemSchema { get { return ItemSchema; } }

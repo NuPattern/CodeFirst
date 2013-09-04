@@ -10,7 +10,7 @@
         /// Schema identifier, used on elements created 
         /// based on this schema.
         /// </summary>
-        string Id { get; }
+        string SchemaId { get; }
 
         /// <summary>
         /// Default instance name for components of this kind.

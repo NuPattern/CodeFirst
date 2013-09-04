@@ -8,17 +8,8 @@
 
     internal abstract class ContainerSchema : ComponentSchema, IContainerSchema
     {
-        /// <summary>
-        /// Internal constructor used by tests to allow for easy 
-        /// functional construction.
-        /// </summary>
         internal ContainerSchema(string schemaId)
-            : this(schemaId, null)
-        {
-        }
-
-        public ContainerSchema(string schemaId, ComponentSchema parentSchema)
-            : base(schemaId, parentSchema)
+            : base(schemaId)
         {
             var elements = new ObservableCollection<ComponentSchema>();
             elements.CollectionChanged += OnElementsChanged;
@@ -35,12 +26,16 @@
 
         public IElementSchema CreateElementSchema(string schemaId)
         {
-            return new ElementSchema(schemaId, this);
+            var schema = new ElementSchema(schemaId);
+            ComponentSchemas.Add(schema);
+            return schema;
         }
 
         public ICollectionSchema CreateCollectionSchema(string schemaId)
         {
-            throw new NotImplementedException();
+            var schema = new CollectionSchema(schemaId);
+            ComponentSchemas.Add(schema);
+            return schema;
         }
 
         IEnumerable<IComponentSchema> IContainerSchema.ComponentSchemas { get { return this.ComponentSchemas; } }

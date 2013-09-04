@@ -1,6 +1,7 @@
 ﻿namespace NuPattern.Schema
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
 
@@ -11,17 +12,19 @@
             Guard.NotNullOrEmpty(() => propertyName, propertyName);
             Guard.NotNull(() => propertyType, propertyType);
 
-            this.PropertyName = propertyName;
-            this.PropertyType = propertyType;
+            this.Name = propertyName;
+            this.Type = propertyType;
+
+            this.Attributes = new List<Attribute>();
         }
 
-        public string PropertyName { get; private set; }
+        public IList<Attribute> Attributes { get; private set; }
 
-        public string Category { get; set; }
+        public string Name { get; private set; }
 
         public bool IsReadOnly { get; set; }
 
-        public Type PropertyType { get; set; }
+        public Type Type { get; set; }
 
         public new ComponentSchema Parent
         {

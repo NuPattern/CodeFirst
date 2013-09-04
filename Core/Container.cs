@@ -35,7 +35,7 @@
             {
                 var schema = Schema.ComponentSchemas
                     .OfType<ICollectionSchema>()
-                    .FirstOrDefault(x => x.Id == schemaId);
+                    .FirstOrDefault(x => x.SchemaId == schemaId);
                 if (schema != null)
                     SchemaMapper.SyncCollection(collection, schema);
             }
@@ -53,7 +53,7 @@
             {
                 var schema = Schema.ComponentSchemas
                     .OfType<IElementSchema>()
-                    .FirstOrDefault(x => x.Id == schemaId);
+                    .FirstOrDefault(x => x.SchemaId == schemaId);
                 if (schema != null)
                     SchemaMapper.SyncElement(element, schema);
             }

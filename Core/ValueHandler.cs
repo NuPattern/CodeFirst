@@ -7,12 +7,13 @@
     {
         public static object Get(Property property)
         {
+            // TODO: consider DefaultValueAttribute?
             var value = property.GetValue();
             if (value == null && property.Schema != null && 
-                property.Schema.PropertyType.IsValueType && 
-                !IsNullableType(property.Schema.PropertyType))
+                property.Schema.Type.IsValueType && 
+                !IsNullableType(property.Schema.Type))
             {
-                value = Activator.CreateInstance(property.Schema.PropertyType);
+                value = Activator.CreateInstance(property.Schema.Type);
             }
 
             return value;
@@ -20,6 +21,8 @@
 
         public static void Set(Property property, object value)
         {
+            // TODO: perform type conversion, etc.?
+
             property.SetValue(value);
         }
 

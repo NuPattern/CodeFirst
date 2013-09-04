@@ -41,12 +41,12 @@
             // one does not exist anymore.
             container.Components
                 .OfType<ICollection>()
-                .Where(c => !schema.ComponentSchemas.OfType<ICollectionSchema>().Any(i => i.Id == c.SchemaId))
+                .Where(c => !schema.ComponentSchemas.OfType<ICollectionSchema>().Any(i => i.SchemaId == c.SchemaId))
                 .ToArray()
                 .ForEach(c => c.Delete());
             container.Components
                 .OfType<IElement>()
-                .Where(c => !schema.ComponentSchemas.OfType<IElementSchema>().Any(i => i.Id == c.SchemaId))
+                .Where(c => !schema.ComponentSchemas.OfType<IElementSchema>().Any(i => i.SchemaId == c.SchemaId))
                 .ToArray()
                 .ForEach(c => c.Delete());
 
@@ -77,9 +77,9 @@
                 var element = component as Element;
 
                 if (collection != null)
-                    SyncCollection(collection, schema.ComponentSchemas.OfType<ICollectionSchema>().First(x => x.Id == component.SchemaId));
+                    SyncCollection(collection, schema.ComponentSchemas.OfType<ICollectionSchema>().First(x => x.SchemaId == component.SchemaId));
                 else if (element != null)
-                    SyncElement(element, schema.ComponentSchemas.OfType<IElementSchema>().First(x => x.Id == component.SchemaId));
+                    SyncElement(element, schema.ComponentSchemas.OfType<IElementSchema>().First(x => x.SchemaId == component.SchemaId));
             }
         }
 
@@ -90,21 +90,21 @@
             // Delete existing properties that don't have a corresponding definition.
             // and are not system properties (starting with $)
             component.Properties
-                .Where(p => !p.Name.StartsWith("$") && !schema.PropertySchemas.Any(info => info.PropertyName == p.Name))
+                .Where(p => !p.Name.StartsWith("$") && !schema.PropertySchemas.Any(info => info.Name == p.Name))
                 .ToArray()
                 .ForEach(p => p.Delete());
 
             // Initialize all the new properties. Existing ones are not modified.
             foreach (var propertySchema in schema.PropertySchemas)
             {
-                var property = component.Properties.FirstOrDefault(x => x.Name == propertySchema.PropertyName);
+                var property = component.Properties.FirstOrDefault(x => x.Name == propertySchema.Name);
                 if (property != null)
                 {
                     property.Schema = propertySchema;
                 }
                 else
                 {
-                    property = component.CreateProperty(propertySchema.PropertyName);
+                    property = component.CreateProperty(propertySchema.Name);
                     property.Schema = propertySchema;
                 }
 

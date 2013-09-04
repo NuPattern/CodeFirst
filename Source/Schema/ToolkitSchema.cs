@@ -32,7 +32,9 @@
 
         public IProductSchema CreateProductSchema(string schemaId)
         {
-            return new ProductSchema(schemaId, this);
+            var schema  = new ProductSchema(schemaId);
+            ProductSchemas.Add(schema);
+            return schema;
         }
 
         IEnumerable<IProductSchema> IToolkitSchema.ProductSchemas { get { return ProductSchemas; } }

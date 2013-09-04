@@ -30,15 +30,16 @@
                         ComponentSchemas = 
                         {
                             // TBD: IEnumerable<Buckets> ?
-                            new CollectionSchema("Buckets", new ElementSchema("IBucket")
-                                    {
-                                        PropertySchemas = 
-                                        {
-                                            new PropertySchema("Name", typeof(string)),
-                                            new PropertySchema("Permissions", typeof(Permissions)),
-                                        },
-                                    })
+                            new CollectionSchema("Buckets")
                             {
+                                ItemSchema = new ElementSchema("IBucket")
+                                {
+                                    PropertySchemas = 
+                                    {
+                                        new PropertySchema("Name", typeof(string)),
+                                        new PropertySchema("Permissions", typeof(Permissions)),
+                                    },
+                                },
                                 DefaultName = "Buckets",
                                 //DisplayName = "Buckets",
                             }

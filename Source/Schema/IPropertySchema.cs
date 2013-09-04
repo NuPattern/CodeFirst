@@ -1,18 +1,19 @@
 ﻿namespace NuPattern.Schema
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
 
     public interface IPropertySchema : IInstanceSchema
     {
-        string PropertyName { get; }
-
-        string Category { get; }
-
         bool IsReadOnly { get; }
 
-        Type PropertyType { get; }
+        IList<Attribute> Attributes { get; }
+
+        string Name { get; }
+
+        Type Type { get; }
 
         new IComponentSchema Parent { get; }
 

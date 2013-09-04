@@ -11,16 +11,10 @@
         /// the initializer.
         /// </summary>
         internal ProductSchema(string schemaId)
-            : base(schemaId, null)
+            : base(schemaId)
         {
         }
         
-        public ProductSchema(string schemaId, ToolkitSchema toolkitSchema)
-            : base(schemaId)
-        {
-            this.ToolkitSchema = toolkitSchema;
-        }
-
         public ToolkitSchema ToolkitSchema { get; internal set; }
 
         IToolkitSchema IProductSchema.ToolkitSchema { get { return ToolkitSchema; } }

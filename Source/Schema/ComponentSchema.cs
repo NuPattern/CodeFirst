@@ -9,19 +9,13 @@
     internal abstract class ComponentSchema : InstanceSchema, IComponentSchema
     {
         public ComponentSchema(string schemaId)
-            : this(schemaId, null)
-        {
-        }
-
-        public ComponentSchema(string schemaId, ComponentSchema parentSchema)
-            : base(parentSchema)
         {
             Guard.NotNullOrEmpty(() => schemaId, schemaId);
 
             var properties = new ObservableCollection<PropertySchema>();
             properties.CollectionChanged += OnPropertiesChanged;
 
-            this.Id = schemaId;
+            this.SchemaId = schemaId;
             this.DefaultName = schemaId;
             this.CanRename = true;
             this.PropertySchemas = properties;
@@ -33,7 +27,7 @@
                 this.DefaultName = this.DefaultName.Substring(1);
         }
 
-        public string Id { get; private set; }
+        public string SchemaId { get; private set; }
         public string DefaultName { get; set; }
         public bool CanRename { get; set; }
         public ICollection<PropertySchema> PropertySchemas { get; private set; }
