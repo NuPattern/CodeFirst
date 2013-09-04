@@ -58,6 +58,19 @@
             return base.ToString() + " [" + Items.Count() + "]";
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed && disposing)
+            {
+                foreach (var item in items)
+                {
+                    item.Dispose();
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
         IEnumerable<IElement> ICollection.Items { get { return Items; } }
         IElement ICollection.CreateItem(string name, string schemaId)
         {

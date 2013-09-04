@@ -67,6 +67,19 @@
             components.Remove(component);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed && disposing)
+            {
+                foreach (var component in components)
+                {
+                    component.Dispose();
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
         private void ThrowIfDuplicate(string name)
         {
             if (components.Any(c => c.Name == name))

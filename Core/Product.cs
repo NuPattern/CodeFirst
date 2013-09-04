@@ -3,7 +3,7 @@
     using NuPattern.Schema;
     using System;
 
-    internal class Product : Container, IProduct
+    internal class Product : Container, IProduct, IDisposable
     {
         public Product(string name, string schemaId)
             : base(name, schemaId, null)

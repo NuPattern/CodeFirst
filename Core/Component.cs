@@ -8,7 +8,7 @@
     using System.ComponentModel;
     using System.Linq;
 
-    internal abstract class Component : IComponent
+    internal abstract class Component : IComponent, IDisposable
     {
         private ConcurrentDictionary<string, Property> properties = new ConcurrentDictionary<string, Property>();
 
@@ -98,6 +98,27 @@
         internal void DeleteProperty(Property property)
         {
             properties.TryRemove(property.Name, out property);
+        }
+
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected internal bool IsDisposed { get; private set; }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose automation, unsubscribe events, etc.
+                }
+
+                IsDisposed = true;
+            }
         }
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }

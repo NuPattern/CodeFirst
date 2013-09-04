@@ -224,6 +224,22 @@
 
             Assert.Throws<ArgumentException>(() => collection.CreateItem("Item", "IItem"));
         }
+
+        [Fact]
+        public void when_disposing_product_then_disposes_entire_graph()
+        {
+            var product = new Product("Product", "IProduct");
+            product.CreateCollection("Collection", "ICollection")
+                .CreateItem("Item", "IItem");
+            product.CreateElement("Element", "IElement")
+                .CreateElement("NestedElement", "IElement");
+
+            product.Dispose();
+
+            Assert.True(product.IsDisposed);
+            Assert.True(product.Components.All(c => c.IsDisposed));
+            Assert.True(product.Components.OfType<Collection>().All(c => c.Items.All(e => e.IsDisposed)));
+        }
     }
 
     public class given_a_product_with_schema
