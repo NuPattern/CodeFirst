@@ -102,6 +102,17 @@
         }
 
         [Fact]
+        public void when_deleting_element_then_disposes_it()
+        {
+            var product = new Product("Foo", "IFoo");
+            var child = product.CreateElement("Storage", "IStorage");
+
+            child.Delete();
+
+            Assert.True(child.IsDisposed);
+        }
+
+        [Fact]
         public void when_deleting_renamed_element_then_removes_from_parent_components()
         {
             var product = new Product("Foo", "IFoo");

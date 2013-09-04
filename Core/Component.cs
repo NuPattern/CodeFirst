@@ -66,11 +66,7 @@
 
         public void Delete()
         {
-            var container = this.Parent as Container;
-            if (container != null)
-                container.DeleteComponent(this);
-
-            this.Parent = null;
+            Dispose();
         }
 
         public T Get<T>(string propertyName)
@@ -100,7 +96,6 @@
             properties.TryRemove(property.Name, out property);
         }
 
-
         public void Dispose()
         {
             Dispose(true);
@@ -119,6 +114,12 @@
 
                 IsDisposed = true;
             }
+
+            var container = this.Parent as Container;
+            if (container != null)
+                container.DeleteComponent(this);
+
+            this.Parent = null;
         }
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }
