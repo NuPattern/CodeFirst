@@ -42,8 +42,6 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
-    <Compile Include="ComponentModel\IValueSerializer.cs" />
-    <Compile Include="ComponentModel\ValueSerializerAttribute.cs" />
     <Compile Include="IComponentExtensions.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
@@ -83,7 +81,9 @@
     <None Include="packages.config" />
     <None Include="Schema.cd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ComponentModel\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
