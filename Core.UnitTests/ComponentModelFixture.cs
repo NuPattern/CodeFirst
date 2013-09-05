@@ -18,6 +18,29 @@
         }
 
         [Fact]
+        public void when_element_new_name_is_duplicated_with_other_element_then_throws()
+        {
+            var product = new Product("Foo", "IFoo");
+
+            product.CreateElement("Storage", "IStorage");
+            
+            var child = product.CreateElement("Storage2", "IStorage");
+
+            Assert.Throws<ArgumentException>(() => child.Name = "Storage");
+        }
+
+        [Fact]
+        public void when_element_new_name_is_duplicated_with_container_property_then_throws()
+        {
+            var product = new Product("Foo", "IFoo");
+            product.CreateProperty("Element");
+            
+            var child = product.CreateElement("Storage", "IStorage");
+
+            Assert.Throws<ArgumentException>(() => child.Name = "Element");
+        }
+
+        [Fact]
         public void when_creating_collection_then_references_parent_product()
         {
             var product = new Product("Foo", "IFoo");
@@ -88,6 +111,15 @@
             Assert.Throws<ArgumentException>(() => product.CreateElement("Storage", "IStorage"));
             // Different component type, same name, different schema id
             Assert.Throws<ArgumentException>(() => product.CreateElement("Storage", "IBucket"));
+        }
+
+        [Fact]
+        public void when_creating_component_named_as_property_then_throws()
+        {
+            var product = new Product("Foo", "IFoo");
+            product.CreateProperty("Element");
+
+            Assert.Throws<ArgumentException>(() => product.CreateElement("Element", "IElement"));
         }
 
         [Fact]

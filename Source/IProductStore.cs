@@ -9,7 +9,7 @@
 
         IEnumerable<IProduct> Products { get; }
 
-        IProduct Create(string name, string toolkitId, string schemaId);
+        IProduct CreateProduct(string name, string toolkitId, string schemaId);
 
         void Load(IProgress<int> progress);
         void Save(IProgress<int> progress);

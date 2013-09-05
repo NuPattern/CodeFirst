@@ -87,6 +87,19 @@ namespace NuPattern.Properties
 		{
 			/// <summary>
 			/// Looks up a localized string similar to: 
+			///	Cannot create component because a property named '{propertyName}' already exists on '{containerName}'.
+			/// </summary>
+			public static string ComponentNameMatchesProperty(object propertyName, object containerName)
+			{
+				return Resources.Container_ComponentNameMatchesProperty.FormatWith(new 
+				{
+					propertyName = propertyName,
+					containerName = containerName,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
 			///	A component with the same name '{name}' already exists.
 			/// </summary>
 			public static string DuplicateComponentName(object name)
@@ -94,6 +107,34 @@ namespace NuPattern.Properties
 				return Resources.Container_DuplicateComponentName.FormatWith(new 
 				{
 					name = name,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Cannot rename component '{oldName}' to '{newName}' because its parent '{container}' already has a component with the same name.
+			/// </summary>
+			public static string RenamedDuplicateComponent(object oldName, object newName, object container)
+			{
+				return Resources.Container_RenamedDuplicateComponent.FormatWith(new 
+				{
+					oldName = oldName,
+					newName = newName,
+					container = container,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Cannot rename component '{oldName}' to '{newName}' because its parent '{container}' already has a property with the same name.
+			/// </summary>
+			public static string RenamedDuplicateProperty(object oldName, object newName, object container)
+			{
+				return Resources.Container_RenamedDuplicateProperty.FormatWith(new 
+				{
+					oldName = oldName,
+					newName = newName,
+					container = container,
 				});
 			}
 		}
@@ -146,6 +187,41 @@ namespace NuPattern.Properties
 			///	Invalid document. Expected '$version' property with the owning toolkit version.
 			/// </summary>
 			public static string MissingToolkitVersion { get { return Resources.JsonProductSerializer_MissingToolkitVersion; } }
+		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class ProductStore
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	A product with the same name '{name}' already exists in the store '{store}'.
+			/// </summary>
+			public static string DuplicateProductName(object name, object store)
+			{
+				return Resources.ProductStore_DuplicateProductName.FormatWith(new 
+				{
+					name = name,
+					store = store,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Cannot rename product '{oldName}' to '{newName}' because the store '{store}' already has a product with the same name.
+			/// </summary>
+			public static string RenamedDuplicateProduct(object oldName, object newName, object store)
+			{
+				return Resources.ProductStore_RenamedDuplicateProduct.FormatWith(new 
+				{
+					oldName = oldName,
+					newName = newName,
+					store = store,
+				});
+			}
 		}
 	}
 }

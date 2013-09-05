@@ -2,6 +2,7 @@
 {
     using NuPattern.Schema;
     using System;
+    using System.Linq;
 
     internal class Product : Container, IProduct, IDisposable
     {
@@ -16,6 +17,8 @@
             get { return (IProductSchema)base.Schema; }
             set { base.Schema = value; }
         }
+
+        public ProductStore Store { get; internal set; }
 
         public ToolkitInfo Toolkit { get; internal set; }
 
@@ -36,6 +39,15 @@
             return Name + " : " + Toolkit.Id + "." + SchemaId + " (" + Toolkit.Version + ")";
         }
 
+        protected override void OnRenaming(string oldName, string newName)
+        {
+            base.OnRenaming(oldName, newName);
+
+            if (Store != null)
+                Store.ThrowIfDuplicateRename(oldName, newName);
+        }
+
+        IProductStore IProduct.Store { get { return Store; } }
         IToolkitInfo IProduct.Toolkit { get { return Toolkit; } }
         IProduct IProduct.Set<T>(string propertyName, T value)
         {

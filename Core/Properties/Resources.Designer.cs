@@ -97,11 +97,38 @@ namespace NuPattern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot create component because a property named &apos;{propertyName}&apos; already exists on &apos;{containerName}&apos;..
+        /// </summary>
+        internal static string Container_ComponentNameMatchesProperty {
+            get {
+                return ResourceManager.GetString("Container_ComponentNameMatchesProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A component with the same name &apos;{name}&apos; already exists..
         /// </summary>
         internal static string Container_DuplicateComponentName {
             get {
                 return ResourceManager.GetString("Container_DuplicateComponentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot rename component &apos;{oldName}&apos; to &apos;{newName}&apos; because its parent &apos;{container}&apos; already has a component with the same name..
+        /// </summary>
+        internal static string Container_RenamedDuplicateComponent {
+            get {
+                return ResourceManager.GetString("Container_RenamedDuplicateComponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot rename component &apos;{oldName}&apos; to &apos;{newName}&apos; because its parent &apos;{container}&apos; already has a property with the same name..
+        /// </summary>
+        internal static string Container_RenamedDuplicateProperty {
+            get {
+                return ResourceManager.GetString("Container_RenamedDuplicateProperty", resourceCulture);
             }
         }
         
@@ -165,6 +192,24 @@ namespace NuPattern.Properties {
         internal static string JsonProductSerializer_MissingToolkitVersion {
             get {
                 return ResourceManager.GetString("JsonProductSerializer_MissingToolkitVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A product with the same name &apos;{name}&apos; already exists in the store &apos;{store}&apos;..
+        /// </summary>
+        internal static string ProductStore_DuplicateProductName {
+            get {
+                return ResourceManager.GetString("ProductStore_DuplicateProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot rename product &apos;{oldName}&apos; to &apos;{newName}&apos; because the store &apos;{store}&apos; already has a product with the same name..
+        /// </summary>
+        internal static string ProductStore_RenamedDuplicateProduct {
+            get {
+                return ResourceManager.GetString("ProductStore_RenamedDuplicateProduct", resourceCulture);
             }
         }
     }

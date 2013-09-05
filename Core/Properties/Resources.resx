@@ -129,8 +129,17 @@
   <data name="Component_SchemaMismatch" xml:space="preserve">
     <value>Component '{name}' has existing schema '{existingSchemaId}' which does not match the specified schema value with id '{newSchemaId}'.</value>
   </data>
+  <data name="Container_ComponentNameMatchesProperty" xml:space="preserve">
+    <value>Cannot create component because a property named '{propertyName}' already exists on '{containerName}'.</value>
+  </data>
   <data name="Container_DuplicateComponentName" xml:space="preserve">
     <value>A component with the same name '{name}' already exists.</value>
+  </data>
+  <data name="Container_RenamedDuplicateComponent" xml:space="preserve">
+    <value>Cannot rename component '{oldName}' to '{newName}' because its parent '{container}' already has a component with the same name.</value>
+  </data>
+  <data name="Container_RenamedDuplicateProperty" xml:space="preserve">
+    <value>Cannot rename component '{oldName}' to '{newName}' because its parent '{container}' already has a property with the same name.</value>
   </data>
   <data name="JsonProductSerializer_InvalidFormat" xml:space="preserve">
     <value>Invalid document. Expected '$format' property with a valid version string (i.e. '2.0').</value>
@@ -152,5 +161,11 @@
   </data>
   <data name="JsonProductSerializer_MissingToolkitVersion" xml:space="preserve">
     <value>Invalid document. Expected '$version' property with the owning toolkit version.</value>
+  </data>
+  <data name="ProductStore_DuplicateProductName" xml:space="preserve">
+    <value>A product with the same name '{name}' already exists in the store '{store}'.</value>
+  </data>
+  <data name="ProductStore_RenamedDuplicateProduct" xml:space="preserve">
+    <value>Cannot rename product '{oldName}' to '{newName}' because the store '{store}' already has a product with the same name.</value>
   </data>
 </root>

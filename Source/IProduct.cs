@@ -12,6 +12,11 @@
         /// </summary>
         IToolkitInfo Toolkit { get; }
 
+        /// <summary>
+        /// Accesses the store that manages persistence for this product.
+        /// </summary>
+        IProductStore Store { get; }
+        
         new IProduct Set<T>(string propertyName, T value);
     }
 }

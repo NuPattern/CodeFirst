@@ -8,7 +8,7 @@
     {
         private object value;
 
-        public event EventHandler Deleted = (sender, args) => { };
+        public event EventHandler Disposed = (sender, args) => { };
 
         public Property(string name, Component owner)
         {
@@ -32,7 +32,7 @@
         {
             Owner.DeleteProperty(this);
             Owner = null;
-            Deleted(this, EventArgs.Empty);
+            Disposed(this, EventArgs.Empty);
         }
 
         public bool ShouldSerializeValue

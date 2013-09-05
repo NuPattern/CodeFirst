@@ -11,8 +11,9 @@
     internal abstract class Component : IComponent, IDisposable
     {
         private Dictionary<string, Property> properties = new Dictionary<string, Property>();
+        private string name;
 
-        public event EventHandler Deleted = (sender, args) => { };
+        public event EventHandler Disposed = (sender, args) => { };
 
         public Component(string name, string schemaId, Component parent)
         {
@@ -21,11 +22,24 @@
             this.Parent = parent;
         }
 
+        public bool IsDisposed { get; private set; }
+
         public IComponentSchema Schema { get; internal set; }
 
         public string SchemaId { get; private set; }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (value != name)
+                {
+                    OnRenaming(name, value);
+                    name = value;
+                }
+            }
+        }
 
         public IEnumerable<Property> Properties
         {
@@ -50,7 +64,7 @@
         //    }
         //}
 
-        public Property CreateProperty(string name)
+        public virtual Property CreateProperty(string name)
         {
             if (name == "Name")
                 throw new ArgumentException(Strings.Component.NamePropertyReserved);
@@ -97,10 +111,8 @@
         public void Dispose()
         {
             Dispose(true);
-            Deleted(this, EventArgs.Empty);
+            Disposed(this, EventArgs.Empty);
         }
-
-        protected internal bool IsDisposed { get; private set; }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -121,11 +133,17 @@
             this.Parent = null;
         }
 
+        protected virtual void OnRenaming(string oldName, string newName)
+        {
+            var container = Parent as Container;
+            if (container != null)
+                container.ThrowIfDuplicateRename(oldName, newName);
+        }
+
         internal void DeleteProperty(Property property)
         {
             properties.Remove(property.Name);
         }
-
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }
         IComponent IComponent.Parent { get { return Parent; } }

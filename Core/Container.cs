@@ -84,6 +84,16 @@
         {
             if (components.Any(c => c.Name == name))
                 throw new ArgumentException(Strings.Container.DuplicateComponentName(name));
+            if (Properties.Any(p => p.Name == name))
+                throw new ArgumentException(Strings.Container.ComponentNameMatchesProperty(name, Name));
+        }
+
+        internal void ThrowIfDuplicateRename(string oldName, string newName)
+        {
+            if (components.Any(c => c.Name == newName))
+                throw new ArgumentException(Strings.Container.RenamedDuplicateComponent(oldName, newName, Name));
+            if (Properties.Any(p => p.Name == newName))
+                throw new ArgumentException(Strings.Container.RenamedDuplicateProperty(oldName, newName, Name));
         }
 
         IEnumerable<IComponent> IContainer.Components { get { return Components; } }

@@ -1,6 +1,6 @@
-﻿using System.Reactive.Linq;
-namespace NuPattern
+﻿namespace NuPattern
 {
+    using NuPattern.Properties;
     using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
@@ -33,13 +33,12 @@ namespace NuPattern
 
         public IEnumerable<IProduct> Products { get { return products.AsReadOnly(); } }
 
-        public IProduct Create(string name, string toolkitId, string schemaId)
+        public IProduct CreateProduct(string name, string toolkitId, string schemaId)
         {
             Guard.NotNullOrEmpty(() => toolkitId, toolkitId);
             Guard.NotNullOrEmpty(() => schemaId, schemaId);
 
-            if (products.Any(x => x.Name == name))
-                throw new ArgumentException();
+            ThrowIfDuplicate(name);
 
             var toolkit = toolkits.Find(toolkitId);
             if (toolkit == null)
@@ -49,11 +48,23 @@ namespace NuPattern
             if (schema == null)
                 throw new ArgumentException();
 
-            var product = new Product(name, schemaId);
+            var product = new Product(name, schemaId) { Store = this };
             SchemaMapper.SyncProduct(product, schema);
             products.Add(product);
 
             return product;
+        }
+
+        private void ThrowIfDuplicate(string name)
+        {
+            if (products.Any(x => x.Name == name))
+                throw new ArgumentException(Strings.ProductStore.DuplicateProductName(name, Name));
+        }
+
+        internal void ThrowIfDuplicateRename(string oldName, string newName)
+        {
+            if (products.Any(c => c.Name == newName))
+                throw new ArgumentException(Strings.ProductStore.RenamedDuplicateProduct(oldName, newName, Name));
         }
 
         public void Dispose()
@@ -94,7 +105,8 @@ namespace NuPattern
                     }
 
                     progress.Report(++current);
-                    product.Deleted += OnProductDeleted;
+                    product.Disposed += OnProductDeleted;
+                    product.Store = this;
                     products.Add(product);
                 }
             }
@@ -114,7 +126,8 @@ namespace NuPattern
         {
             var product = (Product)sender;
             products.Remove(product);
-            product.Deleted -= OnProductDeleted;
+            product.Store = null;
+            product.Disposed -= OnProductDeleted;
         }
 
         private void Clear()
@@ -122,7 +135,7 @@ namespace NuPattern
             foreach (var product in products.ToArray())
             {
                 // Avoids the event calling back for each product.
-                product.Deleted -= OnProductDeleted;
+                product.Disposed -= OnProductDeleted;
                 product.Dispose();
             }
 
