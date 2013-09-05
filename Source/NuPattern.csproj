@@ -43,6 +43,7 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="IToolkitBuilder.cs" />
     <Compile Include="IComponentExtensions.cs" />
     <Compile Include="ICollection.cs" />
     <Compile Include="IElement.cs" />
@@ -86,7 +87,9 @@
     <Compile Include="Schema\IToolkitSchema.cs" />
     <Compile Include="Schema\ProductSchema.cs" />
     <Compile Include="Schema\PropertySchema.cs" />
-    <Compile Include="Schema\SchemaBuilder.cs" />
+    <Compile Include="Schema\ReflectionSchema.cs" />
+    <Compile Include="CodeFirst\SchemaBuilder.cs" />
+    <Compile Include="CodeFirst\ToolkitBuilder.cs" />
     <Compile Include="Schema\ToolkitSchema.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Compile Include="SemanticVersionTypeConverter.cs" />

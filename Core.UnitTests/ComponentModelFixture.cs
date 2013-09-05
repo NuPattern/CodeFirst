@@ -280,7 +280,10 @@
             {
                 ComponentSchemas =
                 {
-                    new CollectionSchema("ICollection", new ElementSchema("IElement")),
+                    new CollectionSchema("ICollection")
+                    {
+                        ItemSchema = new ElementSchema("IElement")
+                    }
                 }
             };
 
@@ -314,7 +317,10 @@
             {
                 ComponentSchemas =
                 {
-                    new CollectionSchema("ICollection", new ElementSchema("IElement")),
+                    new CollectionSchema("ICollection")
+                    {
+                        ItemSchema = new ElementSchema("IElement")
+                    }
                 }
             };
             

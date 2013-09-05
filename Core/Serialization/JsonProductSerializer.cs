@@ -7,9 +7,14 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
 
     internal class JsonProductSerializer : IProductSerializer
     {
+        private static readonly string CurrentVersionString = typeof(Resources)
+            .Assembly.GetCustomAttribute<AssemblyVersionAttribute>().Version;
+        private static readonly Version CurrentVersion = new Version(CurrentVersionString);
+
         public void Serialize(TextWriter writer, IEnumerable<IProduct> products)
         {
             Guard.NotNull(() => writer, writer);
@@ -21,7 +26,7 @@
 
             json.WriteStartObject();
             json.WritePropertyName("$format");
-            json.WriteValue(ThisAssembly.VersionString);
+            json.WriteValue(CurrentVersionString);
 
             foreach (var product in products)
             {
@@ -43,7 +48,7 @@
             if (format.Value.Type != JTokenType.String || !Version.TryParse((string)format.Value, out version))
                 throw new ArgumentException(Strings.JsonProductSerializer.MissingFormat);
 
-            if (version < ThisAssembly.AssemblyVersion)
+            if (version < CurrentVersion)
             {
                 // TODO: apply format version migrations.
             }

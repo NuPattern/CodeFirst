@@ -105,13 +105,16 @@
                     {
                         ComponentSchemas = 
                         {
-                            new CollectionSchema("ICollection", new ElementSchema("IElement")
+                            new CollectionSchema("ICollection")
                             {
-                                PropertySchemas = 
+                                ItemSchema = new ElementSchema("IElement")
                                 {
-                                    new PropertySchema("IsPublic", typeof(bool)),
+                                    PropertySchemas = 
+                                    {
+                                        new PropertySchema("IsPublic", typeof(bool)),
+                                    }
                                 }
-                            })
+                            }
                         }
                     }
                 }

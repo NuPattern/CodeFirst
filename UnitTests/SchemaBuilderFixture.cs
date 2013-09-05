@@ -15,7 +15,7 @@
         {
             var builder = new SchemaBuilder();
 
-            var schema = builder.BuildProduct<IMyProduct>();
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
             Assert.NotNull(schema);
             Assert.Equal(3, schema.PropertySchemas.Count());
@@ -35,7 +35,7 @@
         {
             var builder = new SchemaBuilder();
 
-            var schema = builder.BuildProduct<IMyProduct>();
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
             Assert.False(schema.PropertySchemas.Any(x => x.Name == "MyElement"));
 
@@ -51,7 +51,7 @@
         {
             var builder = new SchemaBuilder();
 
-            var schema = builder.BuildProduct<IMyProduct>();
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
             Assert.False(schema.PropertySchemas.Any(x => x.Name == "MyElement"));
 
@@ -69,7 +69,7 @@
         {
             var builder = new SchemaBuilder();
 
-            var schema = builder.BuildProduct<IMyProduct>();
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
             Assert.False(schema.PropertySchemas.Any(x => x.Name == "MyCustomItems"));
 

@@ -49,6 +49,7 @@
     <Compile Include="Collection.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="netfx\System\Collections\Generic\IEnumerable\ForEach.cs" />
+    <Compile Include="netfx\System\Reflection\GetCustomAttribute.cs" />
     <Compile Include="netfx\System\StringFormatWith.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Element.cs" />

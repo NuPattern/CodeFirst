@@ -10,11 +10,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("NuPattern")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion(ThisAssembly.VersionString)]
-[assembly: AssemblyFileVersion(ThisAssembly.VersionString)]
+[assembly: AssemblyVersion("0.1")]
+[assembly: AssemblyFileVersion("0.1")]
 
 // This attribute should be the SemanticVersion one.
-[assembly: AssemblyInformationalVersion(ThisAssembly.VersionString)]
+[assembly: AssemblyInformationalVersion("0.1")]
 
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguage("en")]
@@ -25,15 +25,3 @@ using System.Runtime.InteropServices;
 #if RELEASE
 [assembly: AssemblyConfiguration("RELEASE")]
 #endif
-
-internal static class ThisAssembly
-{
-    public const string VersionString = "0.1";
-
-    static ThisAssembly()
-    {
-        AssemblyVersion = new Version(VersionString);
-    }
-
-    public static Version AssemblyVersion { get; private set; }
-}

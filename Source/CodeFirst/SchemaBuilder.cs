@@ -8,15 +8,14 @@
 
     public class SchemaBuilder
     {
-        public IProductSchema BuildProduct<T>()
+        public IProductSchema BuildProduct(IToolkitSchema toolkit, Type productType)
         {
-            var product = typeof(T);
-            if (!product.IsInterface)
-                throw new ArgumentException(Strings.SchemaBuilder.ModelMustBeInterfaces(product));
+            if (!productType.IsInterface)
+                throw new ArgumentException(Strings.SchemaBuilder.ModelMustBeInterfaces(productType));
 
-            var schema = new ProductSchema(product.ToTypeFullName());
+            var schema = toolkit.CreateProductSchema(productType.ToTypeFullName());
 
-            BuildType(product, schema);
+            BuildType(productType, schema);
 
             return schema;
         }
