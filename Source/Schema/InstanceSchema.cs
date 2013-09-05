@@ -26,14 +26,14 @@
             get
             {
                 InstanceSchema current = this;
-                ProductSchema pattern = this as ProductSchema;
-                while (current != null && pattern == null)
+                ProductSchema product = this as ProductSchema;
+                while (current != null && product == null)
                 {
                     current = current.Parent;
-                    pattern = current as ProductSchema;
+                    product = current as ProductSchema;
                 }
 
-                return pattern;
+                return product;
             }
         }
 

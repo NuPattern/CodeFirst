@@ -28,8 +28,8 @@
         IProduct Product { get; }
 
         ///// <summary>
-        ///// Gets the root pattern ancestor for this instance. Note that for a pattern, 
-        ///// this may be an ancestor pattern if it has been instantiated as an 
+        ///// Gets the root product for this instance. Note that for a product, 
+        ///// this may be an ancestor product if it has been instantiated as an 
         ///// extension point.
         ///// </summary>
         //IProduct Root { get; }

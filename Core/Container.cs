@@ -71,7 +71,7 @@
         {
             if (!IsDisposed && disposing)
             {
-                foreach (var component in components)
+                foreach (var component in components.ToArray())
                 {
                     component.Dispose();
                 }

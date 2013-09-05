@@ -12,10 +12,10 @@
     internal class JsonProductSerializer : IProductSerializer
     {
         private static readonly string CurrentVersionString = typeof(Resources)
-            .Assembly.GetCustomAttribute<AssemblyVersionAttribute>().Version;
+            .Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         private static readonly Version CurrentVersion = new Version(CurrentVersionString);
 
-        public void Serialize(TextWriter writer, IEnumerable<IProduct> products)
+        public void Serialize(TextWriter writer, IEnumerable<Product> products)
         {
             Guard.NotNull(() => writer, writer);
             Guard.NotNull(() => products, products);
@@ -37,7 +37,7 @@
             json.Flush();
         }
 
-        public IEnumerable<IProduct> Deserialize(TextReader reader)
+        public IEnumerable<Product> Deserialize(TextReader reader)
         {
             var store = (JObject)JsonSerializer.CreateDefault().Deserialize(new JsonTextReader(reader));
             var format = store.Property("$format");

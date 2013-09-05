@@ -11,7 +11,7 @@
 
     public class JsonProductSerializerFixture
     {
-        private IProduct[] products;
+        private Product[] products;
 
         public JsonProductSerializerFixture()
         {

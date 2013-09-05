@@ -10,7 +10,7 @@
         [Fact]
         public void when_building_model_then_can_represent_graph()
         {
-            var pattern = new ProductSchema("IAmazonWebServices")
+            var product = new ProductSchema("IAmazonWebServices")
             {
                 PropertySchemas = 
                 {

@@ -1,0 +1,16 @@
+﻿{
+    "$format": "0.1",
+    "MyWebService": {
+      "$schema": "NuPattern.Tookit.Simple.IAmazonWebServices",
+      "AccessKey": "asdf",
+      "SecretKey": "qwerty",
+      "Storage": {
+        "$schema": "NuPattern.Tookit.Simple.IStorage",
+        "RefreshOnLoad": true
+      },
+      "$toolkit": {
+        "$id": "SimpleToolkit",
+        "$version": "1.0"
+      }
+    }
+  }

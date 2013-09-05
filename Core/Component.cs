@@ -10,7 +10,9 @@
 
     internal abstract class Component : IComponent, IDisposable
     {
-        private ConcurrentDictionary<string, Property> properties = new ConcurrentDictionary<string, Property>();
+        private Dictionary<string, Property> properties = new Dictionary<string, Property>();
+
+        public event EventHandler Deleted = (sender, args) => { };
 
         public Component(string name, string schemaId, Component parent)
         {
@@ -93,12 +95,13 @@
 
         internal void DeleteProperty(Property property)
         {
-            properties.TryRemove(property.Name, out property);
+            properties.Remove(property.Name);
         }
 
         public void Dispose()
         {
             Dispose(true);
+            Deleted(this, EventArgs.Empty);
         }
 
         protected internal bool IsDisposed { get; private set; }

@@ -19,11 +19,12 @@
             Guard.NotNullOrEmpty(() => toolkitId, toolkitId);
             Guard.NotNull(() => toolkitVersion, toolkitVersion);
 
-            var patterns = new ObservableCollection<ProductSchema>();
-            patterns.CollectionChanged += OnPatternsChanged;
-            
-            this.ProductSchemas = patterns;
+            var products = new ObservableCollection<ProductSchema>();
+            products.CollectionChanged += OnPatternsChanged;
+
+            this.Id = toolkitId;
             this.Version = toolkitVersion;
+            this.ProductSchemas = products;
         }
 
         public string Id { get; private set; }
@@ -48,17 +49,17 @@
         {
             if (e.NewItems != null)
             {
-                foreach (var pattern in e.NewItems.OfType<ProductSchema>())
+                foreach (var product in e.NewItems.OfType<ProductSchema>())
                 {
-                    pattern.ToolkitSchema = this;
+                    product.ToolkitSchema = this;
                 }
             }
 
             if (e.OldItems != null)
             {
-                foreach (var pattern in e.OldItems.OfType<ProductSchema>())
+                foreach (var product in e.OldItems.OfType<ProductSchema>())
                 {
-                    pattern.ToolkitSchema = null;
+                    product.ToolkitSchema = null;
                 }
             }
         }

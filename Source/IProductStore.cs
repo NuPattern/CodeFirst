@@ -5,7 +5,13 @@
 
     public interface IProductStore
     {
+        string Name { get; }
+
         IEnumerable<IProduct> Products { get; }
-        void Save();
+
+        IProduct Create(string name, string toolkitId, string schemaId);
+
+        void Load(IProgress<int> progress);
+        void Save(IProgress<int> progress);
     }
 }
