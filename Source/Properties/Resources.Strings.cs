@@ -62,6 +62,12 @@ namespace NuPattern.Properties
 					type = type,
 				});
 			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Reserved property 'Name' must be of type string.
+			/// </summary>
+			public static string NamePropertyMustBeString { get { return Resources.SchemaBuilder_NamePropertyMustBeString; } }
 		}
 	}
 }

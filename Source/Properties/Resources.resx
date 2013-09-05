@@ -126,4 +126,7 @@
   <data name="SchemaBuilder_ModelMustBeInterfaces" xml:space="preserve">
     <value>Product model can only contain interfaces and primitive types. Invalid type '{type}'.</value>
   </data>
+  <data name="SchemaBuilder_NamePropertyMustBeString" xml:space="preserve">
+    <value>Reserved property 'Name' must be of type string.</value>
+  </data>
 </root>

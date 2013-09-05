@@ -86,5 +86,14 @@ namespace NuPattern.Properties {
                 return ResourceManager.GetString("SchemaBuilder_ModelMustBeInterfaces", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserved property &apos;Name&apos; must be of type string..
+        /// </summary>
+        internal static string SchemaBuilder_NamePropertyMustBeString {
+            get {
+                return ResourceManager.GetString("SchemaBuilder_NamePropertyMustBeString", resourceCulture);
+            }
+        }
     }
 }

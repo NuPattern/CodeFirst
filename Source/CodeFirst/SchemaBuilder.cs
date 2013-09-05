@@ -22,12 +22,25 @@
 
         private void BuildType(Type type, IContainerSchema schema)
         {
-            foreach (var property in type.GetProperties().Where(x => Type.GetTypeCode(x.PropertyType) != TypeCode.Object))
+            foreach (var property in type.GetProperties().Where(x => 
+                x.PropertyType == typeof(Guid) ||
+                Type.GetTypeCode(x.PropertyType) != TypeCode.Object))
             {
+                if (property.Name == "Name")
+                {
+                    if (property.PropertyType != typeof(string))
+                        throw new ArgumentException(Strings.SchemaBuilder.NamePropertyMustBeString);
+                    
+                    // Skip adding Name as it's built-in.
+                    continue;
+                }
+
                 schema.CreatePropertySchema(property.Name, property.PropertyType);
             }
 
-            foreach (var property in type.GetProperties().Where(x => Type.GetTypeCode(x.PropertyType) == TypeCode.Object))
+            foreach (var property in type.GetProperties().Where(x => 
+                x.PropertyType != typeof(Guid) &&
+                Type.GetTypeCode(x.PropertyType) == TypeCode.Object))
             {
                 if (!property.PropertyType.IsInterface)
                     throw new ArgumentException(Strings.SchemaBuilder.ModelMustBeInterfaces(property.PropertyType));

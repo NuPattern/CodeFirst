@@ -92,12 +92,27 @@
 
             Assert.True(schema.PropertySchemas.Any(x => x.Name == "IsPublic" && x.Type == typeof(bool)));
         }
+
+        [Fact]
+        public void when_product_has_name_property_with_non_string_type_then_throws()
+        {
+            var builder = new SchemaBuilder();
+
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyNamedWrongTypeProduct));
+
+            Assert.Equal(0, schema.PropertySchemas.Count());
+        }
     }
 
     public interface IMyNamedProduct
     {
         string Name { get; set; }
         bool IsPublic { get; set; }
+    }
+
+    public interface IMyNamedWrongTypeProduct
+    {
+        Guid Name { get; set; }
     }
 
     public interface IMyProduct
