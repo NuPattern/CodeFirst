@@ -79,6 +79,15 @@ namespace NuPattern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot create property named &apos;Name&apos; since it is a reserved property that always exists for components..
+        /// </summary>
+        internal static string Component_NamePropertyReserved {
+            get {
+                return ResourceManager.GetString("Component_NamePropertyReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Component &apos;{name}&apos; has existing schema &apos;{existingSchemaId}&apos; which does not match the specified schema value with id &apos;{newSchemaId}&apos;..
         /// </summary>
         internal static string Component_SchemaMismatch {

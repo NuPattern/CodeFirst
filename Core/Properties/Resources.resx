@@ -123,6 +123,9 @@
   <data name="Component_DuplicatePropertyName" xml:space="preserve">
     <value>A property with the same name '{name}' already exists.</value>
   </data>
+  <data name="Component_NamePropertyReserved" xml:space="preserve">
+    <value>Cannot create property named 'Name' since it is a reserved property that always exists for components.</value>
+  </data>
   <data name="Component_SchemaMismatch" xml:space="preserve">
     <value>Component '{name}' has existing schema '{existingSchemaId}' which does not match the specified schema value with id '{newSchemaId}'.</value>
   </data>

@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ComponentSchema_DuplicatePropertyName" xml:space="preserve">
+    <value>A property with the same name '{name}' already exists.</value>
+  </data>
+  <data name="ComponentSchema_NamePropertyReserved" xml:space="preserve">
+    <value>Cannot create property named 'Name' since it is a reserved property that always exists for components.</value>
+  </data>
   <data name="SchemaBuilder_ModelMustBeInterfaces" xml:space="preserve">
     <value>Product model can only contain interfaces and primitive types. Invalid type '{type}'.</value>
   </data>

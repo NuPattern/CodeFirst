@@ -46,10 +46,24 @@
         }
 
         [Fact]
+        public void when_product_has_underscore_property_then_serialization_skips_it()
+        {
+            var serializer = new JsonProductSerializer();
+            var writer = new StringWriter();
+
+            products[0].CreateProperty("_culture").Value = CultureInfo.CurrentCulture;
+
+            serializer.Serialize(writer, products);
+
+            var deserialized = serializer.Deserialize(new StringReader(writer.ToString())).ToList();
+
+            Assert.False(deserialized[0].Properties.Any(x => x.Name == "_culture"));
+        }
+
+        [Fact]
         public void when_serializing_product_then_can_roundtrip()
         {
             var serializer = new JsonProductSerializer();
-
             var writer = new StringWriter();
 
             serializer.Serialize(writer, products);

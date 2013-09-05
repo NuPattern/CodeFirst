@@ -52,16 +52,17 @@
 
         public Property CreateProperty(string name)
         {
+            if (name == "Name")
+                throw new ArgumentException(Strings.Component.NamePropertyReserved);
             if (properties.ContainsKey(name))
                 throw new ArgumentException(Strings.Component.DuplicatePropertyName(name));
-
-            // TODO: should retrieve schema for property
-            // TODO: if no schema for property, consider it a dynamic property
 
             var property = new Property(name, this);
             properties[name] = property;
             if (this.Schema != null)
                 property.Schema = this.Schema.PropertySchemas.FirstOrDefault(x => x.Name == name);
+            // TODO: if no schema for property, consider it a dynamic property?
+            // Should we always have a schema? (null object pattern?)
 
             return property;
         }
@@ -93,11 +94,6 @@
             return Name + " : " + SchemaId;
         }
 
-        internal void DeleteProperty(Property property)
-        {
-            properties.Remove(property.Name);
-        }
-
         public void Dispose()
         {
             Dispose(true);
@@ -124,6 +120,12 @@
 
             this.Parent = null;
         }
+
+        internal void DeleteProperty(Property property)
+        {
+            properties.Remove(property.Name);
+        }
+
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }
         IComponent IComponent.Parent { get { return Parent; } }

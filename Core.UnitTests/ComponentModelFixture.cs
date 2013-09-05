@@ -135,6 +135,14 @@
         }
 
         [Fact]
+        public void when_creating_name_property_then_throws_because_its_intrinsic()
+        {
+            var product = new Product("Foo", "IFoo");
+
+            Assert.Throws<ArgumentException>(() => product.CreateProperty("Name"));
+        }
+
+        [Fact]
         public void when_creating_duplicate_property_then_throws()
         {
             var product = new Product("Foo", "IFoo");

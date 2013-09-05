@@ -61,6 +61,24 @@ namespace NuPattern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A property with the same name &apos;{name}&apos; already exists..
+        /// </summary>
+        internal static string ComponentSchema_DuplicatePropertyName {
+            get {
+                return ResourceManager.GetString("ComponentSchema_DuplicatePropertyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot create property named &apos;Name&apos; since it is a reserved property that always exists for components..
+        /// </summary>
+        internal static string ComponentSchema_NamePropertyReserved {
+            get {
+                return ResourceManager.GetString("ComponentSchema_NamePropertyReserved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Product model can only contain interfaces and primitive types. Invalid type &apos;{type}&apos;..
         /// </summary>
         internal static string SchemaBuilder_ModelMustBeInterfaces {

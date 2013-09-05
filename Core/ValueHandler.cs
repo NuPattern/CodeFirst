@@ -22,12 +22,16 @@
         public static void Set(Property property, object value)
         {
             // TODO: perform type conversion, etc.?
+            // TODO: do nothing if property name starts with "_"?
 
             property.SetValue(value);
         }
 
         public static bool ShouldSerialize(Property property)
         {
+            if (!property.Name.StartsWith("_"))
+                return false;
+
             // TODO: should only return true if the property 
             // value is different than the default value for 
             // it, either because of schema-specified default 

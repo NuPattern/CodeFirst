@@ -61,7 +61,6 @@
 
             Assert.Equal(0, store.Products.Count());
         }
-
     }
 
     public class SimpleModelBuilder : ToolkitBuilder

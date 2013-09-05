@@ -23,6 +23,32 @@ namespace NuPattern.Properties
 		///	</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class ComponentSchema
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	A property with the same name '{name}' already exists.
+			/// </summary>
+			public static string DuplicatePropertyName(object name)
+			{
+				return Resources.ComponentSchema_DuplicatePropertyName.FormatWith(new 
+				{
+					name = name,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Cannot create property named 'Name' since it is a reserved property that always exists for components.
+			/// </summary>
+			public static string NamePropertyReserved { get { return Resources.ComponentSchema_NamePropertyReserved; } }
+		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		public static partial class SchemaBuilder
 		{
 			/// <summary>

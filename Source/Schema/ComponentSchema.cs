@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.Schema
 {
+    using NuPattern.Properties;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -34,6 +35,11 @@
 
         public IPropertySchema CreatePropertySchema(string propertyName, Type propertyType)
         {
+            if (propertyName == "Name")
+                throw new ArgumentException(Strings.ComponentSchema.NamePropertyReserved);
+            if (PropertySchemas.Any(x => x.Name == propertyName))
+                throw new ArgumentException(Strings.ComponentSchema.DuplicatePropertyName(propertyName));
+
             var property = new PropertySchema(propertyName, propertyType);
             PropertySchemas.Add(property);
             return property;
