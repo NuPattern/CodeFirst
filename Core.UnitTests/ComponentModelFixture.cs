@@ -393,7 +393,7 @@
             Assert.Equal(1, child.Properties.Count());
             Assert.Equal("IsPublic", child.Properties.First().Name);
             Assert.NotNull(child.Properties.First().Schema);
-            Assert.Equal(typeof(bool), child.Properties.First().Schema.Type);
+            Assert.Equal(typeof(bool), child.Properties.First().Schema.PropertyType);
         }
     }
 }

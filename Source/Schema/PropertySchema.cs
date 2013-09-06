@@ -13,7 +13,7 @@
             Guard.NotNull(() => propertyType, propertyType);
 
             this.Name = propertyName;
-            this.Type = propertyType;
+            this.PropertyType = propertyType;
 
             this.Attributes = new List<Attribute>();
         }
@@ -24,7 +24,7 @@
 
         public bool IsReadOnly { get; set; }
 
-        public Type Type { get; set; }
+        public Type PropertyType { get; set; }
 
         public new ComponentSchema Parent
         {

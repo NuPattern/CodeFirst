@@ -10,10 +10,10 @@
             // TODO: consider DefaultValueAttribute?
             var value = property.GetValue();
             if (value == null && property.Schema != null && 
-                property.Schema.Type.IsValueType && 
-                !IsNullableType(property.Schema.Type))
+                property.Schema.PropertyType.IsValueType && 
+                !IsNullableType(property.Schema.PropertyType))
             {
-                value = Activator.CreateInstance(property.Schema.Type);
+                value = Activator.CreateInstance(property.Schema.PropertyType);
             }
 
             return value;

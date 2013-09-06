@@ -13,5 +13,10 @@
 
         void Load(IProgress<int> progress);
         void Save(IProgress<int> progress);
+
+        ///// <summary>
+        ///// Resolves a component at the store scope level.
+        ///// </summary>
+        //T Resolve<T>();
     }
 }

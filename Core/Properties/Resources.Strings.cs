@@ -223,6 +223,20 @@ namespace NuPattern.Properties
 				});
 			}
 		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class SmartCast
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	The specified instance is not a product interface.
+			/// </summary>
+			public static string InstanceNotProductInterface { get { return Resources.SmartCast_InstanceNotProductInterface; } }
+		}
 	}
 }
 

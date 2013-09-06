@@ -212,5 +212,14 @@ namespace NuPattern.Properties {
                 return ResourceManager.GetString("ProductStore_RenamedDuplicateProduct", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified instance is not a product interface..
+        /// </summary>
+        internal static string SmartCast_InstanceNotProductInterface {
+            get {
+                return ResourceManager.GetString("SmartCast_InstanceNotProductInterface", resourceCulture);
+            }
+        }
     }
 }

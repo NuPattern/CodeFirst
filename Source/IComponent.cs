@@ -43,6 +43,15 @@
 
         IComponentSchema Schema { get; }
 
+        /// <summary>
+        /// Smart-casts the component to the specified type. 
+        /// </summary>
+        /// <typeparam name="T">The type to smart-cast to.</typeparam>
+        /// <returns>A valid instance of the given type, if the component is structurally 
+        /// compatible with the given type, that is, it contains the at least the same number and 
+        /// type of properties and hierarchical structure of descendents; <see langword="null"/> otherwise.</returns>
+        T As<T>() where T : class;
+
         IProperty CreateProperty(string name);
         T Get<T>(string propertyName);
         IComponent Set<T>(string propertyName, T value);

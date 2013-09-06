@@ -20,9 +20,9 @@
             Assert.NotNull(schema);
             Assert.Equal(3, schema.PropertySchemas.Count());
 
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "AccessKey" && x.Type == typeof(string)));
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "IsPublic" && x.Type == typeof(bool)));
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "Port" && x.Type == typeof(int)));
+            Assert.True(schema.PropertySchemas.Any(x => x.Name == "AccessKey" && x.PropertyType == typeof(string)));
+            Assert.True(schema.PropertySchemas.Any(x => x.Name == "IsPublic" && x.PropertyType == typeof(bool)));
+            Assert.True(schema.PropertySchemas.Any(x => x.Name == "Port" && x.PropertyType == typeof(int)));
         }
 
         [Fact]
@@ -38,7 +38,7 @@
 
             Assert.NotNull(element);
             Assert.Equal(typeof(IMyElement).ToTypeFullName(), element.SchemaId);
-            Assert.True(element.PropertySchemas.Any(x => x.Name == "Location" && x.Type == typeof(string)));
+            Assert.True(element.PropertySchemas.Any(x => x.Name == "Location" && x.PropertyType == typeof(string)));
         }
 
         [Fact]
@@ -56,7 +56,7 @@
             Assert.NotNull(collection.ItemSchema);
             Assert.Equal(typeof(IMyItem).ToTypeFullName(), collection.ItemSchema.SchemaId);
             Assert.Equal(typeof(IEnumerable<IMyItem>).ToTypeFullName(), collection.SchemaId);
-            Assert.True(collection.ItemSchema.PropertySchemas.Any(x => x.Name == "Path" && x.Type == typeof(string)));
+            Assert.True(collection.ItemSchema.PropertySchemas.Any(x => x.Name == "Path" && x.PropertyType == typeof(string)));
         }
 
         [Fact]
@@ -76,9 +76,9 @@
             Assert.Equal(typeof(IMyItem).ToTypeFullName(), collection.ItemSchema.SchemaId);
             Assert.Equal(typeof(IMyItems).ToTypeFullName(), collection.SchemaId);
             Assert.True(collection.PropertySchemas
-                .Any(x => x.Name == "IsSafe" && x.Type == typeof(bool)));
+                .Any(x => x.Name == "IsSafe" && x.PropertyType == typeof(bool)));
             Assert.True(collection.ItemSchema.PropertySchemas
-                .Any(x => x.Name == "Path" && x.Type == typeof(string)));
+                .Any(x => x.Name == "Path" && x.PropertyType == typeof(string)));
         }
 
         [Fact]
@@ -90,7 +90,7 @@
 
             Assert.Equal(1, schema.PropertySchemas.Count());
 
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "IsPublic" && x.Type == typeof(bool)));
+            Assert.True(schema.PropertySchemas.Any(x => x.Name == "IsPublic" && x.PropertyType == typeof(bool)));
         }
 
         [Fact]

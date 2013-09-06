@@ -17,6 +17,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{79CB5651-B6A8-44D9-A201-E2F2C15E11D1}"
 	ProjectSection(SolutionItems) = preProject
 		NuPattern.Core.vssettings = NuPattern.Core.vssettings
+		Solution Items\NuPattern.key = Solution Items\NuPattern.key
+		Solution Items\NuPattern.snk = Solution Items\NuPattern.snk
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuPattern.UnitTests", "UnitTests\NuPattern.UnitTests.csproj", "{7FA8D5A9-C991-4B78-AC92-A64AFBD81A5F}"

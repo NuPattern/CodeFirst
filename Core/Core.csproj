@@ -33,7 +33,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Solution Items\NuPattern.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.2.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -78,11 +87,15 @@
     <Compile Include="SchemaMapper.cs" />
     <Compile Include="IProductSerializer.cs" />
     <Compile Include="Serialization\JsonProductSerializer.cs" />
+    <Compile Include="SmartCast.cs" />
     <Compile Include="Toolkit.cs" />
     <Compile Include="ToolkitInfo.cs" />
     <Compile Include="ValueHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Solution Items\NuPattern.snk">
+      <Link>NuPattern.snk</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Resources.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

@@ -13,7 +13,7 @@
 
         string Name { get; }
 
-        Type Type { get; }
+        Type PropertyType { get; }
 
         new IComponentSchema Parent { get; }
 

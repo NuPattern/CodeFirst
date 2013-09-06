@@ -64,6 +64,16 @@
         //    }
         //}
 
+        public T As<T>() where T : class
+        {
+            //var product = Product;
+            //if (product == null)
+            //    //TODO: Not parented.
+            //    throw new InvalidOperationException();
+
+            return new SmartCast().As<T>(this);
+        }
+
         public virtual Property CreateProperty(string name)
         {
             if (name == "Name")

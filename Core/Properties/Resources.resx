@@ -168,4 +168,7 @@
   <data name="ProductStore_RenamedDuplicateProduct" xml:space="preserve">
     <value>Cannot rename product '{oldName}' to '{newName}' because the store '{store}' already has a product with the same name.</value>
   </data>
+  <data name="SmartCast_InstanceNotProductInterface" xml:space="preserve">
+    <value>The specified instance is not a product interface.</value>
+  </data>
 </root>
