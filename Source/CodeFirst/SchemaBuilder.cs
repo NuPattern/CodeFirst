@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using NuPattern;
 
     public class SchemaBuilder
     {
@@ -22,9 +23,7 @@
 
         private void BuildType(Type type, IContainerSchema schema)
         {
-            foreach (var property in type.GetProperties().Where(x => 
-                x.PropertyType == typeof(Guid) ||
-                Type.GetTypeCode(x.PropertyType) != TypeCode.Object))
+            foreach (var property in type.GetProperties().Where(x => x.PropertyType.IsNative()))
             {
                 if (property.Name == "Name")
                 {
@@ -38,9 +37,7 @@
                 schema.CreatePropertySchema(property.Name, property.PropertyType);
             }
 
-            foreach (var property in type.GetProperties().Where(x => 
-                x.PropertyType != typeof(Guid) &&
-                Type.GetTypeCode(x.PropertyType) == TypeCode.Object))
+            foreach (var property in type.GetProperties().Where(x => !x.PropertyType.IsNative()))
             {
                 if (!property.PropertyType.IsInterface)
                     throw new ArgumentException(Strings.SchemaBuilder.ModelMustBeInterfaces(property.PropertyType));

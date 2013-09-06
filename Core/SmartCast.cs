@@ -2,6 +2,7 @@
 {
     using Castle.DynamicProxy;
     using NuPattern.Properties;
+    using NuPattern.Proxy;
     using System;
     using System.Linq;
 
@@ -9,38 +10,34 @@
     {
         private static readonly ProxyGenerator generator = new ProxyGenerator();
 
-        public T As<T>(IComponent component)
-            where T : class
+        public object Cast(IComponent component, Type targetType)
         {
-            if (!typeof(T).IsInterface)
+            if (!targetType.IsInterface)
                 throw new ArgumentException();
 
-            var propertyName = "_" + typeof(T).AssemblyQualifiedName;
+            var propertyName = "_" + targetType.AssemblyQualifiedName;
             var proxyProperty = component.Properties.FirstOrDefault(p => p.Name == propertyName);
             if (proxyProperty == null)
             {
-                if (!IsCompatible(component, typeof(T)))
+                if (!IsCompatible(component, targetType))
                     return null;
 
                 proxyProperty = component.CreateProperty(propertyName);
-                proxyProperty.Value = generator.CreateInterfaceProxyWithoutTarget(typeof(T), new[] { typeof(IProxied) }, new Interceptor(component));
+                // Try to expose the most specific interface of the received component.
+                var componentType = component is IProduct ? typeof(IProduct) :
+                    (component is IElement ? typeof(IElement) :
+                    (component is ICollection ? typeof(ICollection) : typeof(IComponent)));
+
+                proxyProperty.Value = generator.CreateInterfaceProxyWithTarget(
+                    componentType, new[] { targetType }, component, new Interceptor(component, Behaviors.Default));
             }
 
-            return (T)proxyProperty.Value;
-        }
-
-        public IComponent AsComponent(object instance)
-        {
-            var proxied = instance as IProxied;
-            if (proxied == null)
-                throw new ArgumentException(Strings.SmartCast.InstanceNotProductInterface);
-
-            return proxied.Component;
+            return proxyProperty.Value;
         }
 
         private bool IsCompatible(IComponent component, Type type)
         {
-            return type.GetProperties().Where(info => info.Name != "Name").All(info =>
+            return type.GetProperties().Where(info => info.Name != "Name" && info.PropertyType.IsNative()).All(info =>
                 component.Properties.Any(prop =>
                     prop.Name == info.Name &&
                     prop.Schema != null &&
@@ -50,67 +47,20 @@
         private class Interceptor : IInterceptor
         {
             private IComponent component;
+            private IBehavior[] behaviors;
 
-            public Interceptor(IComponent component)
+            public Interceptor(IComponent component, IBehavior[] behaviors)
             {
                 this.component = component;
+                this.behaviors = behaviors;
             }
 
             public void Intercept(IInvocation invocation)
             {
-                // Special name already shortcircuits everything that 
-                // is not a get_ or set_.
-                if (!invocation.Method.IsSpecialName)
-                    throw new NotSupportedException();
-
-                if (invocation.Method.DeclaringType == typeof(IProxied))
-                {
-                    invocation.ReturnValue = component;
-                    return;
-                }
-
-                if (invocation.Method.Name.StartsWith("get_"))
-                {
-                    var propertyName = invocation.Method.Name.Substring(4);
-                    if (propertyName == "Name")
-                    {
-                        invocation.ReturnValue = component.Name;
-                    }
-                    else
-                    {
-                        var property = component.Properties.FirstOrDefault(p => p.Name == propertyName);
-                        if (property != null)
-                            invocation.ReturnValue = property.Value;
-                    }
-
-                    return;
-                }
-
-                if (invocation.Method.Name.StartsWith("set_"))
-                {
-                    var propertyName = invocation.Method.Name.Substring(4);
-                    if (propertyName == "Name")
-                    {
-                        component.Name = (string)invocation.GetArgumentValue(0);
-                    }
-                    else
-                    {
-                        var property = component.Properties.FirstOrDefault(p => p.Name == propertyName);
-                        if (property != null)
-                            property.Value = invocation.GetArgumentValue(0);
-                    }
-
-                    return;
-                }
-
-
-                throw new NotSupportedException();
+                behaviors.Where(b => b.AppliesTo(invocation))
+                    .TakeWhile(b => b.ExecuteFor(invocation) == BehaviorAction.Continue)
+                    .ToArray();
             }
         }
-    }
-
-    internal interface IProxied
-    {
-        IComponent Component { get; }
     }
 }

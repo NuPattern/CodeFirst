@@ -71,7 +71,7 @@
             //    //TODO: Not parented.
             //    throw new InvalidOperationException();
 
-            return new SmartCast().As<T>(this);
+            return (T)new SmartCast().Cast(this, typeof(T));
         }
 
         public virtual Property CreateProperty(string name)

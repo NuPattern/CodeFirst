@@ -84,6 +84,21 @@
     </Compile>
     <Compile Include="Property.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\Behavior.cs" />
+    <Compile Include="Proxy\BehaviorAction.cs" />
+    <Compile Include="Proxy\Behaviors.cs" />
+    <Compile Include="Proxy\Behaviors\GetEnumeratorForCollection.cs" />
+    <Compile Include="Proxy\Behaviors\GetProxyForComponentReference.cs" />
+    <Compile Include="Proxy\Behaviors\SetPropertyValue.cs" />
+    <Compile Include="Proxy\Behaviors\GetPropertyValue.cs" />
+    <Compile Include="Proxy\Behaviors\SetComponentName.cs" />
+    <Compile Include="Proxy\Behaviors\ProceedForTransparentProxy.cs" />
+    <Compile Include="Proxy\Behaviors\GetComponentName.cs" />
+    <Compile Include="Proxy\Behaviors\ThrowForNonPropertyAccess.cs" />
+    <Compile Include="Proxy\Behaviors\ThrowNotSupportedFallback.cs" />
+    <Compile Include="Proxy\IBehavior.cs" />
+    <Compile Include="Proxy\IProxied.cs" />
+    <Compile Include="Proxy\Proxied.cs" />
     <Compile Include="SchemaMapper.cs" />
     <Compile Include="IProductSerializer.cs" />
     <Compile Include="Serialization\JsonProductSerializer.cs" />

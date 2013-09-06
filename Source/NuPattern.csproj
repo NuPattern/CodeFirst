@@ -49,6 +49,7 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IProgress.cs" />
     <Compile Include="IToolkitBuilder.cs" />
     <Compile Include="IComponentExtensions.cs" />
