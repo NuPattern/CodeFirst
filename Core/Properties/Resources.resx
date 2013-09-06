@@ -171,4 +171,7 @@
   <data name="SmartCast_InstanceNotProductInterface" xml:space="preserve">
     <value>The specified instance is not a product interface.</value>
   </data>
+  <data name="SmartCast_NotPropertyAccess" xml:space="preserve">
+    <value>Only property get/set calls can be performed on a product interface.</value>
+  </data>
 </root>

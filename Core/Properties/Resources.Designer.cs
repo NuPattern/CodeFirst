@@ -221,5 +221,14 @@ namespace NuPattern.Properties {
                 return ResourceManager.GetString("SmartCast_InstanceNotProductInterface", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only property get/set calls can be performed on a product interface..
+        /// </summary>
+        internal static string SmartCast_NotPropertyAccess {
+            get {
+                return ResourceManager.GetString("SmartCast_NotPropertyAccess", resourceCulture);
+            }
+        }
     }
 }
