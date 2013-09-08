@@ -171,7 +171,13 @@
   <data name="SmartCast_InstanceNotProductInterface" xml:space="preserve">
     <value>The specified instance is not a product interface.</value>
   </data>
+  <data name="SmartCast_InterfaceRequired" xml:space="preserve">
+    <value>Smart casting only works with interfaces.</value>
+  </data>
   <data name="SmartCast_NotPropertyAccess" xml:space="preserve">
     <value>Only property get/set calls can be performed on a product interface.</value>
+  </data>
+  <data name="SmartCast_SchemaRequired" xml:space="preserve">
+    <value>Smart casting requires the given component '{component}' to have an associated schema.</value>
   </data>
 </root>

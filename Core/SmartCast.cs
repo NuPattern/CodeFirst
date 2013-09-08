@@ -3,6 +3,7 @@
     using Castle.DynamicProxy;
     using NuPattern.Properties;
     using NuPattern.Proxy;
+    using NuPattern.Schema;
     using System;
     using System.Linq;
 
@@ -12,15 +13,29 @@
 
         public object Cast(IComponent component, Type targetType)
         {
+            Guard.NotNull(() => component, component);
+            Guard.NotNull(() => targetType, targetType);
+
             if (!targetType.IsInterface)
-                throw new ArgumentException();
+                throw new ArgumentException(Strings.SmartCast.InterfaceRequired);
+
+            if (component.Schema == null)
+                throw new ArgumentException(Strings.SmartCast.SchemaRequired(component));
 
             var propertyName = "_" + targetType.AssemblyQualifiedName;
             var proxyProperty = component.Properties.FirstOrDefault(p => p.Name == propertyName);
             if (proxyProperty == null)
             {
-                if (!IsCompatible(component, targetType))
+                var containerSchema = component.Schema as IContainerSchema;
+                if (containerSchema != null)
+                {
+                    if (!IsCompatibleContainer(containerSchema, targetType))
+                        return null;
+                }
+                else if (!IsCompatibleComponent(component.Schema, targetType))
+                {
                     return null;
+                }
 
                 proxyProperty = component.CreateProperty(propertyName);
                 // Try to expose the most specific interface of the received component.
@@ -35,13 +50,41 @@
             return proxyProperty.Value;
         }
 
-        private bool IsCompatible(IComponent component, Type type)
+        private bool IsCompatibleComponent(IComponentSchema schema, Type type)
         {
+            // Property comparison.
             return type.GetProperties().Where(info => info.Name != "Name" && info.PropertyType.IsNative()).All(info =>
-                component.Properties.Any(prop =>
+                schema.PropertySchemas.Any(prop =>
                     prop.Name == info.Name &&
-                    prop.Schema != null &&
-                    prop.Schema.PropertyType == info.PropertyType));
+                    prop.PropertyType == info.PropertyType));
+        }
+
+        private bool IsCompatibleContainer(IContainerSchema schema, Type type)
+        {
+            // Initial property comparison.
+            if (!IsCompatibleComponent(schema, type))
+                return false;
+
+            var referenceProperties = type.GetProperties().Where(info => !info.PropertyType.IsNative());
+
+            // Check compatibility of elements.
+            if (!referenceProperties.Where(info => !info.PropertyType.IsCollection()).All(info =>
+                schema.ComponentSchemas.OfType<IElementSchema>().Any(element =>
+                    element.DefaultName == info.Name &&
+                    IsCompatibleContainer(element, info.PropertyType))))
+                return false;
+
+            // Check compatibility of collections
+            return referenceProperties.Where(info => info.PropertyType.IsCollection()).All(info =>
+                schema.ComponentSchemas.OfType<ICollectionSchema>().Any(collection =>
+                    collection.DefaultName == info.Name &&
+                    IsCompatibleCollection(collection, info.PropertyType)));
+        }
+
+        private bool IsCompatibleCollection(ICollectionSchema schema, Type type)
+        {
+            return IsCompatibleContainer(schema, type) &&
+                IsCompatibleContainer(schema.ItemSchema, type.GetItemType());
         }
 
         private class Interceptor : IInterceptor

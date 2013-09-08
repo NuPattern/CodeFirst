@@ -10,6 +10,24 @@
     public class given_a_toolkit
     {
         [Fact]
+        public void when_smart_casting_to_concrete_type_then_throws()
+        {
+            var product = InitializeMyProduct();
+            var cast = new SmartCast();
+
+            Assert.Throws<ArgumentException>(() => cast.Cast(product, typeof(given_a_toolkit)));
+        }
+
+        [Fact]
+        public void when_smart_casting_product_without_schema_then_throws()
+        {
+            var product = new Product("MyProduct", "1.0");
+            var cast = new SmartCast();
+
+            Assert.Throws<ArgumentException>(() => cast.Cast(product, typeof(IMyProduct)));
+        }
+
+        [Fact]
         public void when_smart_casting_then_succeeds()
         {
             var product = InitializeMyProduct();
@@ -206,6 +224,186 @@
                 ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
             });
             return product;
+        }
+    }
+
+    public class given_a_type_with_extra_reference_property
+    {
+        private IProduct product;
+        private SmartCast cast = new SmartCast();
+
+        public given_a_type_with_extra_reference_property()
+        {
+            var product = new Product("MyProduct", "IMyProduct");
+            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            {
+                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+            });
+
+            this.product = product;
+        }
+
+        [Fact]
+        public void when_casting_product_without_element_property_then_returns_null()
+        {
+            var casted = cast.Cast(product, typeof(IMyProduct));
+
+            Assert.Null(casted);
+        }
+
+        public interface IMyProduct
+        {
+            IMyElement Element { get; }
+        }
+
+        public interface IMyElement { }
+    }
+
+    public class given_a_type_with_incompatible_collection_item_type
+    {
+        private IProduct product;
+        private SmartCast cast = new SmartCast();
+
+        public given_a_type_with_incompatible_collection_item_type()
+        {
+            var product = new Product("MyProduct", "IMyProduct");
+            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            {
+                ComponentSchemas = 
+                {
+                    new CollectionSchema("IMyElements")
+                    {
+                        DefaultName = "MyElements",
+                        ItemSchema = new ElementSchema("IMyElement")
+                        {
+                            PropertySchemas = 
+                            {
+                                new PropertySchema("Key", typeof(string)),
+                            }
+                        }
+                    }
+                },
+                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+            });
+
+            this.product = product;
+        }
+
+        [Fact]
+        public void when_casting_product_then_returns_null()
+        {
+            var casted = cast.Cast(product, typeof(IMyProduct));
+
+            Assert.Null(casted);
+        }
+
+        public interface IMyProduct
+        {
+            IEnumerable<IMyElement> MyElements { get; }
+        }
+
+        public interface IMyElement
+        {
+            int Key { get; set; }
+        }
+    }
+
+    public class given_a_type_with_compatible_collection_item_type
+    {
+        private IProduct product;
+        private SmartCast cast = new SmartCast();
+
+        public given_a_type_with_compatible_collection_item_type()
+        {
+            var product = new Product("MyProduct", "IMyProduct");
+            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            {
+                ComponentSchemas = 
+                {
+                    new CollectionSchema("IMyElements")
+                    {
+                        DefaultName = "MyElements",
+                        ItemSchema = new ElementSchema("IMyElement")
+                        {
+                            PropertySchemas = 
+                            {
+                                new PropertySchema("Key", typeof(string)),
+                            }
+                        }
+                    }
+                },
+                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+            });
+
+            this.product = product;
+        }
+
+        [Fact]
+        public void when_casting_product_then_returns_valid_proxy()
+        {
+            var casted = cast.Cast(product, typeof(IFoo));
+
+            Assert.NotNull(casted);
+        }
+
+        public interface IFoo
+        {
+            IEnumerable<IBar> MyElements { get; }
+        }
+
+        public interface IBar
+        {
+            string Key { get; set; }
+        }
+    }
+
+    public class given_a_type_with_collection_item_type_for_product_with_element
+    {
+        private IProduct product;
+        private SmartCast cast = new SmartCast();
+
+        public given_a_type_with_collection_item_type_for_product_with_element()
+        {
+            var product = new Product("MyProduct", "IMyProduct");
+            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            {
+                ComponentSchemas = 
+                {
+                    new ElementSchema("IMyElement")
+                    {
+                        DefaultName = "MyElement",
+                        PropertySchemas = 
+                        {
+                            new PropertySchema("Key", typeof(string)),
+                        }
+                    }
+                },
+                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+            });
+
+            this.product = product;
+        }
+
+        [Fact]
+        public void when_casting_product_then_returns_null()
+        {
+            var casted = cast.Cast(product, typeof(IFoo));
+
+            Assert.Null(casted);
+        }
+
+        public interface IFoo
+        {
+            IBars MyElement { get; }
+        }
+
+        public interface IBars : IEnumerable<IBar> 
+        {
+            string Key { get; set; }
+        }
+
+        public interface IBar
+        {
         }
     }
 

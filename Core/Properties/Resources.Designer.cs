@@ -223,11 +223,29 @@ namespace NuPattern.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Smart casting only works with interfaces..
+        /// </summary>
+        internal static string SmartCast_InterfaceRequired {
+            get {
+                return ResourceManager.GetString("SmartCast_InterfaceRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only property get/set calls can be performed on a product interface..
         /// </summary>
         internal static string SmartCast_NotPropertyAccess {
             get {
                 return ResourceManager.GetString("SmartCast_NotPropertyAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Smart casting requires the given component &apos;{component}&apos; to have an associated schema..
+        /// </summary>
+        internal static string SmartCast_SchemaRequired {
+            get {
+                return ResourceManager.GetString("SmartCast_SchemaRequired", resourceCulture);
             }
         }
     }

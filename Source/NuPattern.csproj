@@ -96,7 +96,6 @@
     <Compile Include="Schema\IToolkitSchema.cs" />
     <Compile Include="Schema\ProductSchema.cs" />
     <Compile Include="Schema\PropertySchema.cs" />
-    <Compile Include="Schema\ReflectionSchema.cs" />
     <Compile Include="CodeFirst\SchemaBuilder.cs" />
     <Compile Include="CodeFirst\ToolkitBuilder.cs" />
     <Compile Include="Schema\ToolkitSchema.cs" />

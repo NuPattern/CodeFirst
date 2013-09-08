@@ -236,6 +236,30 @@ namespace NuPattern.Properties
 			///	The specified instance is not a product interface.
 			/// </summary>
 			public static string InstanceNotProductInterface { get { return Resources.SmartCast_InstanceNotProductInterface; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Smart casting only works with interfaces.
+			/// </summary>
+			public static string InterfaceRequired { get { return Resources.SmartCast_InterfaceRequired; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Only property get/set calls can be performed on a product interface.
+			/// </summary>
+			public static string NotPropertyAccess { get { return Resources.SmartCast_NotPropertyAccess; } }
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Smart casting requires the given component '{component}' to have an associated schema.
+			/// </summary>
+			public static string SchemaRequired(object component)
+			{
+				return Resources.SmartCast_SchemaRequired.FormatWith(new 
+				{
+					component = component,
+				});
+			}
 		}
 	}
 }
