@@ -43,6 +43,8 @@
             if (Schema != null && Schema.ItemSchema != null)
                 SchemaMapper.SyncElement(element, Schema.ItemSchema);
 
+            element.PropertyChanged += OnItemChanged;
+            element.Disposed += OnItemDisposed;
             items.Add(element);
             return element;
         }
@@ -69,6 +71,24 @@
             }
 
             base.Dispose(disposing);
+        }
+
+        internal void DeleteItem(Component component)
+        {
+            // After the delete, the component is disposed, which will 
+            // call our OnComponentDisposed, at which point we unsubscribe 
+            // the property changed event.
+            items.Remove((Element)component);
+        }
+
+        private void OnItemChanged(object sender, EventArgs args)
+        {
+            RaisePropertyChanged("Items", sender, sender);
+        }
+
+        private void OnItemDisposed(object sender, EventArgs args)
+        {
+            ((Component)sender).PropertyChanged -= OnItemChanged;
         }
 
         IEnumerable<IElement> ICollection.Items { get { return Items; } }

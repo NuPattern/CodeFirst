@@ -97,14 +97,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fody.targets">
-      <Visible>False</Visible>
-    </None>
-    <Content Include="FodyWeavers.xml">
-      <Visible>False</Visible>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{039bbfb1-f8eb-49c7-abcf-701d62183ff9}</Project>
       <Name>Core</Name>
@@ -119,7 +111,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="Fody.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

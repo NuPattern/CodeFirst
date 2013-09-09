@@ -21,10 +21,15 @@
 
         public static void Set(Property property, object value)
         {
+            var oldValue = Get(property);
+
             // TODO: perform type conversion, etc.?
             // TODO: do nothing if property name starts with "$"?
-
-            property.SetValue(value);
+            if (!Object.Equals(oldValue, value))
+            {
+                property.SetValue(value);
+                property.Owner.RaisePropertyChanged(property.Name, oldValue, value);
+            }
         }
 
         public static bool ShouldSerialize(Property property)

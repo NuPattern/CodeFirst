@@ -4,7 +4,7 @@
 
     public interface IInstance // IDynamicMetaObjectProvider?
     {
-        event EventHandler Disposed;
+        event EventHandler Deleted;
         void Delete();
     }
 }

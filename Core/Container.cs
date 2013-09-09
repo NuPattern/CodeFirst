@@ -40,6 +40,8 @@
                     SchemaMapper.SyncCollection(collection, schema);
             }
 
+            collection.PropertyChanged += OnComponentChanged;
+            collection.Disposed += OnComponentDisposed;
             components.Add(collection);
             return collection;
         }
@@ -58,12 +60,17 @@
                     SchemaMapper.SyncElement(element, schema);
             }
 
+            element.PropertyChanged += OnComponentChanged;
+            element.Disposed += OnComponentDisposed;
             components.Add(element);
             return element;
         }
 
         internal void DeleteComponent(Component component)
         {
+            // After the delete, the component is disposed, which will 
+            // call our OnComponentDisposed, at which point we unsubscribe 
+            // the property changed event.
             components.Remove(component);
         }
 
@@ -78,6 +85,16 @@
             }
 
             base.Dispose(disposing);
+        }
+
+        private void OnComponentChanged(object sender, EventArgs args)
+        {
+            RaisePropertyChanged(((Component)sender).Name, sender, sender);
+        }
+
+        private void OnComponentDisposed(object sender, EventArgs args)
+        {
+            ((Component)sender).PropertyChanged -= OnComponentChanged;
         }
 
         private void ThrowIfDuplicate(string name)

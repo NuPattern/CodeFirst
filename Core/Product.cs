@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal class Product : Container, IProduct, IDisposable
+    internal class Product : Container, IProduct
     {
         public Product(string name, string schemaId)
             : base(name, schemaId, null)

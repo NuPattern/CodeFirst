@@ -6,7 +6,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using NuPattern;
-    using NuPattern;
 
     public class SchemaBuilder
     {

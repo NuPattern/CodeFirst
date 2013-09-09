@@ -7,6 +7,8 @@
 
     public interface IComponent : IInstance, IVisitableInstance
     {
+        event EventHandler<PropertyChangedEventArgs> PropertyChanged;
+
         /// <summary>
         /// The instance name of the component. Should be unique within the product?
         /// </summary>

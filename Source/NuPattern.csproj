@@ -81,6 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.tt</DependentUpon>
     </Compile>
+    <Compile Include="PropertyChangedEventArgs.cs" />
     <Compile Include="Schema\CollectionSchema.cs" />
     <Compile Include="Schema\ComponentSchema.cs" />
     <Compile Include="Schema\ContainerSchema.cs" />

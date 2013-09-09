@@ -105,7 +105,7 @@
                     }
 
                     progress.Report(++current);
-                    product.Disposed += OnProductDeleted;
+                    product.Deleted += OnProductDeleted;
                     product.Store = this;
                     products.Add(product);
                 }

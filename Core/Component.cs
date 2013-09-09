@@ -13,7 +13,11 @@
         private Dictionary<string, Property> properties = new Dictionary<string, Property>();
         private string name;
 
+        public event EventHandler Deleted = (sender, args) => { };
+
         public event EventHandler Disposed = (sender, args) => { };
+
+        public event EventHandler<PropertyChangedEventArgs> PropertyChanged = (sender, args) => { };
 
         public Component(string name, string schemaId, Component parent)
         {
@@ -93,6 +97,14 @@
 
         public void Delete()
         {
+            var container = this.Parent as Container;
+            var collection = this.Parent as Collection;
+            if (collection != null)
+                collection.DeleteItem(this);
+            else if (container != null)
+                container.DeleteComponent(this);
+
+            Deleted(this, EventArgs.Empty);
             Dispose();
         }
 
@@ -136,10 +148,6 @@
                 IsDisposed = true;
             }
 
-            var container = this.Parent as Container;
-            if (container != null)
-                container.DeleteComponent(this);
-
             this.Parent = null;
         }
 
@@ -153,6 +161,11 @@
         internal void DeleteProperty(Property property)
         {
             properties.Remove(property.Name);
+        }
+
+        internal void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName, oldValue, newValue));
         }
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }

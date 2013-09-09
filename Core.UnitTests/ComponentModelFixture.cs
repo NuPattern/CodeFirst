@@ -134,6 +134,18 @@
         }
 
         [Fact]
+        public void when_deleting_collection_item_then_removes_from_parent_collection()
+        {
+            var product = new Product("Foo", "IFoo");
+            var collection = product.CreateCollection("Collection", "ICollection");
+            var child = collection.CreateItem("Item", "IItem");
+
+            child.Delete();
+
+            Assert.Equal(0, collection.Items.Count());
+        }
+
+        [Fact]
         public void when_deleting_element_then_disposes_it()
         {
             var product = new Product("Foo", "IFoo");
@@ -142,6 +154,31 @@
             child.Delete();
 
             Assert.True(child.IsDisposed);
+        }
+
+        [Fact]
+        public void when_disposing_element_then_does_not_raise_deleted_event()
+        {
+            var product = new Product("Foo", "IFoo");
+            var child = product.CreateElement("Storage", "IStorage");
+
+            var deleted = false;
+            child.Deleted += (s, e) => deleted = true;
+
+            child.Dispose();
+
+            Assert.False(deleted);
+        }
+
+        [Fact]
+        public void when_disposing_element_then_does_not_remove_from_parent()
+        {
+            var product = new Product("Foo", "IFoo");
+            var child = product.CreateElement("Storage", "IStorage");
+
+            child.Dispose();
+
+            Assert.Equal(1, product.Components.Count());
         }
 
         [Fact]
@@ -290,6 +327,100 @@
             Assert.True(product.IsDisposed);
             Assert.True(product.Components.All(c => c.IsDisposed));
             Assert.True(product.Components.OfType<Collection>().All(c => c.Items.All(e => e.IsDisposed)));
+        }
+
+        [Fact]
+        public void when_property_changes_then_notifies_component()
+        {
+            var product = new Product("Product", "IProduct");
+            product.CreateProperty("key").SetValue("foo");
+
+            var changed = default(PropertyChangedEventArgs);
+
+            product.PropertyChanged += (sender, args) => changed = args;
+
+            product.Set("key", "bar");
+
+            Assert.NotNull(changed);
+            Assert.Equal("key", changed.PropertyName);
+            Assert.Equal("foo", changed.OldValue);
+            Assert.Equal("bar", changed.NewValue);
+        }
+
+        [Fact]
+        public void when_property_set_to_same_existing_value_then_does_not_raise_propertychanged()
+        {
+            var product = new Product("Product", "IProduct");
+            product.CreateProperty("key").SetValue("foo");
+
+            var changed = default(PropertyChangedEventArgs);
+
+            product.PropertyChanged += (sender, args) => changed = args;
+
+            product.Set("key", "foo");
+
+            Assert.Null(changed);
+        }
+
+        [Fact]
+        public void when_property_changed_on_element_then_raises_property_changed_on_parent()
+        {
+            var product = new Product("Product", "IProduct");
+            product.CreateElement("Element", "IElement")
+                .CreateProperty("key").SetValue("foo");
+
+            var changed = default(PropertyChangedEventArgs);
+
+            product.PropertyChanged += (sender, args) => changed = args;
+
+            product.Components.First().Set("key", "bar");
+
+            Assert.NotNull(changed);
+            Assert.Equal("Element", changed.PropertyName);
+            Assert.Same(changed.OldValue, changed.NewValue);
+            Assert.Same(product.Components.First(), changed.NewValue);
+        }
+
+        [Fact]
+        public void when_property_changed_on_collection_item_then_raises_items_property_changed_on_collection()
+        {
+            var product = new Product("Product", "IProduct");
+            product
+                .CreateCollection("Collection", "ICollection")
+                .CreateItem("Item", "IItem")
+                .CreateProperty("key").SetValue("foo");
+
+            var changed = default(PropertyChangedEventArgs);
+
+            product.Components.First().PropertyChanged += (sender, args) => changed = args;
+
+            product.Components.OfType<ICollection>().First().Items.First().Set("key", "bar");
+
+            Assert.NotNull(changed);
+            Assert.Equal("Items", changed.PropertyName);
+            Assert.Same(changed.OldValue, changed.NewValue);
+            Assert.Same(product.Components.OfType<ICollection>().First().Items.First(), changed.NewValue);
+        }
+
+        [Fact]
+        public void when_property_changed_on_collection_item_then_raises_property_changed_on_parent()
+        {
+            var product = new Product("Product", "IProduct");
+            product
+                .CreateCollection("Collection", "ICollection")
+                .CreateItem("Item", "IItem")
+                .CreateProperty("key").SetValue("foo");
+
+            var changed = default(PropertyChangedEventArgs);
+
+            product.PropertyChanged += (sender, args) => changed = args;
+
+            product.Components.OfType<ICollection>().First().Items.First().Set("key", "bar");
+
+            Assert.NotNull(changed);
+            Assert.Equal("Collection", changed.PropertyName);
+            Assert.Same(changed.OldValue, changed.NewValue);
+            Assert.Same(product.Components.First(), changed.NewValue);
         }
     }
 
