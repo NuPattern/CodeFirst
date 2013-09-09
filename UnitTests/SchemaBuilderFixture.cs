@@ -98,9 +98,7 @@
         {
             var builder = new SchemaBuilder();
 
-            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyNamedWrongTypeProduct));
-
-            Assert.Equal(0, schema.PropertySchemas.Count());
+            Assert.Throws<ArgumentException>(() => builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyNamedWrongTypeProduct)));
         }
     }
 

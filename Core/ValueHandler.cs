@@ -22,14 +22,14 @@
         public static void Set(Property property, object value)
         {
             // TODO: perform type conversion, etc.?
-            // TODO: do nothing if property name starts with "_"?
+            // TODO: do nothing if property name starts with "$"?
 
             property.SetValue(value);
         }
 
         public static bool ShouldSerialize(Property property)
         {
-            if (!property.Name.StartsWith("_"))
+            if (property.Name.StartsWith("_"))
                 return false;
 
             // TODO: should only return true if the property 
