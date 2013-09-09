@@ -22,7 +22,8 @@
             if (component.Schema == null)
                 throw new ArgumentException(Strings.SmartCast.SchemaRequired(component));
 
-            var propertyName = "_" + targetType.AssemblyQualifiedName;
+            var propertyName = "$" + targetType.AssemblyQualifiedName;
+            // NOTE: we cache the proxy instance for performance.
             var proxyProperty = component.Properties.FirstOrDefault(p => p.Name == propertyName);
             if (proxyProperty == null)
             {
