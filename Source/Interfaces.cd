@@ -1,43 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Comment CommentText="IProductElement &gt; IComponent. We don't have IAbstractElement which was used to add View to both elements and collections.">
-    <Position X="1.865" Y="5.417" Height="0.854" Width="2.627" />
+    <Position X="1.063" Y="6.115" Height="0.854" Width="2.627" />
   </Comment>
   <Interface Name="NuPattern.IComponent">
-    <Position X="4" Y="2.5" Width="1.75" />
-    <AssociationLine Name="Root" Type="NuPattern.IProduct" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="5.75" Y="2.688" />
-        <Point X="6.125" Y="2.688" />
-        <Point X="6.125" Y="0.999" />
-        <Point X="7" Y="0.999" />
-      </Path>
-    </AssociationLine>
+    <Position X="4" Y="3.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>IAAAAAAAAAAABCBAAAAAQAQEAAAAAAAAAAAAAAACAAA=</HashCode>
+      <HashCode>IAACAAAAAAAABABAAAAAQAQUgAAAQAAAAAAAAAESAAA=</HashCode>
       <FileName>IComponent.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Parent" />
-      <Property Name="Root" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Properties" />
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.IContainer">
-    <Position X="7" Y="2.75" Width="1.75" />
+    <Position X="7" Y="3.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQIAAAAAAAAAgAQAAAAAAAAgAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAQIAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IContainer.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Components" />
-      <Property Name="Extensions" />
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.IElement">
-    <Position X="6.25" Y="5" Width="1.25" />
+    <Position X="6.25" Y="5.75" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IElement.cs</FileName>
@@ -46,22 +36,22 @@
   <Interface Name="NuPattern.IInstance">
     <Position X="4.25" Y="0.5" Width="1.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IInstance.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="NuPattern.IProduct">
     <Position X="7" Y="0.5" Width="1.75" />
-    <AssociationLine Name="Toolkit" Type="NuPattern.IToolkitInfo" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+    <AssociationLine Name="Toolkit" Type="NuPattern.IToolkitVersion" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="8.75" Y="1.188" />
         <Point X="9.219" Y="1.188" />
-        <Point X="9.219" Y="2.875" />
-        <Point X="9.75" Y="2.875" />
+        <Point X="9.219" Y="3.375" />
+        <Point X="9.75" Y="3.375" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAEAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAEAAAAQAAAAAAAAQAAAAA=</HashCode>
       <FileName>IProduct.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -69,9 +59,9 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="NuPattern.IProperty">
-    <Position X="1.5" Y="2.25" Width="1.5" />
+    <Position X="1.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAABAAAAAAAAAQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <HashCode>AAAAAACAAAAAAAAAQAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>IProperty.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -81,7 +71,7 @@
   <Interface Name="NuPattern.IProductStore">
     <Position X="9.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <HashCode>IAAAgIAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAQ=</HashCode>
       <FileName>IProductStore.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -89,17 +79,17 @@
     </ShowAsCollectionAssociation>
   </Interface>
   <Interface Name="NuPattern.ICollection">
-    <Position X="8.25" Y="5" Width="1.25" />
+    <Position X="8.25" Y="5.75" Width="1.25" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAADAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ICollection.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="NuPattern.IToolkitInfo">
-    <Position X="9.75" Y="2.25" Width="1.5" />
+  <Interface Name="NuPattern.IToolkitVersion">
+    <Position X="9.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>IToolkitInfo.cs</FileName>
+      <FileName>IToolkitVersion.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />
