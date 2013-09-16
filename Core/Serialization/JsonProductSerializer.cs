@@ -82,12 +82,12 @@
             }
         }
 
-        private void DeserializeElement(IElement element, JObject json)
+        private void DeserializeElement(Element element, JObject json)
         {
             DeserializeContainer(element, json);
         }
 
-        private void DeserializeCollection(ICollection collection, JObject json)
+        private void DeserializeCollection(Collection collection, JObject json)
         {
             DeserializeContainer(collection, json);
 
@@ -105,7 +105,7 @@
             }
         }
 
-        private void DeserializeContainer(IContainer container, JObject json)
+        private void DeserializeContainer(Container container, JObject json)
         {
             DeserializeComponent(container, json);
 
@@ -126,12 +126,16 @@
             }
         }
 
-        private void DeserializeComponent(IComponent component, JObject json)
+        private void DeserializeComponent(Component component, JObject json)
         {
-            foreach (var property in json.Properties().Where(x =>
+            var lineInfo = json as IJsonLineInfo;
+            if (lineInfo != null && lineInfo.HasLineInfo())
+                component.SetLineInfo(lineInfo.LineNumber, lineInfo.LinePosition);
+
+            foreach (var jprop in json.Properties().Where(x =>
                 !x.Name.StartsWith("$") && x.HasValues && x.Value.Type != JTokenType.Object))
             {
-                var jvalue = property.Value as JValue;
+                var jvalue = jprop.Value as JValue;
                 if (jvalue != null)
                 {
                     var value = jvalue.Value;
@@ -144,7 +148,12 @@
                         value = guid;
                     }
 
-                    component.CreateProperty(property.Name).Value = value;
+                    var property = component.CreateProperty(jprop.Name);
+                    property.Value = value;
+
+                    lineInfo = jvalue as IJsonLineInfo;
+                    if (lineInfo != null && lineInfo.HasLineInfo())
+                        property.SetLineInfo(lineInfo.LineNumber, lineInfo.LinePosition);
                 }
             }
         }

@@ -5,7 +5,7 @@
     using System.Linq;
     using Xunit;
 
-    public class SchemaMapperFixture
+    public class ComponentMapperFixture
     {
         [Fact]
         public void when_mapping_product_then_maps_property_schema()
@@ -27,7 +27,7 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("IsPublic").Value = true;
 
-            SchemaMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
 
             Assert.NotNull(product.Schema);
             Assert.NotNull(product.Properties.First().Schema);
@@ -53,12 +53,60 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("IsVisible").Value = true;
 
-            SchemaMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
 
             Assert.NotNull(product.Schema);
             Assert.Equal(1, product.Properties.Count());
             Assert.Equal("IsPublic", product.Properties.First().Name);
             Assert.False((bool)product.Properties.First().Value);
+        }
+
+        [Fact]
+        public void when_mapping_product_then_does_not_remove_dolar_properties()
+        {
+            var schema = new ToolkitSchema("Toolkit", "1.0")
+            {
+                ProductSchemas = 
+                {
+                    new ProductSchema("IProduct")
+                    {
+                    }
+                }
+            };
+
+            var product = new Product("Product", "IProduct");
+            product.CreateProperty("$IsVisible").Value = true;
+
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+
+            Assert.NotNull(product.Schema);
+            Assert.Equal(1, product.Properties.Count());
+            Assert.Equal("$IsVisible", product.Properties.First().Name);
+            Assert.True((bool)product.Properties.First().Value);
+        }
+
+        [Fact]
+        public void when_mapping_product_then_does_not_remove_underscore_properties()
+        {
+            var schema = new ToolkitSchema("Toolkit", "1.0")
+            {
+                ProductSchemas = 
+                {
+                    new ProductSchema("IProduct")
+                    {
+                    }
+                }
+            };
+
+            var product = new Product("Product", "IProduct");
+            product.CreateProperty("_IsVisible").Value = true;
+
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+
+            Assert.NotNull(product.Schema);
+            Assert.Equal(1, product.Properties.Count());
+            Assert.Equal("_IsVisible", product.Properties.First().Name);
+            Assert.True((bool)product.Properties.First().Value);
         }
 
         [Fact]
@@ -88,7 +136,7 @@
             product.CreateElement("Element", "IElement")
                 .CreateProperty("IsPublic").Value = true;
 
-            SchemaMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
 
             Assert.NotNull(product.Components.First().Schema);
             Assert.NotNull(product.Components.First().Properties.First().Schema);
@@ -125,7 +173,7 @@
                 .CreateItem("Element", "IElement")
                 .CreateProperty("IsPublic").Value = true;
 
-            SchemaMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
 
             Assert.NotNull(product.Components.First().Schema);
             Assert.NotNull(product.Components.OfType<ICollection>().First().Items.First().Schema);
@@ -154,7 +202,7 @@
 
             Assert.Equal(1, product.Components.Count());
 
-            SchemaMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
 
             Assert.Equal(0, product.Components.Count());
             Assert.Null(element.Parent);
@@ -176,7 +224,7 @@
 
             Assert.Equal(1, product.Components.Count());
 
-            SchemaMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
 
             Assert.Equal(0, product.Components.Count());
             Assert.Null(collection.Parent);

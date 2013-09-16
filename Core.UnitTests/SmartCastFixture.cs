@@ -46,7 +46,7 @@
             var product = new Product("MyProduct", "IMyProduct");
             product.CreateProperty("Key").Value = "asdf";
             product.CreateProperty("IsVisible").Value = true;
-            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
                 PropertySchemas =
                 {
@@ -191,7 +191,7 @@
             collection.CreateItem("Bar", "IMyItem").CreateProperty("Tag").Value = "b";
             collection.CreateProperty("PropForAll").Value = "forall";
 
-            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
                 PropertySchemas =
                 {
@@ -235,7 +235,7 @@
         public given_a_type_with_extra_reference_property()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
                 ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
             });
@@ -267,7 +267,7 @@
         public given_a_type_with_incompatible_collection_item_type()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
                 ComponentSchemas = 
                 {
@@ -316,7 +316,7 @@
         public given_a_type_with_compatible_collection_item_type()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
                 ComponentSchemas = 
                 {
@@ -365,7 +365,7 @@
         public given_a_type_with_collection_item_type_for_product_with_element()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            SchemaMapper.SyncProduct(product, new ProductSchema("IMyProduct")
+            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
                 ComponentSchemas = 
                 {

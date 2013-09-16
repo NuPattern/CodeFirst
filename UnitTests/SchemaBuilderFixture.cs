@@ -7,6 +7,7 @@
     using NetFx.StringlyTyped;
     using System.Collections;
     using System.Collections.Generic;
+    using NuPattern.Configuration;
 
     public class given_a_model
     {

@@ -28,6 +28,10 @@
 
         IPropertySchema CreatePropertySchema(string propertyName, Type propertyType);
 
+        IEnumerable<IAutomationSettings> AutomationSettings { get; }
+
+        void AddAutomationSettings(IAutomationSettings settings);
+
         // string Icon { get; set; }
     }
 }

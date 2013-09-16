@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal static class SchemaMapper
+    internal static class ComponentMapper
     {
         public static Product SyncProduct(Product product, IProductSchema schema)
         {
@@ -88,9 +88,9 @@
             component.Schema = schema;
 
             // Delete existing properties that don't have a corresponding definition.
-            // and are not system properties (starting with $)
+            // and are not system properties (starting with $) or hidden ones (starting with _)
             component.Properties
-                .Where(p => !p.Name.StartsWith("$") && !schema.PropertySchemas.Any(info => info.Name == p.Name))
+                .Where(p => !p.Name.StartsWith("$") && !p.Name.StartsWith("_") && !schema.PropertySchemas.Any(info => info.Name == p.Name))
                 .ToArray()
                 .ForEach(p => p.Delete());
 

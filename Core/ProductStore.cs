@@ -49,7 +49,7 @@
                 throw new ArgumentException();
 
             var product = new Product(name, schemaId) { Store = this };
-            SchemaMapper.SyncProduct(product, schema);
+            ComponentMapper.SyncProduct(product, schema);
             products.Add(product);
 
             return product;
@@ -77,6 +77,8 @@
         {
             Guard.NotNull(() => progress, progress);
 
+            // TODO: store provides a component scope.
+
             Clear();
             using (var reader = File.OpenText(settings.StateFile))
             {
@@ -84,6 +86,10 @@
                 foreach (var product in serializer.Deserialize(reader))
                 {
                     var toolkit = toolkits.Find(product.Toolkit.Id);
+
+                    // TODO: for each toolkit, its installation path should 
+                    // provide another component context + assembly resolution.
+
                     if (toolkit != null)
                     {
                         if (product.Toolkit.Version < toolkit.Version)
@@ -100,7 +106,7 @@
                         }
                         else
                         {
-                            SchemaMapper.SyncProduct(product, schema);
+                            ComponentMapper.SyncProduct(product, schema);
                         }
                     }
 

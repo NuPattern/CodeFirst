@@ -39,6 +39,9 @@
     <AssemblyOriginatorKeyFile>..\Solution Items\NuPattern.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.2.0\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
@@ -56,6 +59,7 @@
     </Compile>
     <Compile Include="Collection.cs" />
     <Compile Include="Component.cs" />
+    <Compile Include="ComponentContext.cs" />
     <Compile Include="netfx\System\Collections\Generic\DictionaryFind.cs" />
     <Compile Include="netfx\System\Collections\Generic\DictionaryGetOrAdd.cs" />
     <Compile Include="ProductStore.cs" />
@@ -94,7 +98,7 @@
     <Compile Include="Proxy\IBehavior.cs" />
     <Compile Include="Proxy\IProxied.cs" />
     <Compile Include="Proxy\Proxied.cs" />
-    <Compile Include="SchemaMapper.cs" />
+    <Compile Include="ComponentMapper.cs" />
     <Compile Include="IProductSerializer.cs" />
     <Compile Include="Serialization\JsonProductSerializer.cs" />
     <Compile Include="SmartCast.cs" />

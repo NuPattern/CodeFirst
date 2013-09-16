@@ -62,6 +62,7 @@
     <Compile Include="Schema\ToolkitSchemaFixture.cs" />
     <Compile Include="Schema\PropertySchemaFixture.cs" />
     <Compile Include="Tookit\Advanced\Model.cs" />
+    <Compile Include="Tookit\Simple\Builder.cs" />
     <Compile Include="Tookit\Simple\Model.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -49,7 +49,20 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="Configuration\AutomationConfiguration.cs" />
+    <Compile Include="Configuration\CollectionConfiguration.cs" />
+    <Compile Include="Configuration\ComponentConfiguration.cs" />
+    <Compile Include="Configuration\ComponentConfiguration`.cs" />
+    <Compile Include="Configuration\ProductConfiguration.cs" />
+    <Compile Include="Configuration\ElementConfiguration.cs" />
+    <Compile Include="Configuration\ModelConfiguration.cs" />
+    <Compile Include="Configuration\ProductConfiguration`.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="IAutomation.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="Schema\IAutomationSettings.cs" />
+    <Compile Include="IComponentContext.cs" />
+    <Compile Include="ILineInfo.cs" />
     <Compile Include="IProgress.cs" />
     <Compile Include="IToolkitBuilder.cs" />
     <Compile Include="IComponentExtensions.cs" />
@@ -67,6 +80,7 @@
     <Compile Include="netfx\StringlyTyped\IStringlyScope.cs" />
     <Compile Include="netfx\StringlyTyped\Stringly.cs" />
     <Compile Include="netfx\StringlyTyped\StringlyScopeExtensions.cs" />
+    <Compile Include="netfx\System\Collections\Generic\DictionaryGetOrAdd.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="netfx\System\StringFormatWith.cs" />
     <Compile Include="NullProgress.cs" />
@@ -97,8 +111,8 @@
     <Compile Include="Schema\IToolkitSchema.cs" />
     <Compile Include="Schema\ProductSchema.cs" />
     <Compile Include="Schema\PropertySchema.cs" />
-    <Compile Include="CodeFirst\SchemaBuilder.cs" />
-    <Compile Include="CodeFirst\ToolkitBuilder.cs" />
+    <Compile Include="Configuration\SchemaBuilder.cs" />
+    <Compile Include="Configuration\ToolkitBuilder.cs" />
     <Compile Include="Schema\ToolkitSchema.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Compile Include="SemanticVersionTypeConverter.cs" />
@@ -115,9 +129,7 @@
     </None>
     <None Include="Schema.cd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ComponentModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

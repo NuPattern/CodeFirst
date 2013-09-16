@@ -2,39 +2,46 @@
 {
     using NuPattern.Schema;
     using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Linq;
 
-    public class ToolkitBuilder
+    public class ToolkitBuilder : IToolkitBuilder
     {
-        private readonly ToolkitConfiguration configuration = new ToolkitConfiguration();
+        private string toolkitId;
+        private SemanticVersion toolkitVersion;
+        private ModelConfiguration configuration = new ModelConfiguration();
 
-        public ConfigurationRegistry Configurations { get; private set; }
-
-        public ToolkitBuilder()
+        public ToolkitBuilder(string toolkitId, string toolkitVersion)
+            : this(toolkitId, SemanticVersion.Parse(toolkitVersion))
         {
-            this.Configurations = new ConfigurationRegistry(configuration);
         }
 
-        public virtual IToolkitSchema Build()
+        public ToolkitBuilder(string toolkitId, SemanticVersion toolkitVersion)
         {
-            var schema = new ToolkitSchema("foo", "1.0");
+            this.toolkitId = toolkitId;
+            this.toolkitVersion = toolkitVersion;
+        }
 
-            foreach (var config in configuration.Patterns)
+        public IToolkitSchema Build()
+        {
+            var schema = new ToolkitSchema(toolkitId, toolkitVersion);
+            var builder = new SchemaBuilder();
+
+            foreach (var product in configuration.ConfiguredProducts)
             {
-                var pattern = new ProductSchema("foo");
-                config.Configure(pattern);
+                var productSchema = builder.BuildProduct(schema, product);
 
-                // Here we'd apply conventions.
-
-                schema.Products.Add(pattern);
+                configuration.Product(product).Apply(productSchema);
             }
-
+            
             return schema;
         }
 
-        public virtual PatternConfiguration<TPattern> Pattern<TPattern>()
+        public ProductConfiguration<T> Product<T>()
+            where T : class
         {
-            return new PatternConfiguration<TPattern>(configuration.Pattern(typeof(TPattern)));
+            return new ProductConfiguration<T>(configuration.Product(typeof(T)));
         }
     }
 }

@@ -45,6 +45,10 @@
 
         IComponentSchema Schema { get; }
 
+        IEnumerable<IAutomation> Automations { get; }
+
+        void AddAutomation(IAutomation automation);
+
         /// <summary>
         /// Smart-casts the component to the specified type. 
         /// </summary>
@@ -53,6 +57,7 @@
         /// compatible with the given type, that is, it contains the at least the same number and 
         /// type of properties and hierarchical structure of descendents; <see langword="null"/> otherwise.</returns>
         T As<T>() where T : class;
+
 
         IProperty CreateProperty(string name);
         T Get<T>(string propertyName);

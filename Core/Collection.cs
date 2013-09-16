@@ -41,7 +41,7 @@
             var element = new Element(name, schemaId, this);
 
             if (Schema != null && Schema.ItemSchema != null)
-                SchemaMapper.SyncElement(element, Schema.ItemSchema);
+                ComponentMapper.SyncElement(element, Schema.ItemSchema);
 
             element.PropertyChanged += OnItemChanged;
             element.Disposed += OnItemDisposed;

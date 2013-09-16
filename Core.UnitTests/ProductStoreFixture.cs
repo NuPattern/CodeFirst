@@ -8,6 +8,7 @@
     using System.Reflection;
     using Xunit;
     using NetFx.StringlyTyped;
+    using NuPattern.Configuration;
 
     public class given_a_state_file_and_toolkit_schema
     {
@@ -17,7 +18,7 @@
             var builder = new SimpleModelBuilder();
             var toolkit = builder.Build();
 
-            var product = SchemaMapper.SyncProduct(
+            var product = ComponentMapper.SyncProduct(
                 new Product("MyWebService", toolkit.ProductSchemas.First().SchemaId), 
                 toolkit.ProductSchemas.First());
             IAmazonWebServices aws = null;

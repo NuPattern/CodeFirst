@@ -1,24 +1,13 @@
 ﻿namespace NuPattern.Configuration
 {
-    using NuPattern.Schema;
     using System;
+    using System.Linq;
 
-    public class CollectionConfiguration : ContainerConfiguration, IKeyedConfiguration
+    public class CollectionConfiguration : ComponentConfiguration
     {
-        private object key;
-
-        // TODO: should it be internal?
-        internal CollectionConfiguration(object key)
+        internal CollectionConfiguration(Type componentType)
+            : base(componentType)
         {
-            this.key = key;
-        }
-
-        object IKeyedConfiguration.Key { get { return this.key; } }
-
-        internal void Configure(CollectionSchema schema)
-        {
-            // TODO: do element-specific configuration here.
-            base.Configure((ContainerSchema)schema);
         }
     }
 }

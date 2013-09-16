@@ -8,9 +8,10 @@
     using System.ComponentModel;
     using System.Linq;
 
-    internal abstract class Component : IComponent, IDisposable
+    internal abstract class Component : IComponent, IDisposable, ILineInfo
     {
         private Dictionary<string, Property> properties = new Dictionary<string, Property>();
+        private List<IAutomation> automations = new List<IAutomation>();
         private string name;
 
         public event EventHandler Deleted = (sender, args) => { };
@@ -68,13 +69,17 @@
         //    }
         //}
 
+        public IEnumerable<IAutomation> Automations { get { return automations; } }
+
+        public void AddAutomation(IAutomation automation)
+        {
+            Guard.NotNull(() => automation, automation);
+
+            automations.Add(automation);
+        }
+
         public T As<T>() where T : class
         {
-            //var product = Product;
-            //if (product == null)
-            //    //TODO: Not parented.
-            //    throw new InvalidOperationException();
-
             return (T)new SmartCast().Cast(this, typeof(T));
         }
 
@@ -89,6 +94,7 @@
             properties[name] = property;
             if (this.Schema != null)
                 property.Schema = this.Schema.PropertySchemas.FirstOrDefault(x => x.Name == name);
+
             // TODO: if no schema for property, consider it a dynamic property?
             // Should we always have a schema? (null object pattern?)
 
@@ -130,6 +136,12 @@
             return Name + " : " + SchemaId;
         }
 
+        public bool HasLineInfo { get { return LinePosition.HasValue && LineNumber.HasValue; }  }
+
+        public int? LinePosition { get; private set; }
+
+        public int? LineNumber { get; private set; }
+
         public void Dispose()
         {
             Dispose(true);
@@ -142,7 +154,10 @@
             {
                 if (disposing)
                 {
-                    // TODO: dispose automation, unsubscribe events, etc.
+                    foreach (var automation in automations.OfType<IDisposable>())
+                    {
+                        automation.Dispose();
+                    }
                 }
 
                 IsDisposed = true;
@@ -156,6 +171,12 @@
             var container = Parent as Container;
             if (container != null)
                 container.ThrowIfDuplicateRename(oldName, newName);
+        }
+
+        internal void SetLineInfo(int lineNumber, int linePosition)
+        {
+            LineNumber = lineNumber;
+            LinePosition = linePosition;
         }
 
         internal void DeleteProperty(Property property)

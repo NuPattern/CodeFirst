@@ -9,6 +9,8 @@
 
     internal abstract class ComponentSchema : InstanceSchema, IComponentSchema
     {
+        private List<IAutomationSettings> automationSettings = new List<IAutomationSettings>();
+
         public ComponentSchema(string schemaId)
         {
             Guard.NotNullOrEmpty(() => schemaId, schemaId);
@@ -33,7 +35,7 @@
         public bool CanRename { get; set; }
         public ICollection<PropertySchema> PropertySchemas { get; private set; }
 
-        public IPropertySchema CreatePropertySchema(string propertyName, Type propertyType)
+        public PropertySchema CreatePropertySchema(string propertyName, Type propertyType)
         {
             if (propertyName == "Name")
                 throw new ArgumentException(Strings.ComponentSchema.NamePropertyReserved);
@@ -43,6 +45,13 @@
             var property = new PropertySchema(propertyName, propertyType);
             PropertySchemas.Add(property);
             return property;
+        }
+
+        public IEnumerable<IAutomationSettings> AutomationSettings { get { return automationSettings; } }
+
+        public void AddAutomationSettings(IAutomationSettings settings)
+        {
+            this.automationSettings.Add(settings);
         }
 
         IEnumerable<IPropertySchema> IComponentSchema.PropertySchemas { get { return this.PropertySchemas; } }

@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal class Property : IProperty
+    internal class Property : IProperty, ILineInfo
     {
         private object value;
 
@@ -27,6 +27,12 @@
         }
 
         public IPropertySchema Schema { get; set; }
+
+        public bool HasLineInfo { get { return LinePosition.HasValue && LineNumber.HasValue; } }
+
+        public int? LinePosition { get; private set; }
+
+        public int? LineNumber { get; private set; }
 
         public void Delete()
         {
@@ -53,6 +59,12 @@
         internal void SetValue(object value)
         {
             this.value = value;
+        }
+
+        internal void SetLineInfo(int lineNumber, int linePosition)
+        {
+            LineNumber = lineNumber;
+            LinePosition = linePosition;
         }
 
         IComponent IProperty.Owner { get { return Owner; } }

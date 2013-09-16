@@ -24,7 +24,7 @@
             var oldValue = Get(property);
 
             // TODO: perform type conversion, etc.?
-            // TODO: do nothing if property name starts with "$"?
+            // TODO: do nothing if property name starts with "$" or "_"?
             if (!Object.Equals(oldValue, value))
             {
                 property.SetValue(value);

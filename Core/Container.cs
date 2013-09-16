@@ -37,7 +37,7 @@
                     .OfType<ICollectionSchema>()
                     .FirstOrDefault(x => x.SchemaId == schemaId);
                 if (schema != null)
-                    SchemaMapper.SyncCollection(collection, schema);
+                    ComponentMapper.SyncCollection(collection, schema);
             }
 
             collection.PropertyChanged += OnComponentChanged;
@@ -57,7 +57,7 @@
                     .OfType<IElementSchema>()
                     .FirstOrDefault(x => x.SchemaId == schemaId);
                 if (schema != null)
-                    SchemaMapper.SyncElement(element, schema);
+                    ComponentMapper.SyncElement(element, schema);
             }
 
             element.PropertyChanged += OnComponentChanged;

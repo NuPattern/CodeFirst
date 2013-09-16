@@ -2,41 +2,27 @@
 {
     using NuPattern.Schema;
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
 
-    public abstract class ComponentConfiguration : InstanceConfiguration
+    public class ComponentConfiguration
     {
-        private ConcurrentDictionary<string, PropertyConfiguration> properties = new ConcurrentDictionary<string, PropertyConfiguration>();
-        private ConcurrentDictionary<string, AssociationPropertyConfiguration> associations = new ConcurrentDictionary<string, AssociationPropertyConfiguration>();
-
-        public IEnumerable<PropertyConfiguration> Properties { get { return properties.Values; } }
-        public IEnumerable<AssociationPropertyConfiguration> Associations { get { return associations.Values; } }
-
-        internal ComponentConfiguration()
+        internal ComponentConfiguration(Type componentType)
         {
+            this.Automations = new List<AutomationConfiguration>();
+            this.ComponentType = componentType;
         }
 
-        public PropertyConfiguration Property(string name)
+        public void Apply(IComponentSchema schema)
         {
-            return properties.GetOrAdd(name, s => new PropertyConfiguration { Name = s, Cardinality = Cardinality.OneToOne });
+            foreach (var automation in Automations)
+            {
+                automation.Apply(schema);
+            }
         }
 
-        public AssociationPropertyConfiguration Association(string name)
-        {
-            return associations.GetOrAdd(name, s => new AssociationPropertyConfiguration { Name = s, Cardinality = Cardinality.OneToOne });
-        }
+        public IList<AutomationConfiguration> Automations { get; private set; }
 
-        public AssociationPropertyConfiguration CollectionAssociation(string name)
-        {
-            return associations.GetOrAdd(name, s => new AssociationPropertyConfiguration { Name = s, Cardinality = Cardinality.ZeroToMany });
-        }
-
-        internal void Configure(ComponentSchema schema)
-        {
-            // TODO: do component-specific configuration here.
-            base.Configure((InstanceSchema)schema);
-        }
+        public Type ComponentType { get; private set; }
     }
 }

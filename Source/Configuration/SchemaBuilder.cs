@@ -1,4 +1,4 @@
-﻿namespace NuPattern.Schema
+﻿namespace NuPattern.Configuration
 {
     using NetFx.StringlyTyped;
     using NuPattern.Properties;
@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using NuPattern;
+    using NuPattern.Schema;
 
     public class SchemaBuilder
     {

@@ -80,6 +80,22 @@
             Assert.Equal(products[0], deserialized[0], ProductComparer.Default);
         }
 
+        [Fact]
+        public void when_deserializing_product_then_can_get_line_information()
+        {
+            var serializer = new JsonProductSerializer();
+            var writer = new StringWriter();
+
+            serializer.Serialize(writer, products);
+
+            var deserialized = serializer.Deserialize(new StringReader(writer.ToString())).ToList();
+
+            var lineInfo = deserialized[0] as ILineInfo;
+            Assert.NotNull(lineInfo);
+            Assert.True(lineInfo.HasLineInfo);
+            Console.WriteLine("{0}, {1}", lineInfo.LineNumber, lineInfo.LinePosition);
+        }
+
         private class ProductComparer : ContainerComparer<IProduct>
         {
             public static new EqualityComparer<IProduct> Default { get; private set; }
@@ -180,7 +196,7 @@
 
             private static bool AreNumericEquals(IProperty x, IProperty y)
             {
-                return 
+                return
                     ((IConvertible)x.Value).ToDouble(CultureInfo.CurrentCulture).Equals(
                     ((IConvertible)y.Value).ToDouble(CultureInfo.CurrentCulture));
             }
