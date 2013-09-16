@@ -1,4 +1,4 @@
-﻿namespace NuPattern.Schema
+﻿namespace NuPattern.Configuration.Schema
 {
     using System;
     using System.Collections.Generic;

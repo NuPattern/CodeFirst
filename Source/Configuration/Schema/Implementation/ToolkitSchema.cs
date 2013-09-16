@@ -1,5 +1,6 @@
-﻿namespace NuPattern.Schema
+﻿namespace NuPattern.Configuration.Schema
 {
+    using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.Schema
 {
+    using NuPattern.Configuration.Schema;
     using System;
     using System.Linq;
     using Xunit;

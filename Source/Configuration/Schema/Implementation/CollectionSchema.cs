@@ -1,5 +1,6 @@
-﻿namespace NuPattern.Schema
+﻿namespace NuPattern.Configuration.Schema
 {
+    using NuPattern.Schema;
     using System;
 
     internal class CollectionSchema : ContainerSchema, ICollectionSchema, ICollectionInfo

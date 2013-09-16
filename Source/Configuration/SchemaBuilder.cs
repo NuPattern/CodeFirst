@@ -7,6 +7,7 @@
     using System.Linq;
     using NuPattern;
     using NuPattern.Schema;
+    using NuPattern.Configuration.Schema;
 
     public class SchemaBuilder
     {

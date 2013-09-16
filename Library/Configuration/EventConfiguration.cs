@@ -2,6 +2,7 @@
 {
     using NetFx.StringlyTyped;
     using NuPattern.Automation;
+    using NuPattern.Configuration.Schema;
     using NuPattern.Properties;
     using NuPattern.Schema;
     using System;
