@@ -26,7 +26,7 @@
             set { ValueHandler.Set(this, value); }
         }
 
-        public IPropertySchema Schema { get; set; }
+        public IPropertyInfo Schema { get; internal set; }
 
         public bool HasLineInfo { get { return LinePosition.HasValue && LineNumber.HasValue; } }
 

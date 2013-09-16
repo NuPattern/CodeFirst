@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public interface IComponentSchema : IInstanceSchema
+    public interface IComponentInfo
     {
         /// <summary>
         /// Schema identifier, used on elements created 
@@ -18,19 +18,14 @@
         string DefaultName { get; }
 
         /// <summary>
-        /// Gets a value indicating whether component instances
-        /// created from this schema can be named or renamed by 
-        /// the user.
+        /// Specifies whether component instances created from 
+        /// this schema can be named or renamed by the user.
         /// </summary>
         bool CanRename { get; }
 
-        IEnumerable<IPropertySchema> PropertySchemas { get; }
+        IEnumerable<IPropertyInfo> Properties { get; }
 
-        IPropertySchema CreatePropertySchema(string propertyName, Type propertyType);
-
-        IEnumerable<IAutomationSettings> AutomationSettings { get; }
-
-        void AddAutomationSettings(IAutomationSettings settings);
+        IEnumerable<IAutomationSettings> Automations { get; }
 
         // string Icon { get; set; }
     }

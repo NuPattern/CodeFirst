@@ -12,7 +12,7 @@
             var parent = new TestContainerSchema("Collection");
             var child = new TestComponentSchema("Item");
 
-            parent.ComponentSchemas.Add(child);
+            parent.Components.Add(child);
 
             Assert.NotNull(child.Parent);
             Assert.Same(parent, child.Parent);
@@ -24,8 +24,8 @@
             var parent = new TestContainerSchema("Collection");
             var child = new TestComponentSchema("Item");
 
-            parent.ComponentSchemas.Add(child);
-            parent.ComponentSchemas.Remove(child);
+            parent.Components.Add(child);
+            parent.Components.Remove(child);
 
             Assert.Null(child.Parent);
         }

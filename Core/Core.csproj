@@ -103,7 +103,7 @@
     <Compile Include="Serialization\JsonProductSerializer.cs" />
     <Compile Include="SmartCast.cs" />
     <Compile Include="Toolkit.cs" />
-    <Compile Include="ToolkitInfo.cs" />
+    <Compile Include="ToolkitVersion.cs" />
     <Compile Include="ValueHandler.cs" />
   </ItemGroup>
   <ItemGroup>

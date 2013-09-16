@@ -432,7 +432,7 @@
             var product = new Product("Foo", "IFoo");
             product.Schema = new ProductSchema("IFoo")
             {
-                ComponentSchemas =
+                Components =
                 {
                     new ElementSchema("IElement"),
                 }
@@ -449,7 +449,7 @@
             var product = new Product("Foo", "IFoo");
             product.Schema = new ProductSchema("IFoo")
             {
-                ComponentSchemas =
+                Components =
                 {
                     new CollectionSchema("ICollection")
                     {
@@ -469,7 +469,7 @@
             var product = new Product("Foo", "IFoo");
             product.Schema = new ProductSchema("IFoo")
             {
-                PropertySchemas = 
+                Properties = 
                 {
                     new PropertySchema("IsPublic", typeof(bool))
                 }
@@ -486,7 +486,7 @@
             var product = new Product("Product", "IProduct");
             product.Schema = new ProductSchema("IFoo")
             {
-                ComponentSchemas =
+                Components =
                 {
                     new CollectionSchema("ICollection")
                     {
@@ -507,11 +507,11 @@
             var product = new Product("Foo", "IFoo");
             product.Schema = new ProductSchema("IFoo")
             {
-                ComponentSchemas =
+                Components =
                 {
                     new ElementSchema("IElement")
                     {
-                        PropertySchemas = 
+                        Properties = 
                         {
                             new PropertySchema("IsPublic", typeof(bool))
                         }

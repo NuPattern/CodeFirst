@@ -31,11 +31,11 @@
 
             // User instantiates a product via Solution Builder:
             var product = new Product("MyWebService", "IAmazonwebServices");
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             var productContext = rootContext.BeginScope(b => b.RegisterInstance(product));
 
-            foreach (var setting in schema.ProductSchemas.First().AutomationSettings)
+            foreach (var setting in schema.Products.First().Automations)
             {
                 product.AddAutomation(setting.CreateAutomation(productContext));
             }

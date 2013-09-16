@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class ProductSchema : ContainerSchema, IProductSchema
+    internal class ProductSchema : ContainerSchema, IProductSchema, IProductInfo
     {
         /// <summary>
         /// Internal constructor used by tests to allow for easy 
@@ -15,8 +15,10 @@
         {
         }
         
-        public ToolkitSchema ToolkitSchema { get; internal set; }
+        public ToolkitSchema Toolkit { get; internal set; }
 
-        IToolkitSchema IProductSchema.ToolkitSchema { get { return ToolkitSchema; } }
+        IToolkitInfo IProductInfo.Toolkit { get { return Toolkit; } }
+
+        IToolkitSchema IProductSchema.Toolkit { get { return Toolkit; } }
     }
 }

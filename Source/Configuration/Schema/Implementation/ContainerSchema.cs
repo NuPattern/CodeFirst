@@ -6,17 +6,17 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal abstract class ContainerSchema : ComponentSchema, IContainerSchema
+    internal abstract class ContainerSchema : ComponentSchema, IContainerSchema, IContainerInfo
     {
         internal ContainerSchema(string schemaId)
             : base(schemaId)
         {
             var elements = new ObservableCollection<ComponentSchema>();
             elements.CollectionChanged += OnElementsChanged;
-            this.ComponentSchemas = elements;
+            this.Components = elements;
         }
 
-        public ICollection<ComponentSchema> ComponentSchemas { get; private set; }
+        public ICollection<ComponentSchema> Components { get; private set; }
 
         public new ComponentSchema Parent 
         { 
@@ -27,18 +27,19 @@
         public IElementSchema CreateElementSchema(string schemaId)
         {
             var schema = new ElementSchema(schemaId);
-            ComponentSchemas.Add(schema);
+            Components.Add(schema);
             return schema;
         }
 
         public ICollectionSchema CreateCollectionSchema(string schemaId)
         {
             var schema = new CollectionSchema(schemaId);
-            ComponentSchemas.Add(schema);
+            Components.Add(schema);
             return schema;
         }
 
-        IEnumerable<IComponentSchema> IContainerSchema.ComponentSchemas { get { return this.ComponentSchemas; } }
+        IEnumerable<IComponentInfo> IContainerInfo.Components { get { return this.Components; } }
+        IEnumerable<IComponentSchema> IContainerSchema.Components { get { return this.Components; } }
 
         IElementSchema IContainerSchema.CreateElementSchema(string schemaId)
         {

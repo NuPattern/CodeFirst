@@ -23,7 +23,7 @@
             this.toolkitVersion = toolkitVersion;
         }
 
-        public IToolkitSchema Build()
+        public IToolkitInfo Build()
         {
             var schema = new ToolkitSchema(toolkitId, toolkitVersion);
             var builder = new SchemaBuilder();

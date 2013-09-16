@@ -19,15 +19,15 @@
             var toolkit = builder.Build();
 
             var product = ComponentMapper.SyncProduct(
-                new Product("MyWebService", toolkit.ProductSchemas.First().SchemaId), 
-                toolkit.ProductSchemas.First());
+                new Product("MyWebService", toolkit.Products.First().SchemaId), 
+                toolkit.Products.First());
             IAmazonWebServices aws = null;
 
             product.Set<string>(Reflect.GetPropertyName(() => aws.AccessKey), "asdf");
             product.Set<string>(Reflect.GetPropertyName(() => aws.SecretKey), "qwerty");
 
             var element = product.CreateElement(Reflect.GetPropertyName(() => aws.Storage), 
-                toolkit.ProductSchemas.First().ComponentSchemas.First().SchemaId);
+                toolkit.Products.First().Components.First().SchemaId);
             element.Set(Reflect.GetPropertyName(() => aws.Storage.RefreshOnLoad), true);
 
             var serializer = new JsonProductSerializer();

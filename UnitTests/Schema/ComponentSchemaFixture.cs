@@ -48,7 +48,7 @@
             var parent = new TestComponentSchema("Element");
             var property = new PropertySchema("Property", typeof(string));
 
-            parent.PropertySchemas.Add(property);
+            parent.Properties.Add(property);
 
             Assert.NotNull(property.Parent);
             Assert.Same(parent, property.Parent);
@@ -60,8 +60,8 @@
             var parent = new TestComponentSchema("Element");
             var property = new PropertySchema("Property", typeof(string));
 
-            parent.PropertySchemas.Add(property);
-            parent.PropertySchemas.Remove(property);
+            parent.Properties.Add(property);
+            parent.Properties.Remove(property);
 
             Assert.Null(property.Parent);
         }
@@ -74,8 +74,8 @@
 
             Assert.NotNull(property.Parent);
             Assert.Same(parent, property.Parent);
-            Assert.Equal(1, parent.PropertySchemas.Count);
-            Assert.Same(property, parent.PropertySchemas.First());
+            Assert.Equal(1, parent.Properties.Count);
+            Assert.Same(property, parent.Properties.First());
         }
 
         private class TestComponentSchema : ComponentSchema

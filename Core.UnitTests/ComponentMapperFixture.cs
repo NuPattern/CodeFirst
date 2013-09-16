@@ -12,11 +12,11 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                     {
-                        PropertySchemas = 
+                        Properties = 
                         {
                             new PropertySchema("IsPublic", typeof(bool)),
                         }
@@ -27,7 +27,7 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("IsPublic").Value = true;
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.NotNull(product.Schema);
             Assert.NotNull(product.Properties.First().Schema);
@@ -38,11 +38,11 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                     {
-                        PropertySchemas = 
+                        Properties = 
                         {
                             new PropertySchema("IsPublic", typeof(bool)),
                         }
@@ -53,7 +53,7 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("IsVisible").Value = true;
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.NotNull(product.Schema);
             Assert.Equal(1, product.Properties.Count());
@@ -66,7 +66,7 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                     {
@@ -77,7 +77,7 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("$IsVisible").Value = true;
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.NotNull(product.Schema);
             Assert.Equal(1, product.Properties.Count());
@@ -90,7 +90,7 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                     {
@@ -101,7 +101,7 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("_IsVisible").Value = true;
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.NotNull(product.Schema);
             Assert.Equal(1, product.Properties.Count());
@@ -114,15 +114,15 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                     {
-                        ComponentSchemas = 
+                        Components = 
                         {
                             new ElementSchema("IElement")
                             {
-                                PropertySchemas = 
+                                Properties = 
                                 {
                                     new PropertySchema("IsPublic", typeof(bool)),
                                 }
@@ -136,7 +136,7 @@
             product.CreateElement("Element", "IElement")
                 .CreateProperty("IsPublic").Value = true;
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.NotNull(product.Components.First().Schema);
             Assert.NotNull(product.Components.First().Properties.First().Schema);
@@ -147,17 +147,17 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                     {
-                        ComponentSchemas = 
+                        Components = 
                         {
                             new CollectionSchema("ICollection")
                             {
                                 ItemSchema = new ElementSchema("IElement")
                                 {
-                                    PropertySchemas = 
+                                    Properties = 
                                     {
                                         new PropertySchema("IsPublic", typeof(bool)),
                                     }
@@ -173,7 +173,7 @@
                 .CreateItem("Element", "IElement")
                 .CreateProperty("IsPublic").Value = true;
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.NotNull(product.Components.First().Schema);
             Assert.NotNull(product.Components.OfType<ICollection>().First().Items.First().Schema);
@@ -185,11 +185,11 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                     {
-                        ComponentSchemas = 
+                        Components = 
                         {
                             new ElementSchema("IElement"), 
                         }
@@ -202,7 +202,7 @@
 
             Assert.Equal(1, product.Components.Count());
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.Equal(0, product.Components.Count());
             Assert.Null(element.Parent);
@@ -213,7 +213,7 @@
         {
             var schema = new ToolkitSchema("Toolkit", "1.0")
             {
-                ProductSchemas = 
+                Products = 
                 {
                     new ProductSchema("IProduct")
                 }
@@ -224,7 +224,7 @@
 
             Assert.Equal(1, product.Components.Count());
 
-            ComponentMapper.SyncProduct(product, schema.ProductSchemas.First());
+            ComponentMapper.SyncProduct(product, schema.Products.First());
 
             Assert.Equal(0, product.Components.Count());
             Assert.Null(collection.Parent);

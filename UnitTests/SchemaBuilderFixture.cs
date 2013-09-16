@@ -19,11 +19,11 @@
             var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
             Assert.NotNull(schema);
-            Assert.Equal(3, schema.PropertySchemas.Count());
+            Assert.Equal(3, schema.Properties.Count());
 
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "AccessKey" && x.PropertyType == typeof(string)));
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "IsPublic" && x.PropertyType == typeof(bool)));
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "Port" && x.PropertyType == typeof(int)));
+            Assert.True(schema.Properties.Any(x => x.Name == "AccessKey" && x.PropertyType == typeof(string)));
+            Assert.True(schema.Properties.Any(x => x.Name == "IsPublic" && x.PropertyType == typeof(bool)));
+            Assert.True(schema.Properties.Any(x => x.Name == "Port" && x.PropertyType == typeof(int)));
         }
 
         [Fact]
@@ -33,13 +33,13 @@
 
             var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
-            Assert.False(schema.PropertySchemas.Any(x => x.Name == "MyElement"));
+            Assert.False(schema.Properties.Any(x => x.Name == "MyElement"));
 
-            var element = schema.ComponentSchemas.FirstOrDefault();
+            var element = schema.Components.FirstOrDefault();
 
             Assert.NotNull(element);
             Assert.Equal(typeof(IMyElement).ToTypeFullName(), element.SchemaId);
-            Assert.True(element.PropertySchemas.Any(x => x.Name == "Location" && x.PropertyType == typeof(string)));
+            Assert.True(element.Properties.Any(x => x.Name == "Location" && x.PropertyType == typeof(string)));
         }
 
         [Fact]
@@ -49,15 +49,15 @@
 
             var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
-            Assert.False(schema.PropertySchemas.Any(x => x.Name == "MyElement"));
+            Assert.False(schema.Properties.Any(x => x.Name == "MyElement"));
 
-            var collection = schema.ComponentSchemas.OfType<ICollectionSchema>().FirstOrDefault();
+            var collection = schema.Components.OfType<ICollectionSchema>().FirstOrDefault();
 
             Assert.NotNull(collection);
-            Assert.NotNull(collection.ItemSchema);
-            Assert.Equal(typeof(IMyItem).ToTypeFullName(), collection.ItemSchema.SchemaId);
+            Assert.NotNull(collection.Item);
+            Assert.Equal(typeof(IMyItem).ToTypeFullName(), collection.Item.SchemaId);
             Assert.Equal(typeof(IEnumerable<IMyItem>).ToTypeFullName(), collection.SchemaId);
-            Assert.True(collection.ItemSchema.PropertySchemas.Any(x => x.Name == "Path" && x.PropertyType == typeof(string)));
+            Assert.True(collection.Item.Properties.Any(x => x.Name == "Path" && x.PropertyType == typeof(string)));
         }
 
         [Fact]
@@ -67,18 +67,18 @@
 
             var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
 
-            Assert.False(schema.PropertySchemas.Any(x => x.Name == "MyCustomItems"));
+            Assert.False(schema.Properties.Any(x => x.Name == "MyCustomItems"));
 
-            var collection = schema.ComponentSchemas.OfType<ICollectionSchema>()
+            var collection = schema.Components.OfType<ICollectionSchema>()
                 .FirstOrDefault(x => x.SchemaId.EndsWith("IMyItems"));
 
             Assert.NotNull(collection);
-            Assert.NotNull(collection.ItemSchema);
-            Assert.Equal(typeof(IMyItem).ToTypeFullName(), collection.ItemSchema.SchemaId);
+            Assert.NotNull(collection.Item);
+            Assert.Equal(typeof(IMyItem).ToTypeFullName(), collection.Item.SchemaId);
             Assert.Equal(typeof(IMyItems).ToTypeFullName(), collection.SchemaId);
-            Assert.True(collection.PropertySchemas
+            Assert.True(collection.Properties
                 .Any(x => x.Name == "IsSafe" && x.PropertyType == typeof(bool)));
-            Assert.True(collection.ItemSchema.PropertySchemas
+            Assert.True(collection.Item.Properties
                 .Any(x => x.Name == "Path" && x.PropertyType == typeof(string)));
         }
 
@@ -89,9 +89,9 @@
 
             var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyNamedProduct));
 
-            Assert.Equal(1, schema.PropertySchemas.Count());
+            Assert.Equal(1, schema.Properties.Count());
 
-            Assert.True(schema.PropertySchemas.Any(x => x.Name == "IsPublic" && x.PropertyType == typeof(bool)));
+            Assert.True(schema.Properties.Any(x => x.Name == "IsPublic" && x.PropertyType == typeof(bool)));
         }
 
         [Fact]

@@ -20,9 +20,9 @@
             get { return this.components; }
         }
 
-        public new IContainerSchema Schema
+        public new IContainerInfo Schema
         {
-            get { return (IContainerSchema)base.Schema; }
+            get { return (IContainerInfo)base.Schema; }
             set { base.Schema = value; }
         }
 
@@ -33,8 +33,8 @@
 
             if (Schema != null)
             {
-                var schema = Schema.ComponentSchemas
-                    .OfType<ICollectionSchema>()
+                var schema = Schema.Components
+                    .OfType<ICollectionInfo>()
                     .FirstOrDefault(x => x.SchemaId == schemaId);
                 if (schema != null)
                     ComponentMapper.SyncCollection(collection, schema);
@@ -53,8 +53,8 @@
 
             if (Schema != null)
             {
-                var schema = Schema.ComponentSchemas
-                    .OfType<IElementSchema>()
+                var schema = Schema.Components
+                    .OfType<IElementInfo>()
                     .FirstOrDefault(x => x.SchemaId == schemaId);
                 if (schema != null)
                     ComponentMapper.SyncElement(element, schema);

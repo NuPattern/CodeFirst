@@ -7,7 +7,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    internal class ToolkitSchema : IToolkitSchema
+    internal class ToolkitSchema : IToolkitSchema, IToolkitInfo
     {
         public ToolkitSchema(string toolkitId, string toolkitVersion)
             : this(toolkitId, SemanticVersion.Parse(toolkitVersion))
@@ -24,21 +24,23 @@
 
             this.Id = toolkitId;
             this.Version = toolkitVersion;
-            this.ProductSchemas = products;
+            this.Products = products;
         }
 
         public string Id { get; private set; }
         public SemanticVersion Version { get; private set; }
-        public ICollection<ProductSchema> ProductSchemas { get; private set; }
+        public ICollection<ProductSchema> Products { get; private set; }
 
         public IProductSchema CreateProductSchema(string schemaId)
         {
             var schema  = new ProductSchema(schemaId);
-            ProductSchemas.Add(schema);
+            Products.Add(schema);
             return schema;
         }
 
-        IEnumerable<IProductSchema> IToolkitSchema.ProductSchemas { get { return ProductSchemas; } }
+        IEnumerable<IProductInfo> IToolkitInfo.Products { get { return Products; } }
+
+        IEnumerable<IProductSchema> IToolkitSchema.Products { get { return Products; } }
 
         IProductSchema IToolkitSchema.CreateProductSchema(string schemaId)
         {
@@ -51,7 +53,7 @@
             {
                 foreach (var product in e.NewItems.OfType<ProductSchema>())
                 {
-                    product.ToolkitSchema = this;
+                    product.Toolkit = this;
                 }
             }
 
@@ -59,7 +61,7 @@
             {
                 foreach (var product in e.OldItems.OfType<ProductSchema>())
                 {
-                    product.ToolkitSchema = null;
+                    product.Toolkit = null;
                 }
             }
         }

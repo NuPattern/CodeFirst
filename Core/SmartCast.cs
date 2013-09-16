@@ -27,7 +27,7 @@
             var proxyProperty = component.Properties.FirstOrDefault(p => p.Name == propertyName);
             if (proxyProperty == null)
             {
-                var containerSchema = component.Schema as IContainerSchema;
+                var containerSchema = component.Schema as IContainerInfo;
                 if (containerSchema != null)
                 {
                     if (!IsCompatibleContainer(containerSchema, targetType))
@@ -51,16 +51,16 @@
             return proxyProperty.Value;
         }
 
-        private bool IsCompatibleComponent(IComponentSchema schema, Type type)
+        private bool IsCompatibleComponent(IComponentInfo schema, Type type)
         {
             // Property comparison.
             return type.GetProperties().Where(info => info.Name != "Name" && info.PropertyType.IsNative()).All(info =>
-                schema.PropertySchemas.Any(prop =>
+                schema.Properties.Any(prop =>
                     prop.Name == info.Name &&
                     prop.PropertyType == info.PropertyType));
         }
 
-        private bool IsCompatibleContainer(IContainerSchema schema, Type type)
+        private bool IsCompatibleContainer(IContainerInfo schema, Type type)
         {
             // Initial property comparison.
             if (!IsCompatibleComponent(schema, type))
@@ -70,22 +70,22 @@
 
             // Check compatibility of elements.
             if (!referenceProperties.Where(info => !info.PropertyType.IsCollection()).All(info =>
-                schema.ComponentSchemas.OfType<IElementSchema>().Any(element =>
+                schema.Components.OfType<IElementInfo>().Any(element =>
                     element.DefaultName == info.Name &&
                     IsCompatibleContainer(element, info.PropertyType))))
                 return false;
 
             // Check compatibility of collections
             return referenceProperties.Where(info => info.PropertyType.IsCollection()).All(info =>
-                schema.ComponentSchemas.OfType<ICollectionSchema>().Any(collection =>
+                schema.Components.OfType<ICollectionInfo>().Any(collection =>
                     collection.DefaultName == info.Name &&
                     IsCompatibleCollection(collection, info.PropertyType)));
         }
 
-        private bool IsCompatibleCollection(ICollectionSchema schema, Type type)
+        private bool IsCompatibleCollection(ICollectionInfo schema, Type type)
         {
             return IsCompatibleContainer(schema, type) &&
-                IsCompatibleContainer(schema.ItemSchema, type.GetItemType());
+                IsCompatibleContainer(schema.Item, type.GetItemType());
         }
 
         private class Interceptor : IInterceptor

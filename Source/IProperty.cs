@@ -23,7 +23,7 @@
         /// </summary>
         IComponent Owner { get; }
 
-        IPropertySchema Schema { get; }
+        IPropertyInfo Schema { get; }
 
         bool ShouldSerializeValue { get; }
     }

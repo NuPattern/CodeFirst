@@ -17,7 +17,7 @@
         {
             var product = new Product("MyProduct", "IProduct")
             {
-                Toolkit = new ToolkitInfo
+                Toolkit = new ToolkitVersion
                 {
                     Id = "MyToolkit",
                     Version = "1.0",

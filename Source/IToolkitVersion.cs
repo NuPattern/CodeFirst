@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IToolkitInfo
+    public interface IToolkitVersion
     {
         string Id { get; }
         SemanticVersion Version { get; }

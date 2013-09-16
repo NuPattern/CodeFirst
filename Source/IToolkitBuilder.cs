@@ -5,6 +5,6 @@
 
     public interface IToolkitBuilder
     {
-        IToolkitSchema Build();
+        IToolkitInfo Build();
     }
 }

@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    public class ToolkitInfo : IToolkitInfo
+    public class ToolkitVersion : IToolkitVersion
     {
         public string Id { get; set; }
 

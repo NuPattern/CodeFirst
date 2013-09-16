@@ -43,7 +43,7 @@
         /// </summary>
         string SchemaId { get; }
 
-        IComponentSchema Schema { get; }
+        IComponentInfo Schema { get; }
 
         IEnumerable<IAutomation> Automations { get; }
 

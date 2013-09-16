@@ -9,18 +9,18 @@
         public Product(string name, string schemaId)
             : base(name, schemaId, null)
         {
-            this.Toolkit = new ToolkitInfo();
+            this.Toolkit = new ToolkitVersion();
         }
 
-        public new IProductSchema Schema
+        public new IProductInfo Schema
         {
-            get { return (IProductSchema)base.Schema; }
+            get { return (IProductInfo)base.Schema; }
             set { base.Schema = value; }
         }
 
         public ProductStore Store { get; internal set; }
 
-        public ToolkitInfo Toolkit { get; internal set; }
+        public ToolkitVersion Toolkit { get; internal set; }
 
         public override TVisitor Accept<TVisitor>(TVisitor visitor)
         {
@@ -48,7 +48,7 @@
         }
 
         IProductStore IProduct.Store { get { return Store; } }
-        IToolkitInfo IProduct.Toolkit { get { return Toolkit; } }
+        IToolkitVersion IProduct.Toolkit { get { return Toolkit; } }
         IProduct IProduct.Set<T>(string propertyName, T value)
         {
             return Set<T>(propertyName, value);

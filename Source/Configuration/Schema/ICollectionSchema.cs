@@ -7,7 +7,7 @@
         /// <summary>
         /// Gets the schema of the items contained in this collection.
         /// </summary>
-        IElementSchema ItemSchema { get; }
+        IElementSchema Item { get; }
 
         IElementSchema CreateItemSchema(string schemaId);
     }

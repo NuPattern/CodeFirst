@@ -7,46 +7,46 @@
 
     internal static class ComponentMapper
     {
-        public static Product SyncProduct(Product product, IProductSchema schema)
+        public static Product SyncProduct(Product product, IProductInfo schema)
         {
-            product.Toolkit.Id = schema.ToolkitSchema.Id;
-            product.Toolkit.Version = schema.ToolkitSchema.Version;
+            product.Toolkit.Id = schema.Toolkit.Id;
+            product.Toolkit.Version = schema.Toolkit.Version;
 
             SyncContainer(product, schema);
 
             return product;
         }
 
-        public static Collection SyncCollection(Collection collection, ICollectionSchema schema)
+        public static Collection SyncCollection(Collection collection, ICollectionInfo schema)
         {
             SyncContainer(collection, schema);
             foreach (var item in collection.Items)
             {
-                SyncElement(item, schema.ItemSchema);
+                SyncElement(item, schema.Item);
             }
 
             return collection;
         }
 
-        public static Element SyncElement(Element element, IElementSchema schema)
+        public static Element SyncElement(Element element, IElementInfo schema)
         {
             SyncContainer(element, schema);
 
             return element;
         }
 
-        private static void SyncContainer(Container container, IContainerSchema schema)
+        private static void SyncContainer(Container container, IContainerInfo schema)
         {
             // Delete child elements that have a schema id but a matching 
             // one does not exist anymore.
             container.Components
                 .OfType<ICollection>()
-                .Where(c => !schema.ComponentSchemas.OfType<ICollectionSchema>().Any(i => i.SchemaId == c.SchemaId))
+                .Where(c => !schema.Components.OfType<ICollectionInfo>().Any(i => i.SchemaId == c.SchemaId))
                 .ToArray()
                 .ForEach(c => c.Delete());
             container.Components
                 .OfType<IElement>()
-                .Where(c => !schema.ComponentSchemas.OfType<IElementSchema>().Any(i => i.SchemaId == c.SchemaId))
+                .Where(c => !schema.Components.OfType<IElementInfo>().Any(i => i.SchemaId == c.SchemaId))
                 .ToArray()
                 .ForEach(c => c.Delete());
 
@@ -77,25 +77,25 @@
                 var element = component as Element;
 
                 if (collection != null)
-                    SyncCollection(collection, schema.ComponentSchemas.OfType<ICollectionSchema>().First(x => x.SchemaId == component.SchemaId));
+                    SyncCollection(collection, schema.Components.OfType<ICollectionInfo>().First(x => x.SchemaId == component.SchemaId));
                 else if (element != null)
-                    SyncElement(element, schema.ComponentSchemas.OfType<IElementSchema>().First(x => x.SchemaId == component.SchemaId));
+                    SyncElement(element, schema.Components.OfType<IElementInfo>().First(x => x.SchemaId == component.SchemaId));
             }
         }
 
-        private static void SyncComponent(Component component, IComponentSchema schema)
+        private static void SyncComponent(Component component, IComponentInfo schema)
         {
             component.Schema = schema;
 
             // Delete existing properties that don't have a corresponding definition.
             // and are not system properties (starting with $) or hidden ones (starting with _)
             component.Properties
-                .Where(p => !p.Name.StartsWith("$") && !p.Name.StartsWith("_") && !schema.PropertySchemas.Any(info => info.Name == p.Name))
+                .Where(p => !p.Name.StartsWith("$") && !p.Name.StartsWith("_") && !schema.Properties.Any(info => info.Name == p.Name))
                 .ToArray()
                 .ForEach(p => p.Delete());
 
             // Initialize all the new properties. Existing ones are not modified.
-            foreach (var propertySchema in schema.PropertySchemas)
+            foreach (var propertySchema in schema.Properties)
             {
                 var property = component.Properties.FirstOrDefault(x => x.Name == propertySchema.Name);
                 if (property != null)

@@ -11,7 +11,7 @@
     {
         private ProductStoreSettings settings;
         private IProductSerializer serializer;
-        private Dictionary<string, IToolkitSchema> toolkits;
+        private Dictionary<string, IToolkitInfo> toolkits;
         private List<Product> products = new List<Product>();
 
         public ProductStore(
@@ -44,7 +44,7 @@
             if (toolkit == null)
                 throw new ArgumentException();
 
-            var schema = toolkit.ProductSchemas.FirstOrDefault(x => x.SchemaId == schemaId);
+            var schema = toolkit.Products.FirstOrDefault(x => x.SchemaId == schemaId);
             if (schema == null)
                 throw new ArgumentException();
 
@@ -98,7 +98,7 @@
                             // provided by the toolkit schema?
                         }
 
-                        var schema = toolkit.ProductSchemas.FirstOrDefault(x => x.SchemaId == product.SchemaId);
+                        var schema = toolkit.Products.FirstOrDefault(x => x.SchemaId == product.SchemaId);
                         if (schema == null)
                         {
                             // TODO: provide some "SchemaMissing" callback 

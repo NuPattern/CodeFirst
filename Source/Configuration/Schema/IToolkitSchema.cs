@@ -8,7 +8,7 @@
     {
         string Id { get; }
         SemanticVersion Version { get; }
-        IEnumerable<IProductSchema> ProductSchemas { get; }
+        IEnumerable<IProductSchema> Products { get; }
 
         IProductSchema CreateProductSchema(string id);
     }

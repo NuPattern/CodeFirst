@@ -27,16 +27,15 @@
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void Apply(IComponentSchema schema)
         {
-            // Automation settings must be valid at this point.
+            // Automation configuration must be valid at this point.
             Validator.ValidateObject(this, new ValidationContext(this, null, null), true);
 
-            // TODO: add automation schema to component schema.
             var commandSettings = default(CommandAutomationSettings);
             if (CommandConfiguration != null && CommandConfiguration.CommandType != null)
                 commandSettings = new CommandAutomationSettings(CommandConfiguration.CommandType, CommandConfiguration.CommandSettings);
 
             var eventAutomation = new EventAutomationSettings(EventType, EventSettings, commandSettings);
-            schema.AddAutomationSettings(eventAutomation);
+            schema.AddAutomation(eventAutomation);
         }
 
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)

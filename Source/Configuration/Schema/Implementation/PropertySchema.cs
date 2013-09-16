@@ -5,7 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
 
-    internal class PropertySchema : InstanceSchema, IPropertySchema
+    internal class PropertySchema : InstanceSchema, IPropertySchema, IPropertyInfo
     {
         public PropertySchema(string propertyName, Type propertyType)
         {

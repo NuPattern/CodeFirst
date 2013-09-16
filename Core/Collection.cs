@@ -16,9 +16,9 @@
             Guard.NotNull(() => parent, parent);
         }
 
-        public new ICollectionSchema Schema
+        public new ICollectionInfo Schema
         {
-            get { return (ICollectionSchema)base.Schema; }
+            get { return (ICollectionInfo)base.Schema; }
             set { base.Schema = value; }
         }
 
@@ -40,8 +40,8 @@
 
             var element = new Element(name, schemaId, this);
 
-            if (Schema != null && Schema.ItemSchema != null)
-                ComponentMapper.SyncElement(element, Schema.ItemSchema);
+            if (Schema != null && Schema.Item != null)
+                ComponentMapper.SyncElement(element, Schema.Item);
 
             element.PropertyChanged += OnItemChanged;
             element.Disposed += OnItemDisposed;

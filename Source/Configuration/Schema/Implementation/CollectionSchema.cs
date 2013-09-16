@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class CollectionSchema : ContainerSchema, ICollectionSchema
+    internal class CollectionSchema : ContainerSchema, ICollectionSchema, ICollectionInfo
     {
         public CollectionSchema(string schemaId)
             : base(schemaId)
@@ -17,7 +17,8 @@
             return ItemSchema;
         }
 
-        IElementSchema ICollectionSchema.ItemSchema { get { return ItemSchema; } }
+        IElementSchema ICollectionSchema.Item { get { return ItemSchema; } }
+        IElementInfo ICollectionInfo.Item { get { return ItemSchema; } }
 
         IElementSchema ICollectionSchema.CreateItemSchema(string schemaId)
         {

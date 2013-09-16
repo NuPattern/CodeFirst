@@ -48,12 +48,12 @@
             product.CreateProperty("IsVisible").Value = true;
             ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
-                PropertySchemas =
+                Properties =
                 {
                     new PropertySchema("Key", typeof(string)),
                     new PropertySchema("IsVisible", typeof(bool)),
                 },
-                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
             });
 
             var cast = new SmartCast();
@@ -193,35 +193,35 @@
 
             ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
-                PropertySchemas =
+                Properties =
                 {
                     new PropertySchema("Key", typeof(string)),
                 },
-                ComponentSchemas = 
+                Components = 
                 {
                     new ElementSchema("IMyElement")
                     {
-                        PropertySchemas = 
+                        Properties = 
                         {
                             new PropertySchema("Port", typeof(int)),
                         }
                     }, 
                     new CollectionSchema("IMyItems")
                     {
-                        PropertySchemas = 
+                        Properties = 
                         {
                             new PropertySchema("PropForAll", typeof(string)),
                         },
                         ItemSchema = new ElementSchema("IMyItem")
                         {
-                            PropertySchemas = 
+                            Properties = 
                             {
                                 new PropertySchema("Tag", typeof(string)),
                             }
                         }
                     }
                 },
-                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
             });
             return product;
         }
@@ -237,7 +237,7 @@
             var product = new Product("MyProduct", "IMyProduct");
             ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
-                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
             });
 
             this.product = product;
@@ -269,21 +269,21 @@
             var product = new Product("MyProduct", "IMyProduct");
             ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
-                ComponentSchemas = 
+                Components = 
                 {
                     new CollectionSchema("IMyElements")
                     {
                         DefaultName = "MyElements",
                         ItemSchema = new ElementSchema("IMyElement")
                         {
-                            PropertySchemas = 
+                            Properties = 
                             {
                                 new PropertySchema("Key", typeof(string)),
                             }
                         }
                     }
                 },
-                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
             });
 
             this.product = product;
@@ -318,21 +318,21 @@
             var product = new Product("MyProduct", "IMyProduct");
             ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
-                ComponentSchemas = 
+                Components = 
                 {
                     new CollectionSchema("IMyElements")
                     {
                         DefaultName = "MyElements",
                         ItemSchema = new ElementSchema("IMyElement")
                         {
-                            PropertySchemas = 
+                            Properties = 
                             {
                                 new PropertySchema("Key", typeof(string)),
                             }
                         }
                     }
                 },
-                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
             });
 
             this.product = product;
@@ -367,18 +367,18 @@
             var product = new Product("MyProduct", "IMyProduct");
             ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
             {
-                ComponentSchemas = 
+                Components = 
                 {
                     new ElementSchema("IMyElement")
                     {
                         DefaultName = "MyElement",
-                        PropertySchemas = 
+                        Properties = 
                         {
                             new PropertySchema("Key", typeof(string)),
                         }
                     }
                 },
-                ToolkitSchema = new ToolkitSchema("MyToolkit", "1.0")
+                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
             });
 
             this.product = product;

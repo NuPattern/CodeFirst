@@ -7,7 +7,7 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal abstract class ComponentSchema : InstanceSchema, IComponentSchema
+    internal abstract class ComponentSchema : InstanceSchema, IComponentSchema, IComponentInfo
     {
         private List<IAutomationSettings> automationSettings = new List<IAutomationSettings>();
 
@@ -21,7 +21,7 @@
             this.SchemaId = schemaId;
             this.DefaultName = schemaId;
             this.CanRename = true;
-            this.PropertySchemas = properties;
+            this.Properties = properties;
 
             // TODO: see if this behavior needs to be removed from here.
             if (this.DefaultName.IndexOf('.') != -1)
@@ -33,28 +33,30 @@
         public string SchemaId { get; private set; }
         public string DefaultName { get; set; }
         public bool CanRename { get; set; }
-        public ICollection<PropertySchema> PropertySchemas { get; private set; }
+        public ICollection<PropertySchema> Properties { get; private set; }
 
         public PropertySchema CreatePropertySchema(string propertyName, Type propertyType)
         {
             if (propertyName == "Name")
                 throw new ArgumentException(Strings.ComponentSchema.NamePropertyReserved);
-            if (PropertySchemas.Any(x => x.Name == propertyName))
+            if (Properties.Any(x => x.Name == propertyName))
                 throw new ArgumentException(Strings.ComponentSchema.DuplicatePropertyName(propertyName));
 
             var property = new PropertySchema(propertyName, propertyType);
-            PropertySchemas.Add(property);
+            Properties.Add(property);
             return property;
         }
 
-        public IEnumerable<IAutomationSettings> AutomationSettings { get { return automationSettings; } }
+        public IEnumerable<IAutomationSettings> Automations { get { return automationSettings; } }
 
-        public void AddAutomationSettings(IAutomationSettings settings)
+        public void AddAutomation(IAutomationSettings settings)
         {
             this.automationSettings.Add(settings);
         }
 
-        IEnumerable<IPropertySchema> IComponentSchema.PropertySchemas { get { return this.PropertySchemas; } }
+        IEnumerable<IPropertyInfo> IComponentInfo.Properties { get { return this.Properties; } }
+
+        IEnumerable<IPropertySchema> IComponentSchema.Properties { get { return this.Properties; } }
 
         IPropertySchema IComponentSchema.CreatePropertySchema(string propertyName, Type propertyType)
         {

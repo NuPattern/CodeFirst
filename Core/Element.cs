@@ -11,9 +11,9 @@
             Guard.NotNull(() => parent, parent);
         }
 
-        public new IElementSchema Schema 
+        public new IElementInfo Schema 
         {
-            get { return (IElementSchema)base.Schema; }
+            get { return (IElementInfo)base.Schema; }
             set { base.Schema = value; }
         }
 

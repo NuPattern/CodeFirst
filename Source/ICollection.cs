@@ -7,7 +7,7 @@
     public interface ICollection : IContainer
     {
         IEnumerable<IElement> Items { get; }
-        new ICollectionSchema Schema { get; }
+        new ICollectionInfo Schema { get; }
 
         // The definition of the items is taken from 
         // the collection schema ItemId property.

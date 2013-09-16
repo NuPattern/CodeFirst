@@ -5,12 +5,12 @@
 
     public interface IProduct : IContainer
     {
-        new IProductSchema Schema { get; }
+        new IProductInfo Schema { get; }
 
         /// <summary>
         /// Information about the toolkit that provided the schema for this product.
         /// </summary>
-        IToolkitInfo Toolkit { get; }
+        IToolkitVersion Toolkit { get; }
 
         /// <summary>
         /// Accesses the store that manages persistence for this product.
