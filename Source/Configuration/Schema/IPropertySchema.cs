@@ -7,13 +7,13 @@
 
     public interface IPropertySchema : IInstanceSchema
     {
-        bool IsReadOnly { get; }
+        bool IsReadOnly { get; set; }
 
         IList<Attribute> Attributes { get; }
 
         string Name { get; }
 
-        Type PropertyType { get; }
+        Type PropertyType { get; set; }
 
         new IComponentSchema Parent { get; }
 

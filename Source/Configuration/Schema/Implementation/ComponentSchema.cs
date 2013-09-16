@@ -24,6 +24,14 @@
             this.CanRename = true;
             this.Properties = properties;
 
+            if (schemaId.StartsWith("System.Collections.Generic.IEnumerable<"))
+            {
+                this.DefaultName = this.DefaultName.Substring(39);
+                this.DefaultName = this.DefaultName.Substring(0, this.DefaultName.Length - 1);
+
+                // TODO: pluralize?
+            }
+
             // TODO: see if this behavior needs to be removed from here.
             if (this.DefaultName.IndexOf('.') != -1)
                 this.DefaultName = this.DefaultName.Substring(this.DefaultName.LastIndexOf('.') + 1);

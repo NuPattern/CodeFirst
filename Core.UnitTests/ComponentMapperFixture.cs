@@ -141,6 +141,7 @@
 
             Assert.NotNull(product.Components.First().Schema);
             Assert.NotNull(product.Components.First().Properties.First().Schema);
+            //Assert.Equal("")
         }
 
         [Fact]

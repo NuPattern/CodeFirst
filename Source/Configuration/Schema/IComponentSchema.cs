@@ -16,14 +16,14 @@
         /// <summary>
         /// Default instance name for components of this kind.
         /// </summary>
-        string DefaultName { get; }
+        string DefaultName { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether component instances
         /// created from this schema can be named or renamed by 
         /// the user.
         /// </summary>
-        bool CanRename { get; }
+        bool CanRename { get; set; }
 
         IEnumerable<IPropertySchema> Properties { get; }
 

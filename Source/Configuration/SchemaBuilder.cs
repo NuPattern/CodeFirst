@@ -47,6 +47,7 @@
                 if (property.PropertyType.IsCollection())
                 {
                     var collectionSchema = schema.CreateCollectionSchema(property.PropertyType.ToTypeFullName());
+                    collectionSchema.DefaultName = property.Name;
                     var itemType = property.PropertyType.GetItemType();
                     var itemSchema = collectionSchema.CreateItemSchema(itemType.ToTypeFullName());
 
@@ -55,7 +56,9 @@
                 }
                 else
                 {
-                    BuildType(property.PropertyType, schema.CreateElementSchema(property.PropertyType.ToTypeFullName()));
+                    var elementSchema = schema.CreateElementSchema(property.PropertyType.ToTypeFullName());
+                    elementSchema.DefaultName = property.Name;
+                    BuildType(property.PropertyType, elementSchema);
                 }
             }
         }

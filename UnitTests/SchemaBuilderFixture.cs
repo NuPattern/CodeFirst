@@ -44,6 +44,19 @@
         }
 
         [Fact]
+        public void when_product_type_has_reference_property_then_element_default_name_matches_property_name()
+        {
+            var builder = new SchemaBuilder();
+
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
+
+            var element = schema.Components.FirstOrDefault(c => c.SchemaId == typeof(IMyRenamedProperty).ToTypeFullName());
+
+            Assert.NotNull(element);
+            Assert.Equal("Other", element.DefaultName);
+        }
+
+        [Fact]
         public void when_product_type_has_enumerable_property_then_creates_collection_schema()
         {
             var builder = new SchemaBuilder();
@@ -59,6 +72,21 @@
             Assert.Equal(typeof(IMyItem).ToTypeFullName(), collection.Item.SchemaId);
             Assert.Equal(typeof(IEnumerable<IMyItem>).ToTypeFullName(), collection.SchemaId);
             Assert.True(collection.Item.Properties.Any(x => x.Name == "Path" && x.PropertyType == typeof(string)));
+        }
+
+        [Fact]
+        public void when_product_type_has_enumerable_property_then_collection_default_name_matches_property_name()
+        {
+            var builder = new SchemaBuilder();
+
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
+
+            Assert.False(schema.Properties.Any(x => x.Name == "MyElement"));
+
+            var collection = schema.Components.OfType<ICollectionSchema>().FirstOrDefault();
+
+            Assert.NotNull(collection);
+            Assert.Equal("MyItems", collection.DefaultName);
         }
 
         [Fact]
@@ -81,6 +109,22 @@
                 .Any(x => x.Name == "IsSafe" && x.PropertyType == typeof(bool)));
             Assert.True(collection.Item.Properties
                 .Any(x => x.Name == "Path" && x.PropertyType == typeof(string)));
+        }
+
+        [Fact]
+        public void when_product_type_has_custom_enumerable_property_then_collection_default_name_matches_property_name()
+        {
+            var builder = new SchemaBuilder();
+
+            var schema = builder.BuildProduct(new ToolkitSchema("MyToolkit", "1.0"), typeof(IMyProduct));
+
+            Assert.False(schema.Properties.Any(x => x.Name == "MyCustomItems"));
+
+            var collection = schema.Components.OfType<ICollectionSchema>()
+                .FirstOrDefault(x => x.SchemaId.EndsWith("IMyItems"));
+
+            Assert.NotNull(collection);
+            Assert.Equal("MyCustomItems", collection.DefaultName);
         }
 
         [Fact]
@@ -123,6 +167,7 @@
         IMyElement MyElement { get; set; }
         IEnumerable<IMyItem> MyItems { get; }
         IMyItems MyCustomItems { get; }
+        IMyRenamedProperty Other { get; set; }
     }
 
     public interface IMyElement
@@ -139,4 +184,6 @@
     {
         bool IsSafe { get; set; }
     }
+
+    public interface IMyRenamedProperty { }
 }

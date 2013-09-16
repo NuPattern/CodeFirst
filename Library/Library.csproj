@@ -68,8 +68,16 @@
     <Compile Include="Automation\EventAutomationSettings.cs" />
     <Compile Include="Automation\ICommandAutomation.cs" />
     <Compile Include="Automation\ICommandAutomationSettings.cs" />
+    <Compile Include="Commands\TraceMessage.cs" />
+    <Compile Include="Commands\TraceMessage.Extension.cs" />
     <Compile Include="Configuration\CommandConfiguration.cs" />
+    <Compile Include="Configuration\CommandFor.cs" />
     <Compile Include="Configuration\EventConfiguration.cs" />
+    <Compile Include="Configuration\EventConfiguration`.cs" />
+    <Compile Include="Configuration\EventFor.cs" />
+    <Compile Include="Configuration\ProductConfigurationExtensions.cs" />
+    <Compile Include="Events\OnPropertyChanged.Extension.cs" />
+    <Compile Include="Events\OnPropertyChanged.cs" />
     <Compile Include="netfx\StringlyTyped\IStringlyScope.cs" />
     <Compile Include="netfx\StringlyTyped\Stringly.cs" />
     <Compile Include="netfx\StringlyTyped\StringlyScopeExtensions.cs" />
@@ -111,6 +119,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
