@@ -27,5 +27,10 @@
 
             return new CommandFor<T>(commandConfig);
         }
+
+        public void Execute(ICommandConfiguration command)
+        {
+            configuration.CommandConfiguration = command;
+        }
     }
 }

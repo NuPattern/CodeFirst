@@ -16,5 +16,11 @@
         {
             return new CommandFor<T>(new CommandConfiguration());
         }
+
+        public static ICommandConfiguration Command<T>(this ProductConfiguration<T> configuration, Action<T> command)
+            where T : class
+        {
+            return new AnonymousCommandConfiguration<T>(command);
+        }
     }
 }
