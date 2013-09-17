@@ -10,5 +10,11 @@
         {
             return new EventFor<T>(configuration.Configuration);
         }
+
+        public static CommandFor<T> Command<T>(this ProductConfiguration<T> configuration)
+            where T : class
+        {
+            return new CommandFor<T>(new CommandConfiguration());
+        }
     }
 }

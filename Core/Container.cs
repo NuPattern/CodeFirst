@@ -17,7 +17,7 @@
 
         public IEnumerable<Component> Components
         {
-            get { return this.components; }
+            get { return components; }
         }
 
         public new IContainerInfo Schema

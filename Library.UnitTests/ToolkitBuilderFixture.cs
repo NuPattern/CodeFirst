@@ -10,6 +10,7 @@
     using Xunit;
     using System.Reactive;
     using System.Reactive.Linq;
+    using System.Collections.Generic;
 
     public class ToolkitBuilderFixture
     {
@@ -17,6 +18,7 @@
         public void when_building_toolkit_then_can_specify_event_automation()
         {
             var builder = new ToolkitBuilder("Simple", "1.0");
+            var changes = new List<string>();
 
             builder.Product<IAmazonWebServices>()
                 .On()
@@ -25,8 +27,31 @@
                 .Execute()
                 .TraceMessage("Access Key Changed");
 
-            #region Runtime faking
+            builder.Product<IAmazonWebServices>()
+                .On()
+                .PropertyChanged(aws => aws.AccessKey)
+                .Execute(aws => changes.Add(aws.AccessKey));
 
+            var product = InstantiateProduct(builder);
+
+            // User changes a property via property browser:
+
+            var amazon = product.As<IAmazonWebServices>();
+
+            amazon.AccessKey = "blah";
+
+            product.Set("AccessKey", "asdf");
+
+            Assert.Equal(2, changes.Count);
+            Assert.Equal("blah", changes[0]);
+            Assert.Equal("asdf", changes[1]);
+        }
+
+        /// <summary>
+        /// Simulates runtime behavior.
+        /// </summary>
+        private static Product InstantiateProduct(ToolkitBuilder builder)
+        {
             // Runtime would call this builder when solution/project is opened:
             var schema = builder.Build();
             // Fake global resolve context.
@@ -43,15 +68,7 @@
                 product.AddAutomation(setting.CreateAutomation(productContext));
             }
 
-            #endregion
-
-            // User changes a property via property browser:
-
-            var amazon = product.As<IAmazonWebServices>();
-
-            amazon.AccessKey = "blah";
-
-            product.Set("AccessKey", "asdf");
+            return product;
         }
     }
 }

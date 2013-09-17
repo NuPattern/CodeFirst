@@ -14,7 +14,7 @@
         public EventAutomationSettings(
             Type eventType,
             object eventSettings,
-            ICommandAutomationSettings commandSettings /*, ConfigurableReference wizardReference */)
+            ICommandAutomationSettings commandSettings)
         {
             Guard.NotNull(() => eventType, eventType);
 
@@ -36,7 +36,7 @@
         public object EventSettings { get; private set; }
 
         public ICommandAutomationSettings CommandSettings { get; private set; }
-        // TODO: public WizardAutomationSettings WizardSettings { get; private set; }
+        // TODO: public IWizardAutomationSettings WizardSettings { get; private set; }
 
         public IAutomation CreateAutomation(IComponentContext context)
         {

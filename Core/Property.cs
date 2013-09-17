@@ -53,7 +53,7 @@
 
         internal object GetValue()
         {
-            return this.value;
+            return value;
         }
 
         internal void SetValue(object value)

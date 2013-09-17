@@ -92,8 +92,8 @@
 
             var property = new Property(name, this);
             properties[name] = property;
-            if (this.Schema != null)
-                property.Schema = this.Schema.Properties.FirstOrDefault(x => x.Name == name);
+            if (Schema != null)
+                property.Schema = Schema.Properties.FirstOrDefault(x => x.Name == name);
 
             // TODO: if no schema for property, consider it a dynamic property?
             // Should we always have a schema? (null object pattern?)
@@ -103,8 +103,8 @@
 
         public void Delete()
         {
-            var container = this.Parent as Container;
-            var collection = this.Parent as Collection;
+            var container = Parent as Container;
+            var collection = Parent as Collection;
             if (collection != null)
                 collection.DeleteItem(this);
             else if (container != null)
@@ -163,7 +163,7 @@
                 IsDisposed = true;
             }
 
-            this.Parent = null;
+            Parent = null;
         }
 
         protected virtual void OnRenaming(string oldName, string newName)

@@ -7,6 +7,7 @@ using System.Text;
 namespace NuPattern.Automation
 {
     public class AnonymousCommandAutomationSettings<T> : ICommandAutomationSettings
+        where T : class
     {
         private Action<T> command;
 
@@ -29,20 +30,25 @@ namespace NuPattern.Automation
             return CreateAutomation(context);
         }
 
-        private class AnonymousCommandAutomation : ICommandAutomation
+        private class AnonymousCommandAutomation : ICommandAutomation, IDisposable
         {
             private Action<T> command;
-            private IComponentContext context;
+            private IComponentContext scope;
 
             public AnonymousCommandAutomation(Action<T> command, IComponentContext context)
             {
                 this.command = command;
-                this.context = context;
+                this.scope = context.BeginScope(builder => builder.RegisterInstance(((IComponent)context.Resolve(typeof(IComponent))).As<T>()));
             }
 
             public void Execute()
             {
-                command.Invoke((T)context.Resolve(typeof(T)));
+                command.Invoke((T)scope.Resolve(typeof(T)));
+            }
+
+            public void Dispose()
+            {
+                scope.Dispose();
             }
         }
     }

@@ -26,7 +26,7 @@
 
         public void Dispose()
         {
-            this.scope.Dispose();
+            scope.Dispose();
         }
 
         public void Execute()

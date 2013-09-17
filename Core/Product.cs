@@ -9,7 +9,7 @@
         public Product(string name, string schemaId)
             : base(name, schemaId, null)
         {
-            this.Toolkit = new ToolkitVersion();
+            Toolkit = new ToolkitVersion();
         }
 
         public new IProductInfo Schema

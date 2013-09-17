@@ -39,8 +39,8 @@
             return schema;
         }
 
-        IEnumerable<IComponentInfo> IContainerInfo.Components { get { return this.Components; } }
-        IEnumerable<IComponentSchema> IContainerSchema.Components { get { return this.Components; } }
+        IEnumerable<IComponentInfo> IContainerInfo.Components { get { return Components; } }
+        IEnumerable<IComponentSchema> IContainerSchema.Components { get { return Components; } }
 
         IElementSchema IContainerSchema.CreateElementSchema(string schemaId)
         {

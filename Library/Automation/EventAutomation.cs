@@ -33,6 +33,9 @@
         {
             scope.Dispose();
             subscription.Dispose();
+            var disposable = command as IDisposable;
+            if (disposable != null)
+                disposable.Dispose();
         }
 
         private void OnEvent(IEventPattern<object, EventArgs> @event)

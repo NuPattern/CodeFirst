@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.Configuration
 {
+    using NuPattern.Automation;
     using System;
     using System.Linq;
 
@@ -14,19 +15,17 @@
             this.configuration = configuration;
         }
 
-        public void Execute(Action<T> action)
+        public void Execute(Action<T> command)
         {
-            //parent.Automations.Add()
+            configuration.CommandConfiguration = new AnonymousCommandConfiguration<T>(command);
         }
 
         public CommandFor<T> Execute()
         {
-            if (configuration.CommandConfiguration == null)
-            {
-                configuration.CommandConfiguration = new CommandConfiguration();
-            }
+            var commandConfig = new CommandConfiguration();
+            configuration.CommandConfiguration = commandConfig;
 
-            return new CommandFor<T>(configuration.CommandConfiguration);
+            return new CommandFor<T>(commandConfig);
         }
     }
 }

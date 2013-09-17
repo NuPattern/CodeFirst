@@ -60,12 +60,12 @@
 
         public void AddAutomation(IAutomationSettings settings)
         {
-            this.automationSettings.Add(settings);
+            automationSettings.Add(settings);
         }
 
-        IEnumerable<IPropertyInfo> IComponentInfo.Properties { get { return this.Properties; } }
+        IEnumerable<IPropertyInfo> IComponentInfo.Properties { get { return Properties; } }
 
-        IEnumerable<IPropertySchema> IComponentSchema.Properties { get { return this.Properties; } }
+        IEnumerable<IPropertySchema> IComponentSchema.Properties { get { return Properties; } }
 
         IPropertySchema IComponentSchema.CreatePropertySchema(string propertyName, Type propertyType)
         {

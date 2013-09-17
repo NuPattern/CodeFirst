@@ -21,7 +21,7 @@
 
         // TODO: eventually, validate either Wizard or Command are specified.
         [Required]
-        public CommandConfiguration CommandConfiguration { get; set; }
+        public ICommandConfiguration CommandConfiguration { get; set; }
         
         //public WizardConfiguration WizardConfiguration { get; set; }
 
@@ -31,9 +31,7 @@
             // Automation configuration must be valid at this point.
             Validator.ValidateObject(this, new ValidationContext(this, null, null), true);
 
-            var commandSettings = default(CommandAutomationSettings);
-            if (CommandConfiguration != null && CommandConfiguration.CommandType != null)
-                commandSettings = new CommandAutomationSettings(CommandConfiguration.CommandType, CommandConfiguration.CommandSettings);
+            var commandSettings = CommandConfiguration.CreateSettings();
 
             var eventAutomation = new EventAutomationSettings(EventType, EventSettings, commandSettings);
             schema.AddAutomation(eventAutomation);
