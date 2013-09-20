@@ -9,6 +9,8 @@
     {
         event EventHandler<PropertyChangedEventArgs> PropertyChanged;
 
+        IComponentContext Context { get; }
+
         /// <summary>
         /// The instance name of the component. Should be unique within the product?
         /// </summary>
@@ -57,7 +59,6 @@
         /// compatible with the given type, that is, it contains the at least the same number and 
         /// type of properties and hierarchical structure of descendents; <see langword="null"/> otherwise.</returns>
         T As<T>() where T : class;
-
 
         IProperty CreateProperty(string name);
         T Get<T>(string propertyName);

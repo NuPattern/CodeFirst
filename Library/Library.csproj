@@ -60,24 +60,8 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
-    <Compile Include="Automation\AnonymousCommandAutomation.cs" />
-    <Compile Include="Automation\CommandAutomation.cs" />
-    <Compile Include="Automation\CommandAutomationSettings.cs" />
-    <Compile Include="Automation\ConfigurableReference.cs" />
-    <Compile Include="Automation\EventAutomation.cs" />
-    <Compile Include="Automation\EventAutomationSettings.cs" />
-    <Compile Include="Automation\ICommandAutomation.cs" />
-    <Compile Include="Automation\ICommandAutomationSettings.cs" />
     <Compile Include="Commands\TraceMessage.cs" />
     <Compile Include="Commands\TraceMessage.Extension.cs" />
-    <Compile Include="Configuration\AnonymousCommandConfiguration.cs" />
-    <Compile Include="Configuration\CommandConfiguration.cs" />
-    <Compile Include="Configuration\CommandFor.cs" />
-    <Compile Include="Configuration\EventConfiguration.cs" />
-    <Compile Include="Configuration\EventConfiguration`.cs" />
-    <Compile Include="Configuration\EventFor.cs" />
-    <Compile Include="Configuration\ICommandConfiguration.cs" />
-    <Compile Include="Configuration\ProductConfigurationExtensions.cs" />
     <Compile Include="Events\OnPropertyChanged.Extension.cs" />
     <Compile Include="Events\OnPropertyChanged.cs" />
     <Compile Include="netfx\StringlyTyped\IStringlyScope.cs" />

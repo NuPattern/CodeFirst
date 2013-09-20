@@ -1,7 +1,7 @@
 ﻿namespace NuPattern
 {
     using Castle.DynamicProxy;
-    using NuPattern.Properties;
+    using NuPattern.Core.Properties;
     using NuPattern.Proxy;
     using NuPattern.Schema;
     using System;

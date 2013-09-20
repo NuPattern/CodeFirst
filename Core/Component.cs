@@ -1,6 +1,6 @@
 ﻿namespace NuPattern
 {
-    using NuPattern.Properties;
+    using NuPattern.Core.Properties;
     using NuPattern.Schema;
     using System;
     using System.Collections.Concurrent;
@@ -28,6 +28,8 @@
         }
 
         public bool IsDisposed { get; private set; }
+
+        public IComponentContext Context { get; internal set; }
 
         public IComponentInfo Schema { get; internal set; }
 

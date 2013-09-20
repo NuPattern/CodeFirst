@@ -91,6 +91,46 @@
                 .Execute()
                 .TraceMessage("Access Key Changed");
 
+            // TODO: allow chaining on method calls.
+
+            builder.Product<IAmazonWebServices>()
+                .On()
+                .PropertyChanged(aws => aws.AccessKey)
+                .Execute(aws => changes.Add(aws.AccessKey));
+
+
+            // Later in time, when the user wants to....
+
+            var product = InstantiateProduct(builder);
+
+            // User changes a property via property browser:
+
+            var amazon = product.As<IAmazonWebServices>();
+
+            amazon.AccessKey = "blah";
+
+            product.Set("AccessKey", "asdf");
+
+            Assert.Equal(2, changes.Count);
+            Assert.Equal("blah", changes[0]);
+            Assert.Equal("asdf", changes[1]);
+        }
+
+        [Fact]
+        public void when_building_toolkit_then_command_automation_can_use_dynamic_values()
+        {
+            var builder = new ToolkitBuilder("Simple", "1.0");
+            var changes = new List<string>();
+
+            builder.Product<IAmazonWebServices>()
+                .On()
+                .PropertyChanged(aws => aws.AccessKey)
+                // TODO: Wizard
+                .Execute()
+                .Test()
+                .With(s => s.Message, aws => "AccessKey: " + aws.AccessKey + ", SecretKey: " + aws.SecretKey)
+                .With(s => s.Count, aws => 3);
+
             builder.Product<IAmazonWebServices>()
                 .On()
                 .PropertyChanged(aws => aws.AccessKey)
@@ -117,55 +157,82 @@
         private static Product InstantiateProduct(ToolkitBuilder builder)
         {
             // Runtime would call this builder when solution/project is opened:
-            var schema = builder.Build();
+            //var schema = builder.Build();
             // Fake global resolve context.
             var rootContext = new ComponentContext();
 
             // User instantiates a product via Solution Builder:
             var product = new Product("MyWebService", typeof(IAmazonWebServices).FullName);
-            ComponentMapper.SyncProduct(product, schema.Products.First());
+            //ComponentMapper.SyncProduct(product, schema.Products.First());
 
             var productContext = rootContext.BeginScope(b => b.RegisterInstance(product));
 
-            foreach (var setting in schema.Products.First().Automations)
-            {
-                product.AddAutomation(setting.CreateAutomation(productContext));
-            }
+            //foreach (var setting in schema.Products.First().Automations)
+            //{
+            //    product.AddAutomation(setting.CreateAutomation(productContext));
+            //}
 
             return product;
         }
+    }
 
-        public class TestCommand : ICommand
+    public class TestCommand : ICommand
+    {
+        private static ThreadLocal<int> executedCount = new ThreadLocal<int>(() => 0);
+
+        public TestCommand(TestCommandSettings settings)
         {
-            private static ThreadLocal<int> executedCount = new ThreadLocal<int>(() => 0);
-
-            public TestCommand(TestCommandSettings settings)
-            {
-                this.Settings = settings;
-            }
-
-            public static int ExecutedCount 
-            { 
-                get { return executedCount.Value; }
-                set { executedCount.Value = value; }
-            }
-
-            public TestCommandSettings Settings { get; private set; }
-
-            public void Execute()
-            {
-                executedCount.Value++;
-            }
+            this.Settings = settings;
         }
 
-        public class TestCommandSettings
+        public static int ExecutedCount
         {
-            public TestCommandSettings(string message)
-            {
-                this.Message = message;
-            }
+            get { return executedCount.Value; }
+            set { executedCount.Value = value; }
+        }
 
-            public string Message { get; private set; }
+        public TestCommandSettings Settings { get; private set; }
+
+        public void Execute()
+        {
+            executedCount.Value++;
+        }
+    }
+
+    public class TestCommandSettings
+    {
+        public TestCommandSettings(string message)
+        {
+            this.Message = message;
+        }
+
+        public string Message { get; private set; }
+        public int Count { get; set; }
+    }
+
+    public class CommandConfiguration<T, TSettings>
+        where T : class
+    {
+        private CommandConfiguration commandConfiguration;
+
+        public CommandConfiguration(CommandConfiguration commandConfiguration)
+        {
+            this.commandConfiguration = commandConfiguration;
+        }
+
+        public CommandConfiguration<T, TSettings> With<TProperty>(Expression<Func<TSettings, TProperty>> property, Func<T, TProperty> value)
+        {
+            // TODO: Setup binding
+            return this;
+        }
+    }
+
+    public static class TestCommandExtensions
+    {
+        public static CommandConfiguration<T, TestCommandSettings> Test<T>(this CommandFor<T> configuration)
+            where T : class
+        {
+            return new CommandConfiguration<T, TestCommandSettings>(configuration.Configuration);
         }
     }
 }

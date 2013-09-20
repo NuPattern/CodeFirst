@@ -16,7 +16,8 @@
         public void when_serializing_product_then_succeeds()
         {
             var builder = new SimpleModelBuilder();
-            var toolkit = builder.Build();
+            //var toolkit = builder.Build();
+            var toolkit = default(IToolkitInfo);
 
             var product = ComponentMapper.SyncProduct(
                 new Product("MyWebService", toolkit.Products.First().SchemaId), 

@@ -3,11 +3,18 @@
     using System;
     using System.Linq;
 
-    public class ElementConfiguration : ComponentConfiguration
+    public class ElementConfiguration : ContainerConfiguration
     {
-        internal ElementConfiguration(Type componentType)
-            : base(componentType)
+        internal ElementConfiguration(Type elementType)
+            : base(elementType)
         {
+        }
+
+        public override TVisitor Accept<TVisitor>(TVisitor visitor)
+        {
+            visitor.Visit(this);
+
+            return base.Accept(visitor);
         }
     }
 }

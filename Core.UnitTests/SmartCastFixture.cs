@@ -6,7 +6,6 @@
     using System.Linq;
     using Xunit;
     using NetFx.StringlyTyped;
-    using NuPattern.Configuration.Schema;
 
     public class given_a_toolkit
     {

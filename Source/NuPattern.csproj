@@ -43,6 +43,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
@@ -50,16 +53,32 @@
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
     <Compile Include="Configuration\AutomationConfiguration.cs" />
+    <Compile Include="Configuration\Automation\AnonymousCommandConfiguration.cs" />
+    <Compile Include="Configuration\Automation\CommandConfiguration.cs" />
+    <Compile Include="Configuration\Automation\CommandFor.cs" />
+    <Compile Include="Configuration\Automation\EventConfiguration.cs" />
+    <Compile Include="Configuration\Automation\EventConfiguration`.cs" />
+    <Compile Include="Configuration\Automation\EventFor.cs" />
+    <Compile Include="Configuration\Automation\ICommandConfiguration.cs" />
+    <Compile Include="Configuration\Automation\ProductConfigurationExtensions.cs" />
+    <Compile Include="Configuration\BindingConfiguration.cs" />
+    <Compile Include="Configuration\IConfigurationVisitor.cs" />
+    <Compile Include="Configuration\ContainerConfiguration.cs" />
+    <Compile Include="Configuration\IVisitableConfiguration.cs" />
+    <Compile Include="Configuration\PropertyBindingConfiguration.cs" />
     <Compile Include="Configuration\CollectionConfiguration.cs" />
     <Compile Include="Configuration\ComponentConfiguration.cs" />
     <Compile Include="Configuration\ComponentConfiguration`.cs" />
     <Compile Include="Configuration\ProductConfiguration.cs" />
     <Compile Include="Configuration\ElementConfiguration.cs" />
-    <Compile Include="Configuration\ModelConfiguration.cs" />
+    <Compile Include="Configuration\PropertyConfiguration.cs" />
+    <Compile Include="Configuration\ToolkitConfiguration.cs" />
     <Compile Include="Configuration\ProductConfiguration`.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IAutomation.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="IComponentContextBuilder.cs" />
+    <Compile Include="IComponentContextExtensions.cs" />
     <Compile Include="Schema\IAutomationSettings.cs" />
     <Compile Include="IComponentContext.cs" />
     <Compile Include="ILineInfo.cs" />
@@ -76,7 +95,7 @@
     <Compile Include="IComponent.cs" />
     <Compile Include="IInstance.cs" />
     <Compile Include="IProductStore.cs" />
-    <Compile Include="IToolkitVersion.cs" />
+    <Compile Include="IToolkitIdentifier.cs" />
     <Compile Include="netfx\StringlyTyped\IStringlyScope.cs" />
     <Compile Include="netfx\StringlyTyped\Stringly.cs" />
     <Compile Include="netfx\StringlyTyped\StringlyScopeExtensions.cs" />
@@ -96,31 +115,14 @@
       <DependentUpon>Resources.tt</DependentUpon>
     </Compile>
     <Compile Include="PropertyChangedEventArgs.cs" />
-    <Compile Include="Configuration\Schema\Implementation\CollectionSchema.cs" />
-    <Compile Include="Configuration\Schema\Implementation\ComponentSchema.cs" />
-    <Compile Include="Configuration\Schema\Implementation\ContainerSchema.cs" />
-    <Compile Include="Configuration\Schema\Implementation\ElementSchema.cs" />
     <Compile Include="Schema\IComponentInfo.cs" />
-    <Compile Include="Configuration\Schema\IInstanceSchema.cs" />
     <Compile Include="Schema\ICollectionInfo.cs" />
     <Compile Include="Schema\IContainerInfo.cs" />
     <Compile Include="Schema\IElementInfo.cs" />
     <Compile Include="Schema\IProductInfo.cs" />
     <Compile Include="Schema\IPropertyInfo.cs" />
     <Compile Include="Schema\IToolkitInfo.cs" />
-    <Compile Include="Configuration\Schema\Implementation\InstanceSchema.cs" />
-    <Compile Include="Configuration\Schema\IProductSchema.cs" />
-    <Compile Include="Configuration\Schema\IContainerSchema.cs" />
-    <Compile Include="Configuration\Schema\IElementSchema.cs" />
-    <Compile Include="Configuration\Schema\ICollectionSchema.cs" />
-    <Compile Include="Configuration\Schema\IComponentSchema.cs" />
-    <Compile Include="Configuration\Schema\IPropertySchema.cs" />
-    <Compile Include="Configuration\Schema\IToolkitSchema.cs" />
-    <Compile Include="Configuration\Schema\Implementation\ProductSchema.cs" />
-    <Compile Include="Configuration\Schema\Implementation\PropertySchema.cs" />
-    <Compile Include="Configuration\SchemaBuilder.cs" />
     <Compile Include="Configuration\ToolkitBuilder.cs" />
-    <Compile Include="Configuration\Schema\Implementation\ToolkitSchema.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Compile Include="SemanticVersionTypeConverter.cs" />
   </ItemGroup>

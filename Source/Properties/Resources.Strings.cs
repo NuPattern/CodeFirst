@@ -23,51 +23,19 @@ namespace NuPattern.Properties
 		///	</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		public static partial class ComponentSchema
+		public static partial class EventAutomationSettings
 		{
 			/// <summary>
 			/// Looks up a localized string similar to: 
-			///	A property with the same name '{name}' already exists.
+			///	Event type must implement '{observableType}' or a more specific event pattern.
 			/// </summary>
-			public static string DuplicatePropertyName(object name)
+			public static string EventTypeMustBeObservable(object observableType)
 			{
-				return Resources.ComponentSchema_DuplicatePropertyName.FormatWith(new 
+				return Resources.EventAutomationSettings_EventTypeMustBeObservable.FormatWith(new 
 				{
-					name = name,
+					observableType = observableType,
 				});
 			}
-		
-			/// <summary>
-			/// Looks up a localized string similar to: 
-			///	Cannot create property named 'Name' since it is a reserved property that always exists for components.
-			/// </summary>
-			public static string NamePropertyReserved { get { return Resources.ComponentSchema_NamePropertyReserved; } }
-		}
-		
-		///	<summary>
-		///	Provides access to string resources.
-		///	</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		public static partial class SchemaBuilder
-		{
-			/// <summary>
-			/// Looks up a localized string similar to: 
-			///	Product model can only contain interfaces and primitive types. Invalid type '{type}'.
-			/// </summary>
-			public static string ModelMustBeInterfaces(object type)
-			{
-				return Resources.SchemaBuilder_ModelMustBeInterfaces.FormatWith(new 
-				{
-					type = type,
-				});
-			}
-		
-			/// <summary>
-			/// Looks up a localized string similar to: 
-			///	Reserved property 'Name' must be of type string.
-			/// </summary>
-			public static string NamePropertyMustBeString { get { return Resources.SchemaBuilder_NamePropertyMustBeString; } }
 		}
 	}
 }

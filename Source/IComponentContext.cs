@@ -6,15 +6,11 @@
 
     public interface IComponentContext : IDisposable
     {
+        object Instantiate(Type type);
         object Resolve(Type type);
+        object ResolveOptional(Type type);
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         IComponentContext BeginScope(Action<IComponentContextBuilder> configurationAction);
-    }
-
-    public interface IComponentContextBuilder
-    {
-        void RegisterType(Type type);
-        void RegisterInstance(object instance);
     }
 }

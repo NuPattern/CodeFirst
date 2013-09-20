@@ -10,7 +10,7 @@
         /// <summary>
         /// Information about the toolkit that provided the schema for this product.
         /// </summary>
-        IToolkitVersion Toolkit { get; }
+        IToolkitIdentifier Toolkit { get; }
 
         /// <summary>
         /// Accesses the store that manages persistence for this product.

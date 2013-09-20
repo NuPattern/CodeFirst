@@ -17,26 +17,6 @@ namespace NuPattern.Properties
 	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
 	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 	static partial class Strings
-	{
-		///	<summary>
-		///	Provides access to string resources.
-		///	</summary>
-		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		public static partial class EventAutomationSettings
-		{
-			/// <summary>
-			/// Looks up a localized string similar to: 
-			///	Event type must implement '{observableType}' or a more specific event pattern.
-			/// </summary>
-			public static string EventTypeMustBeObservable(object observableType)
-			{
-				return Resources.EventAutomationSettings_EventTypeMustBeObservable.FormatWith(new 
-				{
-					observableType = observableType,
-				});
-			}
-		}
-	}
+	{}
 }
 

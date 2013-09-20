@@ -18,9 +18,27 @@
             this.scope = scope;
         }
 
+        public object Instantiate(Type type)
+        {
+            // Registers on demand and later resolves.
+            if (!scope.IsRegistered(type))
+            {
+                var builder = new ContainerBuilder();
+                builder.RegisterType(type);
+                builder.Update(scope.ComponentRegistry);
+            }
+
+            return scope.Resolve(type);
+        }
+
         public object Resolve(Type type)
         {
             return scope.Resolve(type);
+        }
+
+        public object ResolveOptional(Type type)
+        {
+            return scope.ResolveOptional(type);
         }
 
         public IComponentContext BeginScope(Action<IComponentContextBuilder> configurationAction)

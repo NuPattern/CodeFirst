@@ -1,6 +1,6 @@
 ﻿namespace NuPattern
 {
-    using NuPattern.Properties;
+    using NuPattern.Core.Properties;
     using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
@@ -25,7 +25,10 @@
 
             this.settings = settings;
             this.serializer = serializer;
-            this.toolkits = builders.Select(x => x.Build()).ToDictionary(x => x.Id);
+
+            // TODO: process toolkit builders with internal processor.
+
+            // this.toolkits = builders.Select(x => x.Build()).ToDictionary(x => x.Id);
         }
 
         public bool IsDisposed { get; private set; }

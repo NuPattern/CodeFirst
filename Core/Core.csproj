@@ -49,23 +49,59 @@
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net40\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="Automation\AnonymousCommandAutomation.cs" />
+    <Compile Include="Automation\CommandAutomation.cs" />
+    <Compile Include="Automation\CommandAutomationSettings.cs" />
+    <Compile Include="Automation\ConfigurableReference.cs" />
+    <Compile Include="Automation\EventAutomation.cs" />
+    <Compile Include="Automation\EventAutomationSettings.cs" />
+    <Compile Include="Automation\ICommandAutomation.cs" />
+    <Compile Include="Automation\ICommandAutomationSettings.cs" />
     <Compile Include="Collection.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="ComponentContext.cs" />
+    <Compile Include="Configuration\Automation\EventAutomationConfigurator.cs" />
+    <Compile Include="Configuration\CollectionSchemaConfigurator.cs" />
+    <Compile Include="Configuration\ToolkitSchemaConfigurator.cs" />
+    <Compile Include="Configuration\PropertySchemaConfigurator.cs" />
+    <Compile Include="Configuration\ISchemaConfigurator.cs" />
+    <Compile Include="Configuration\ElementSchemaConfigurator.cs" />
+    <Compile Include="Configuration\ProductSchemaConfigurator.cs" />
+    <Compile Include="Configuration\SchemaConfigurationDispatcher.cs" />
+    <Compile Include="Properties\Resources.Strings.cs">
+      <DependentUpon>Resources.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Schema\ISchemaVisitor.cs" />
+    <Compile Include="Schema\IVisitableSchema.cs" />
+    <Compile Include="Schema\SchemaBuilder.cs" />
+    <Compile Include="Schema\ToolkitProcessor.cs" />
     <Compile Include="netfx\System\Collections\Generic\DictionaryFind.cs" />
-    <Compile Include="netfx\System\Collections\Generic\DictionaryGetOrAdd.cs" />
     <Compile Include="ProductStore.cs" />
     <Compile Include="netfx\System\Collections\Generic\IEnumerable\ForEach.cs" />
     <Compile Include="netfx\System\Reflection\GetCustomAttribute.cs" />
-    <Compile Include="netfx\System\StringFormatWith.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="netfx\System\Guard.cs" />
@@ -75,11 +111,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Strings.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.tt</DependentUpon>
     </Compile>
     <Compile Include="Property.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,10 +131,26 @@
     <Compile Include="Proxy\Proxied.cs" />
     <Compile Include="ComponentMapper.cs" />
     <Compile Include="IProductSerializer.cs" />
+    <Compile Include="Schema\ICollectionSchema.cs" />
+    <Compile Include="Schema\IComponentSchema.cs" />
+    <Compile Include="Schema\IContainerSchema.cs" />
+    <Compile Include="Schema\IElementSchema.cs" />
+    <Compile Include="Schema\IInstanceSchema.cs" />
+    <Compile Include="Schema\Implementation\CollectionSchema.cs" />
+    <Compile Include="Schema\Implementation\ComponentSchema.cs" />
+    <Compile Include="Schema\Implementation\ContainerSchema.cs" />
+    <Compile Include="Schema\Implementation\ElementSchema.cs" />
+    <Compile Include="Schema\Implementation\InstanceSchema.cs" />
+    <Compile Include="Schema\Implementation\ProductSchema.cs" />
+    <Compile Include="Schema\Implementation\PropertySchema.cs" />
+    <Compile Include="Schema\Implementation\ToolkitSchema.cs" />
+    <Compile Include="Schema\IProductSchema.cs" />
+    <Compile Include="Schema\IPropertySchema.cs" />
+    <Compile Include="Schema\IToolkitSchema.cs" />
     <Compile Include="Serialization\JsonProductSerializer.cs" />
     <Compile Include="SmartCast.cs" />
-    <Compile Include="Toolkit.cs" />
-    <Compile Include="ToolkitVersion.cs" />
+    <Compile Include="ToolkitCatalog.cs" />
+    <Compile Include="ToolkitIdentifier.cs" />
     <Compile Include="ValueHandler.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -127,11 +174,13 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>NuPattern.Core</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

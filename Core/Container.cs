@@ -1,6 +1,6 @@
 ﻿namespace NuPattern
 {
-    using NuPattern.Properties;
+    using NuPattern.Core.Properties;
     using NuPattern.Schema;
     using System;
     using System.Collections.Generic;

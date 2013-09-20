@@ -2,7 +2,7 @@
 {
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-    using NuPattern.Properties;
+    using NuPattern.Core.Properties;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -11,7 +11,7 @@
 
     internal class JsonProductSerializer : IProductSerializer
     {
-        private static readonly string CurrentVersionString = typeof(Resources)
+        private static readonly string CurrentVersionString = typeof(JsonProductSerializer)
             .Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         private static readonly Version CurrentVersion = new Version(CurrentVersionString);
 
@@ -39,7 +39,7 @@
 
         public IEnumerable<Product> Deserialize(TextReader reader)
         {
-            var store = (JObject)JsonSerializer.CreateDefault().Deserialize(new JsonTextReader(reader));
+            var store = JObject.Load(new JsonTextReader(reader));
             var format = store.Property("$format");
             if (format == null)
                 throw new ArgumentException(Strings.JsonProductSerializer.MissingFormat);

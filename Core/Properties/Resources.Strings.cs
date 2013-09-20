@@ -9,7 +9,7 @@
 using System;
 using System.Globalization;
 
-namespace NuPattern.Properties
+namespace NuPattern.Core.Properties
 {
 	///	<summary>
 	///	Provides access to string resources.
@@ -36,6 +36,32 @@ namespace NuPattern.Properties
 					name = name,
 				});
 			}
+		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class ComponentSchema
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	A property with the same name '{name}' already exists.
+			/// </summary>
+			public static string DuplicatePropertyName(object name)
+			{
+				return Resources.ComponentSchema_DuplicatePropertyName.FormatWith(new 
+				{
+					name = name,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Cannot create property named 'Name' since it is a reserved property that always exists for components.
+			/// </summary>
+			public static string NamePropertyReserved { get { return Resources.ComponentSchema_NamePropertyReserved; } }
 		}
 		
 		///	<summary>
@@ -222,6 +248,32 @@ namespace NuPattern.Properties
 					store = store,
 				});
 			}
+		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class SchemaBuilder
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Product model can only contain interfaces and primitive types. Invalid type '{type}'.
+			/// </summary>
+			public static string ModelMustBeInterfaces(object type)
+			{
+				return Resources.SchemaBuilder_ModelMustBeInterfaces.FormatWith(new 
+				{
+					type = type,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Reserved property 'Name' must be of type string.
+			/// </summary>
+			public static string NamePropertyMustBeString { get { return Resources.SchemaBuilder_NamePropertyMustBeString; } }
 		}
 		
 		///	<summary>

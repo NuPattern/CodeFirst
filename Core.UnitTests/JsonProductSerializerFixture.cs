@@ -1,5 +1,7 @@
 ﻿namespace NuPattern
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using NuPattern.Serialization;
     using System;
     using System.Collections.Generic;
@@ -17,7 +19,7 @@
         {
             var product = new Product("MyProduct", "IProduct")
             {
-                Toolkit = new ToolkitVersion
+                Toolkit = new ToolkitIdentifier
                 {
                     Id = "MyToolkit",
                     Version = "1.0",
@@ -37,7 +39,7 @@
             products = new[] { product };
         }
 
-        [Fact]
+        [Fact(Skip = "Skipped as it just shows the serialization format.")]
         public void when_serializing_product_then_succeeds()
         {
             var serializer = new JsonProductSerializer();
@@ -93,7 +95,6 @@
             var lineInfo = deserialized[0] as ILineInfo;
             Assert.NotNull(lineInfo);
             Assert.True(lineInfo.HasLineInfo);
-            Console.WriteLine("{0}, {1}", lineInfo.LineNumber, lineInfo.LinePosition);
         }
 
         private class ProductComparer : ContainerComparer<IProduct>
