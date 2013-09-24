@@ -83,12 +83,15 @@
     <Compile Include="ComponentContext.cs" />
     <Compile Include="Configuration\Automation\EventAutomationConfigurator.cs" />
     <Compile Include="Configuration\CollectionSchemaConfigurator.cs" />
+    <Compile Include="Configuration\IToolkitConfigurationProcessor.cs" />
     <Compile Include="Configuration\ToolkitSchemaConfigurator.cs" />
     <Compile Include="Configuration\PropertySchemaConfigurator.cs" />
     <Compile Include="Configuration\ISchemaConfigurator.cs" />
     <Compile Include="Configuration\ElementSchemaConfigurator.cs" />
     <Compile Include="Configuration\ProductSchemaConfigurator.cs" />
-    <Compile Include="Configuration\SchemaConfigurationDispatcher.cs" />
+    <Compile Include="Configuration\ToolkitConfigurationProcessor.cs" />
+    <Compile Include="ILookupValue.cs" />
+    <Compile Include="LookupValue.cs" />
     <Compile Include="Properties\Resources.Strings.cs">
       <DependentUpon>Resources.tt</DependentUpon>
       <AutoGen>True</AutoGen>

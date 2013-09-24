@@ -72,7 +72,7 @@
     <Compile Include="AutofacFixture.cs" />
     <Compile Include="BindingSettingsFixture.cs" />
     <Compile Include="ComponentModelFixture.cs" />
-    <Compile Include="Configuration\SchemaConfigurationDispatcherFixture.cs" />
+    <Compile Include="Configuration\ToolkitConfigurationProcessorFixture.cs" />
     <Compile Include="JsonProductSerializerFixture.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.Overloads.cs">
