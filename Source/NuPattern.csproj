@@ -52,6 +52,7 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="Annotator.cs" />
     <Compile Include="Configuration\AutomationConfiguration.cs" />
     <Compile Include="Configuration\Automation\AnonymousCommandConfiguration.cs" />
     <Compile Include="Configuration\Automation\CommandConfiguration.cs" />
@@ -75,6 +76,8 @@
     <Compile Include="Configuration\ToolkitConfiguration.cs" />
     <Compile Include="Configuration\ProductConfiguration`.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="IAnnotated.cs" />
+    <Compile Include="IAnnotatedExtensions.cs" />
     <Compile Include="IAutomation.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IComponentContextBuilder.cs" />

@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a runtime behavior of a component.
     /// </summary>
-    public interface IAutomation
+    public interface IAutomation : IAnnotated
     {
     }
 }

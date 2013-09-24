@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
 
-    public interface IComponent : IInstance, IVisitableInstance
+    public interface IComponent : IInstance, IVisitableInstance, IAnnotated
     {
         event EventHandler<PropertyChangedEventArgs> PropertyChanged;
 

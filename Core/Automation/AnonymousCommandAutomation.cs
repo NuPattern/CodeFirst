@@ -10,6 +10,7 @@ namespace NuPattern.Automation
         where T : class
     {
         private Action<T> command;
+        private object annotations;
 
         public AnonymousCommandAutomationSettings(Action<T> command)
         {
@@ -25,6 +26,30 @@ namespace NuPattern.Automation
             return new AnonymousCommandAutomation(command, context);
         }
 
+        #region Annotations
+
+        public void AddAnnotation(object annotation)
+        {
+            Annotator.AddAnnotation(ref annotations, annotation);
+        }
+
+        public object Annotation(Type type)
+        {
+            return Annotator.Annotation(annotations, type);
+        }
+
+        public IEnumerable<object> Annotations(Type type)
+        {
+            return Annotator.Annotations(annotations, type);
+        }
+
+        public void RemoveAnnotations(Type type)
+        {
+            Annotator.RemoveAnnotations(ref annotations, type);
+        }
+
+        #endregion
+
         IAutomation IAutomationSettings.CreateAutomation(IComponentContext context)
         {
             return CreateAutomation(context);
@@ -34,6 +59,7 @@ namespace NuPattern.Automation
         {
             private Action<T> command;
             private IComponentContext scope;
+            private object annotations;
 
             public AnonymousCommandAutomation(Action<T> command, IComponentContext context)
             {
@@ -50,6 +76,30 @@ namespace NuPattern.Automation
             {
                 scope.Dispose();
             }
+
+            #region Annotations
+
+            public void AddAnnotation(object annotation)
+            {
+                Annotator.AddAnnotation(ref annotations, annotation);
+            }
+
+            public object Annotation(Type type)
+            {
+                return Annotator.Annotation(annotations, type);
+            }
+
+            public IEnumerable<object> Annotations(Type type)
+            {
+                return Annotator.Annotations(annotations, type);
+            }
+
+            public void RemoveAnnotations(Type type)
+            {
+                Annotator.RemoveAnnotations(ref annotations, type);
+            }
+
+            #endregion
         }
     }
 }

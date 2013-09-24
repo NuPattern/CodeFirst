@@ -7,6 +7,8 @@
 
     internal class PropertySchema : InstanceSchema, IPropertySchema, IPropertyInfo
     {
+        private object annotations;
+
         public PropertySchema(string propertyName, Type propertyType)
         {
             Guard.NotNullOrEmpty(() => propertyName, propertyName);
@@ -37,6 +39,30 @@
             visitor.Visit<IPropertySchema>(this);
             return visitor;
         }
+
+        #region Annotations
+
+        public void AddAnnotation(object annotation)
+        {
+            Annotator.AddAnnotation(ref annotations, annotation);
+        }
+
+        public object Annotation(Type type)
+        {
+            return Annotator.Annotation(annotations, type);
+        }
+
+        public IEnumerable<object> Annotations(Type type)
+        {
+            return Annotator.Annotations(annotations, type);
+        }
+
+        public void RemoveAnnotations(Type type)
+        {
+            Annotator.RemoveAnnotations(ref annotations, type);
+        }
+
+        #endregion
 
         IComponentSchema IPropertySchema.Parent { get { return Parent; } }
 

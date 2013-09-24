@@ -12,6 +12,7 @@
     {
         private Dictionary<string, Property> properties = new Dictionary<string, Property>();
         private List<IAutomation> automations = new List<IAutomation>();
+        private object annotations;
         private string name;
 
         public event EventHandler Deleted = (sender, args) => { };
@@ -138,11 +139,45 @@
             return Name + " : " + SchemaId;
         }
 
+        #region ILineInfo
+
         public bool HasLineInfo { get { return LinePosition.HasValue && LineNumber.HasValue; }  }
 
         public int? LinePosition { get; private set; }
 
         public int? LineNumber { get; private set; }
+
+        internal void SetLineInfo(int lineNumber, int linePosition)
+        {
+            LineNumber = lineNumber;
+            LinePosition = linePosition;
+        }
+
+        #endregion  
+
+        #region Annotations
+
+        public void AddAnnotation(object annotation)
+        {
+            Annotator.AddAnnotation(ref annotations, annotation);
+        }
+
+        public object Annotation(Type type)
+        {
+            return Annotator.Annotation(annotations, type);
+        }
+
+        public IEnumerable<object> Annotations(Type type)
+        {
+            return Annotator.Annotations(annotations, type);
+        }
+
+        public void RemoveAnnotations(Type type)
+        {
+            Annotator.RemoveAnnotations(ref annotations, type);
+        }
+
+        #endregion
 
         public void Dispose()
         {
@@ -173,12 +208,6 @@
             var container = Parent as Container;
             if (container != null)
                 container.ThrowIfDuplicateRename(oldName, newName);
-        }
-
-        internal void SetLineInfo(int lineNumber, int linePosition)
-        {
-            LineNumber = lineNumber;
-            LinePosition = linePosition;
         }
 
         internal void DeleteProperty(Property property)

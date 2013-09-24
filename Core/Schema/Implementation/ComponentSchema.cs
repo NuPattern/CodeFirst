@@ -10,6 +10,7 @@
     internal abstract class ComponentSchema : InstanceSchema, IComponentSchema, IComponentInfo
     {
         private List<IAutomationSettings> automationSettings = new List<IAutomationSettings>();
+        private object annotations;
 
         public ComponentSchema(string schemaId)
         {
@@ -71,6 +72,30 @@
 
             return visitor;
         }
+
+        #region Annotations
+
+        public void AddAnnotation(object annotation)
+        {
+            Annotator.AddAnnotation(ref annotations, annotation);
+        }
+
+        public object Annotation(Type type)
+        {
+            return Annotator.Annotation(annotations, type);
+        }
+
+        public IEnumerable<object> Annotations(Type type)
+        {
+            return Annotator.Annotations(annotations, type);
+        }
+
+        public void RemoveAnnotations(Type type)
+        {
+            Annotator.RemoveAnnotations(ref annotations, type);
+        }
+
+        #endregion
 
         IEnumerable<IPropertyInfo> IComponentInfo.Properties { get { return Properties; } }
 

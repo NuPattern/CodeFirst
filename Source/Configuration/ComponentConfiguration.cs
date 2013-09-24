@@ -7,8 +7,10 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    public abstract class ComponentConfiguration : IVisitableConfiguration
+    public abstract class ComponentConfiguration : IVisitableConfiguration, IAnnotated
     {
+        private object annotations;
+
         internal ComponentConfiguration(Type componentType)
         {
             this.ComponentType = componentType;
@@ -43,6 +45,26 @@
             }
 
             return visitor;
+        }
+
+        public void AddAnnotation(object annotation)
+        {
+            Annotator.AddAnnotation(ref annotations, annotation);
+        }
+
+        public object Annotation(Type type)
+        {
+            return Annotator.Annotation(annotations, type);
+        }
+
+        public IEnumerable<object> Annotations(Type type)
+        {
+            return Annotator.Annotations(annotations, type);
+        }
+
+        public void RemoveAnnotations(Type type)
+        {
+            Annotator.RemoveAnnotations(ref annotations, type);
         }
 
         private void OnAutomationsChanged(object sender, NotifyCollectionChangedEventArgs e)
