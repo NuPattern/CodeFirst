@@ -82,7 +82,7 @@
         public interface IItem { }
         public interface ICollection : IEnumerable<IItem> { }
 
-        private class ValidatorVisitor : IConfigurationVisitor
+        private class ValidatorVisitor : IVisitor
         {
             public void Visit<TConfiguration>(TConfiguration configuration)
             {

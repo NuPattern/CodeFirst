@@ -22,7 +22,7 @@
             schema.Accept(new SchemaVisitor(context, configuration));
         }
 
-        private class SchemaVisitor : ISchemaVisitor
+        private class SchemaVisitor : IVisitor
         {
             private IComponentContext context;
             private ToolkitConfiguration configuration;
@@ -39,7 +39,7 @@
             }
         }
 
-        private class ConfigurationVisitor<TSchema> : IConfigurationVisitor
+        private class ConfigurationVisitor<TSchema> : IVisitor
         {
             private IComponentContext context;
             private TSchema schema;

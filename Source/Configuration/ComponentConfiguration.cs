@@ -7,7 +7,7 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    public abstract class ComponentConfiguration : IVisitableConfiguration, IAnnotated
+    public abstract class ComponentConfiguration : IVisitable, IAnnotated
     {
         private object annotations;
 
@@ -30,7 +30,7 @@
 
         public Type ComponentType { get; private set; }
 
-        public virtual TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IConfigurationVisitor
+        public virtual TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor
         {
             visitor.Visit(this);
 

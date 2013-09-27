@@ -61,6 +61,15 @@ namespace NuPattern.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuration error: type &apos;{type}&apos; specified in binding is not compatible with target type &apos;{target}&apos;..
+        /// </summary>
+        internal static string BindingFactory_IncompatibleBindingType {
+            get {
+                return ResourceManager.GetString("BindingFactory_IncompatibleBindingType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An item with the same name &apos;{name}&apos; already exists..
         /// </summary>
         internal static string Collection_DuplicateItemName {

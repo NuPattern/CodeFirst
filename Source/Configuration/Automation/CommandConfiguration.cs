@@ -12,7 +12,7 @@
 
         public object CommandSettings { get; set; }
 
-        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IConfigurationVisitor
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor
         {
             visitor.Visit(this);
             return visitor;

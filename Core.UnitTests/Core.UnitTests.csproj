@@ -84,7 +84,7 @@
       <Link>Toolkit\Simple\Model.cs</Link>
     </Compile>
     <Compile Include="AutofacFixture.cs" />
-    <Compile Include="BindingSettingsFixture.cs" />
+    <Compile Include="Binding\BindingFixture.cs" />
     <Compile Include="ComponentModelFixture.cs" />
     <Compile Include="Configuration\ToolkitConfigurationProcessorFixture.cs" />
     <Compile Include="JsonProductSerializerFixture.cs" />

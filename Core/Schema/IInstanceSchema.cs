@@ -1,8 +1,9 @@
 ﻿namespace NuPattern.Schema
 {
+    using NuPattern.Configuration;
     using System;
 
-    public interface IInstanceSchema : IVisitableSchema
+    public interface IInstanceSchema : IVisitable
     {
         string DisplayName { get; }
         string Description { get; }

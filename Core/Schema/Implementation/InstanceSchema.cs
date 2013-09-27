@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.Schema
 {
+    using NuPattern.Configuration;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -39,6 +40,6 @@
         IInstanceSchema IInstanceSchema.Parent { get { return Parent; } }
         IProductSchema IInstanceSchema.Root { get { return Root; } }
 
-        public abstract TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : ISchemaVisitor;
+        public abstract TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor;
     }
 }

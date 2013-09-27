@@ -63,7 +63,7 @@
             return toolkits.Find(toolkitId);
         }
 
-        private class ValidatorVisitor : IConfigurationVisitor
+        private class ValidatorVisitor : IVisitor
         {
             public void Visit<TConfiguration>(TConfiguration configuration)
             {

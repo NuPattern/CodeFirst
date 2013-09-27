@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.Schema
 {
+    using NuPattern.Configuration;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -37,7 +38,7 @@
             return schema;
         }
 
-        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : ISchemaVisitor
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor
         {
             visitor.Visit<IToolkitSchema>(this);
 

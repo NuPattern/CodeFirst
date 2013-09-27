@@ -49,6 +49,27 @@
         }
 
         [Fact]
+        public void when_disposing_lifetime_scope_then_disposes_created_component_on_that_scope()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<Disposable>().AsSelf().InstancePerLifetimeScope();
+
+            var container = builder.Build();
+
+            var scope = container.BeginLifetimeScope();
+
+            var foo1 = scope.Resolve<Disposable>();
+            var foo2 = scope.Resolve<Disposable>();
+
+            Assert.Same(foo1, foo2);
+
+            scope.Dispose();
+
+            Assert.True(foo1.IsDisposed);
+        }
+
+        [Fact]
         public void when_resolving_with_parameter_then_can_omit_other_parameters()
         {
             var builder = new ContainerBuilder();
@@ -157,6 +178,20 @@
         }
 
         public class Global { }
+
+        public class Disposable : IDisposable
+        {
+            public Disposable(IComponentContext context)
+            {
+            }
+
+            public bool IsDisposed { get; private set; }
+
+            public void Dispose()
+            {
+                this.IsDisposed = true;
+            }
+        }
 
         public class FooSettings : IDisposable
         {

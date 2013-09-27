@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class ToolkitConfiguration : IVisitableConfiguration
+    public class ToolkitConfiguration : IVisitable
     {
         private Dictionary<Type, ProductConfiguration> products = new Dictionary<Type, ProductConfiguration>();
 
@@ -25,7 +25,7 @@
             return products.GetOrAdd(productType, type => new ProductConfiguration(type));
         }
 
-        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IConfigurationVisitor
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor
         {
             visitor.Visit(this);
 

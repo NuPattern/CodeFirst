@@ -23,6 +23,27 @@ namespace NuPattern.Core.Properties
 		///	</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class BindingFactory
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Configuration error: type '{type}' specified in binding is not compatible with target type '{target}'.
+			/// </summary>
+			public static string IncompatibleBindingType(object type, object target)
+			{
+				return Resources.BindingFactory_IncompatibleBindingType.FormatWith(new 
+				{
+					type = type,
+					target = target,
+				});
+			}
+		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		public static partial class Collection
 		{
 			/// <summary>

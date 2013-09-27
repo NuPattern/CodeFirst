@@ -4,9 +4,9 @@
     using System.Linq;
 
     /// <summary>
-    /// Provides visitor pattern support for the configuration model.
+    /// Provides a generic visitor pattern interface to implement in a model.
     /// </summary>
-    public interface IVisitableConfiguration
+    public interface IVisitable
     {
         /// <summary>
         /// Accepts the specified visitor.
@@ -14,6 +14,6 @@
         /// <typeparam name="TVisitor">The type of the visitor, inferred from the passed-in <paramref name="visitor"/>.</typeparam>
         /// <param name="visitor">The visitor instance to accept.</param>
         /// <returns>The received visitor. Allows for easy collecting of the results from the visitor.</returns>
-        TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IConfigurationVisitor;
+        TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor;
     }
 }

@@ -19,7 +19,7 @@
         [Required]
         public Delegate Command { get; private set; }
 
-        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IConfigurationVisitor
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor
         {
             visitor.Visit(this);
             return visitor;

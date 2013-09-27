@@ -85,8 +85,15 @@
     <Compile Include="Automation\EventAutomationSettings.cs" />
     <Compile Include="Automation\EventAutomationSettingsFactory.cs" />
     <Compile Include="Automation\IAutomationSettingsFactory.cs" />
+    <Compile Include="Binding\BindingFactory.cs" />
+    <Compile Include="Binding\IBinding.cs" />
+    <Compile Include="Binding\Binding.cs" />
+    <Compile Include="Binding\ConstantPropertyBinding.cs" />
+    <Compile Include="Binding\IBindingFactory.cs" />
     <Compile Include="Automation\ICommandAutomation.cs" />
     <Compile Include="Automation\ICommandAutomationSettings.cs" />
+    <Compile Include="Binding\PropertyBinding.cs" />
+    <Compile Include="Binding\ProvidedPropertyBinding.cs" />
     <Compile Include="Collection.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="ComponentContext.cs" />
@@ -107,8 +114,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Schema\ISchemaVisitor.cs" />
-    <Compile Include="Schema\IVisitableSchema.cs" />
     <Compile Include="Schema\SchemaBuilder.cs" />
     <Compile Include="Schema\ToolkitProcessor.cs" />
     <Compile Include="netfx\System\Collections\Generic\DictionaryFind.cs" />

@@ -63,9 +63,9 @@
     <Compile Include="Configuration\Automation\ICommandConfiguration.cs" />
     <Compile Include="Configuration\Automation\ProductConfigurationExtensions.cs" />
     <Compile Include="Configuration\BindingConfiguration.cs" />
-    <Compile Include="Configuration\IConfigurationVisitor.cs" />
+    <Compile Include="Configuration\IVisitor.cs" />
     <Compile Include="Configuration\ContainerConfiguration.cs" />
-    <Compile Include="Configuration\IVisitableConfiguration.cs" />
+    <Compile Include="Configuration\IVisitable.cs" />
     <Compile Include="Configuration\PropertyBindingConfiguration.cs" />
     <Compile Include="Configuration\CollectionConfiguration.cs" />
     <Compile Include="Configuration\ComponentConfiguration.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="ICommand.cs" />
     <Compile Include="IComponentContextBuilder.cs" />
     <Compile Include="IComponentContextExtensions.cs" />
+    <Compile Include="IValueProvider.cs" />
     <Compile Include="Schema\IAutomationSettings.cs" />
     <Compile Include="IComponentContext.cs" />
     <Compile Include="ILineInfo.cs" />
