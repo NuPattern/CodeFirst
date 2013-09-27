@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface ICommandConfiguration
+    public interface ICommandConfiguration : IVisitableConfiguration
     {
     }
 }

@@ -1,14 +1,16 @@
 ﻿namespace NuPattern.Configuration
 {
+    using CommonComposition;
     using NuPattern.Schema;
     using System;
     using System.Linq;
 
-    public class ToolkitConfigurationProcessor : IToolkitConfigurationProcessor
+    [Component(IsSingleton = true)]
+    public class ToolkitConfigurationService : IToolkitConfigurationService
     {
         private IComponentContext context;
 
-        public ToolkitConfigurationProcessor(IComponentContext context)
+        public ToolkitConfigurationService(IComponentContext context)
         {
             Guard.NotNull(() => context, context);
 

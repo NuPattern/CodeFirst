@@ -16,6 +16,10 @@
         public ComponentContext(ILifetimeScope scope)
         {
             this.scope = scope;
+
+            var builder = new ContainerBuilder();
+            builder.RegisterInstance<IComponentContext>(this);
+            builder.Update(scope.ComponentRegistry);
         }
 
         public object Instantiate(Type type)

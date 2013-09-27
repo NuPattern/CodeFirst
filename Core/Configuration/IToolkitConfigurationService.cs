@@ -3,7 +3,7 @@
     using NuPattern.Schema;
     using System;
 
-    public interface IToolkitConfigurationProcessor
+    public interface IToolkitConfigurationService
     {
         void Process(IToolkitSchema schema, ToolkitConfiguration configuration);
     }

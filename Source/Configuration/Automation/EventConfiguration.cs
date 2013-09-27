@@ -42,6 +42,9 @@
         public override TVisitor Accept<TVisitor>(TVisitor visitor)
         {
             visitor.Visit(this);
+
+            CommandConfiguration.Accept(visitor);
+
             return visitor;
         }
     }

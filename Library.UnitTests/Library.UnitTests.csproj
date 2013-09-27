@@ -38,6 +38,17 @@
     <AssemblyOriginatorKeyFile>..\Solution Items\NuPattern.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonComposition, Version=0.1.1309.2622, Culture=neutral, PublicKeyToken=5b91f4c51d49ec0c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CommonComposition.0.1.1309.2622\lib\portable-win+net40+sl50+wp8\CommonComposition.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonComposition.Autofac">
+      <HintPath>..\packages\CommonComposition.Autofac.0.1.1309.2622\lib\net40\CommonComposition.Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />

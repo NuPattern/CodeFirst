@@ -9,15 +9,35 @@
     using Xunit;
     using NetFx.StringlyTyped;
     using NuPattern.Configuration;
+    using Moq;
 
     public class given_a_state_file_and_toolkit_schema
     {
         [Fact]
         public void when_serializing_product_then_succeeds()
         {
-            var builder = new SimpleModelBuilder();
-            //var toolkit = builder.Build();
-            var toolkit = default(IToolkitInfo);
+            var toolkit = Mock.Of<IToolkitInfo>(t => t.Products == new[] 
+            { 
+                Mock.Of<IProductInfo>(p => 
+                    p.Toolkit == Mock.Of<IToolkitInfo>(i => i.Id == "SimpleToolkit" && i.Version == "1.0") &&
+                    p.SchemaId == typeof(IAmazonWebServices).FullName && 
+                    p.Components == new [] 
+                    {
+                        Mock.Of<IElementInfo>(e =>
+                            e.SchemaId == typeof(IStorage).FullName && 
+                            e.DefaultName == "Storage" && 
+                            e.Properties == new []
+                            {
+                                Mock.Of<IPropertyInfo>(ak => ak.Name == "RefreshOnLoad" && ak.PropertyType == typeof(bool)),
+                            }
+                        )
+                    } && 
+                    p.Properties == new []
+                    {
+                        Mock.Of<IPropertyInfo>(ak => ak.Name == "AccessKey" && ak.PropertyType == typeof(string)),
+                        Mock.Of<IPropertyInfo>(ak => ak.Name == "SecretKey" && ak.PropertyType == typeof(string)),
+                    })
+            });
 
             var product = ComponentMapper.SyncProduct(
                 new Product("MyWebService", toolkit.Products.First().SchemaId), 
@@ -42,7 +62,13 @@
             var store = new ProductStore(
                 new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
                 new JsonProductSerializer(),
-                new[] { new SimpleModelBuilder() });
+                Mock.Of<IToolkitCatalog>(c => c.Find("SimpleToolkit") ==
+                    Mock.Of<IToolkitInfo>(t => t.Products == new[] 
+                    { 
+                        Mock.Of<IProductInfo>(p => 
+                            p.Toolkit == Mock.Of<IToolkitInfo>() &&
+                            p.SchemaId == "NuPattern.Tookit.Simple.IAmazonWebServices")
+                    })));
 
             store.Load(NullProgress<int>.Default);
 
@@ -57,7 +83,7 @@
             var store = new ProductStore(
                 new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
                 new JsonProductSerializer(),
-                new[] { new SimpleModelBuilder() });
+                Mock.Of<IToolkitCatalog>());
 
             store.Load(NullProgress<int>.Default);
 
@@ -75,7 +101,13 @@
             var store = new ProductStore(
                 new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
                 new JsonProductSerializer(),
-                new[] { new SimpleModelBuilder() });
+                Mock.Of<IToolkitCatalog>(c => c.Find("SimpleToolkit") ==
+                    Mock.Of<IToolkitInfo>(t => t.Products == new[] 
+                    { 
+                        Mock.Of<IProductInfo>(p => 
+                            p.Toolkit == Mock.Of<IToolkitInfo>() &&
+                            p.SchemaId == "NuPattern.Tookit.Simple.IAmazonWebServices")
+                    })));
 
             store.CreateProduct("Foo", "SimpleToolkit", typeof(IAmazonWebServices).ToTypeFullName());
             var product = store.CreateProduct("Bar", "SimpleToolkit", typeof(IAmazonWebServices).ToTypeFullName());
@@ -89,26 +121,18 @@
             var store = new ProductStore(
                 new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
                 new JsonProductSerializer(),
-                new[] { new SimpleModelBuilder() });
+                Mock.Of<IToolkitCatalog>(c => c.Find("SimpleToolkit") ==
+                    Mock.Of<IToolkitInfo>(t => t.Products == new[] 
+                    { 
+                        Mock.Of<IProductInfo>(p => 
+                            p.Toolkit == Mock.Of<IToolkitInfo>() &&
+                            p.SchemaId == "NuPattern.Tookit.Simple.IAmazonWebServices")
+                    })));
 
             store.CreateProduct("Foo", "SimpleToolkit", typeof(IAmazonWebServices).ToTypeFullName());
 
             Assert.Throws<ArgumentException>(() =>
                 store.CreateProduct("Foo", "SimpleToolkit", typeof(IAmazonWebServices).ToTypeFullName()));
-        }
-    }
-
-    public class SimpleModelBuilder : ToolkitBuilder
-    {
-        public SimpleModelBuilder()
-            : this("SimpleToolkit", "1.0")
-        {
-        }
-
-        public SimpleModelBuilder(string toolkitId, string toolkitVersion)
-            : base(toolkitId, toolkitVersion)
-        {
-            base.Product<IAmazonWebServices>();
         }
     }
 }

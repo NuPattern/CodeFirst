@@ -1,16 +1,42 @@
 ﻿namespace NuPattern.Configuration
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    public class AnonymousCommandConfiguration<T> : ICommandConfiguration
+    public abstract class AnonymousCommandConfiguration : ICommandConfiguration
+    {
+        public AnonymousCommandConfiguration(Delegate command)
+        {
+            Guard.NotNull(() => command, command);
+
+            this.Command = command;
+        }
+
+        [Required]
+        public abstract Type ArgumentType { get; }
+        
+        [Required]
+        public Delegate Command { get; private set; }
+
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IConfigurationVisitor
+        {
+            visitor.Visit(this);
+            return visitor;
+        }
+    }
+
+    public class AnonymousCommandConfiguration<T> : AnonymousCommandConfiguration
         where T : class
     {
-        private Action<T> command;
-
         public AnonymousCommandConfiguration(Action<T> command)
+            : base(command)
         {
-            this.command = command;
+        }
+
+        public override Type ArgumentType
+        {
+            get { return typeof(T); }
         }
     }
 }

@@ -45,6 +45,12 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.2.0\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="CommonComposition">
+      <HintPath>..\packages\CommonComposition.0.1.1309.2622\lib\portable-win+net40+sl50+wp8\CommonComposition.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonComposition.Autofac">
+      <HintPath>..\packages\CommonComposition.Autofac.0.1.1309.2622\lib\net40\CommonComposition.Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -73,9 +79,12 @@
     <Compile Include="Automation\AnonymousCommandAutomation.cs" />
     <Compile Include="Automation\CommandAutomation.cs" />
     <Compile Include="Automation\CommandAutomationSettings.cs" />
+    <Compile Include="Automation\CommandAutomationSettingsFactory.cs" />
     <Compile Include="Automation\ConfigurableReference.cs" />
     <Compile Include="Automation\EventAutomation.cs" />
     <Compile Include="Automation\EventAutomationSettings.cs" />
+    <Compile Include="Automation\EventAutomationSettingsFactory.cs" />
+    <Compile Include="Automation\IAutomationSettingsFactory.cs" />
     <Compile Include="Automation\ICommandAutomation.cs" />
     <Compile Include="Automation\ICommandAutomationSettings.cs" />
     <Compile Include="Collection.cs" />
@@ -83,14 +92,15 @@
     <Compile Include="ComponentContext.cs" />
     <Compile Include="Configuration\Automation\EventAutomationConfigurator.cs" />
     <Compile Include="Configuration\CollectionSchemaConfigurator.cs" />
-    <Compile Include="Configuration\IToolkitConfigurationProcessor.cs" />
+    <Compile Include="Configuration\IToolkitConfigurationService.cs" />
     <Compile Include="Configuration\ToolkitSchemaConfigurator.cs" />
     <Compile Include="Configuration\PropertySchemaConfigurator.cs" />
     <Compile Include="Configuration\ISchemaConfigurator.cs" />
     <Compile Include="Configuration\ElementSchemaConfigurator.cs" />
     <Compile Include="Configuration\ProductSchemaConfigurator.cs" />
-    <Compile Include="Configuration\ToolkitConfigurationProcessor.cs" />
+    <Compile Include="Configuration\ToolkitConfigurationService.cs" />
     <Compile Include="ILookupValue.cs" />
+    <Compile Include="IToolkitCatalog.cs" />
     <Compile Include="LookupValue.cs" />
     <Compile Include="Properties\Resources.Strings.cs">
       <DependentUpon>Resources.tt</DependentUpon>
@@ -176,8 +186,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>NuPattern.Core</CustomToolNamespace>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

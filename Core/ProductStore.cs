@@ -11,24 +11,21 @@
     {
         private ProductStoreSettings settings;
         private IProductSerializer serializer;
-        private Dictionary<string, IToolkitInfo> toolkits;
+        private IToolkitCatalog toolkits;
         private List<Product> products = new List<Product>();
 
         public ProductStore(
             ProductStoreSettings settings,
             IProductSerializer serializer,
-            IEnumerable<IToolkitBuilder> builders)
+            IToolkitCatalog toolkits)
         {
             Guard.NotNull(() => settings, settings);
             Guard.NotNull(() => serializer, serializer);
-            Guard.NotNull(() => builders, builders);
+            Guard.NotNull(() => toolkits, toolkits);
 
             this.settings = settings;
             this.serializer = serializer;
-
-            // TODO: process toolkit builders with internal processor.
-
-            // this.toolkits = builders.Select(x => x.Build()).ToDictionary(x => x.Id);
+            this.toolkits = toolkits;
         }
 
         public bool IsDisposed { get; private set; }
@@ -45,11 +42,11 @@
 
             var toolkit = toolkits.Find(toolkitId);
             if (toolkit == null)
-                throw new ArgumentException();
+                throw new ArgumentException(Strings.ProductStore.ToolkitNotFound(toolkitId));
 
             var schema = toolkit.Products.FirstOrDefault(x => x.SchemaId == schemaId);
             if (schema == null)
-                throw new ArgumentException();
+                throw new ArgumentException(Strings.ProductStore.ProductSchemaNotFound(schemaId));
 
             var product = new Product(name, schemaId) { Store = this };
             ComponentMapper.SyncProduct(product, schema);

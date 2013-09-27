@@ -171,8 +171,14 @@
   <data name="ProductStore_DuplicateProductName" xml:space="preserve">
     <value>A product with the same name '{name}' already exists in the store '{store}'.</value>
   </data>
+  <data name="ProductStore_ProductSchemaNotFound" xml:space="preserve">
+    <value>No product schema with identifier '{id}' was found.</value>
+  </data>
   <data name="ProductStore_RenamedDuplicateProduct" xml:space="preserve">
     <value>Cannot rename product '{oldName}' to '{newName}' because the store '{store}' already has a product with the same name.</value>
+  </data>
+  <data name="ProductStore_ToolkitNotFound" xml:space="preserve">
+    <value>No toolkit with identifier '{id}' was found.</value>
   </data>
   <data name="SchemaBuilder_ModelMustBeInterfaces" xml:space="preserve">
     <value>Product model can only contain interfaces and primitive types. Invalid type '{type}'.</value>
@@ -191,5 +197,8 @@
   </data>
   <data name="SmartCast_SchemaRequired" xml:space="preserve">
     <value>Smart casting requires the given component '{component}' to have an associated schema.</value>
+  </data>
+  <data name="ToolkitCatalog_DuplicateSchema" xml:space="preserve">
+    <value>A toolkit with identifier '{id}' already exists in the catalog.</value>
   </data>
 </root>

@@ -7,6 +7,9 @@
     using System.Linq;
     using Xunit;
     using NetFx.StringlyTyped;
+    using NuPattern.Automation;
+    using System.ComponentModel.DataAnnotations;
+    using System.Reactive;
 
     public class ToolkitConfigurationProcessorFixture
     {
@@ -21,6 +24,8 @@
             builder.RegisterType<ElementSchemaConfigurator>().AsImplementedInterfaces();
             builder.RegisterType<PropertySchemaConfigurator>().AsImplementedInterfaces();
             builder.RegisterType<EventAutomationConfigurator>().AsImplementedInterfaces();
+            builder.RegisterType<EventAutomationSettingsFactory>().AsImplementedInterfaces();
+            builder.RegisterType<CommandAutomationSettingsFactory>().AsImplementedInterfaces();
 
             var container = builder.Build();
 
@@ -53,9 +58,15 @@
             var config = new ToolkitConfiguration("Toolkit", "1.0");
             var product = config.Product(typeof(IProduct));
             product.Properties.Add(new PropertyConfiguration());
-            product.Automations.Add(new EventConfiguration { EventType = typeof(IObservable<EventArgs>) });
+            product.Automations.Add(new EventConfiguration 
+            {
+                EventType = typeof(IObservable<IEventPattern<object, EventArgs>>), 
+                CommandConfiguration = new AnonymousCommandConfiguration<IProduct>(p => Console.WriteLine(p))
+            });
 
-            var dispatcher = new ToolkitConfigurationProcessor(new ComponentContext(container));
+            config.Accept(new ValidatorVisitor());
+
+            var dispatcher = new ToolkitConfigurationService(new ComponentContext(container));
 
             dispatcher.Process(schema, config);
         }
@@ -70,5 +81,13 @@
         public interface IElement { }
         public interface IItem { }
         public interface ICollection : IEnumerable<IItem> { }
+
+        private class ValidatorVisitor : IConfigurationVisitor
+        {
+            public void Visit<TConfiguration>(TConfiguration configuration)
+            {
+                Validator.ValidateObject(configuration, new ValidationContext(configuration, null, null), true);
+            }
+        }
     }
 }

@@ -11,5 +11,11 @@
         public Type CommandType { get; set; }
 
         public object CommandSettings { get; set; }
+
+        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IConfigurationVisitor
+        {
+            visitor.Visit(this);
+            return visitor;
+        }
     }
 }

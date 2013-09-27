@@ -2,28 +2,31 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NuPattern.Automation
 {
-    public class AnonymousCommandAutomationSettings<T> : ICommandAutomationSettings
-        where T : class
+    public class AnonymousCommandAutomationSettings : ICommandAutomationSettings
     {
-        private Action<T> command;
+        private Delegate command;
+        private Type argumentType;
         private object annotations;
 
-        public AnonymousCommandAutomationSettings(Action<T> command)
+        public AnonymousCommandAutomationSettings(Delegate command, Type argumentType)
         {
             Guard.NotNull(() => command, command);
+            Guard.NotNull(() => argumentType, argumentType);
 
             this.command = command;
+            this.argumentType = argumentType;
         }
 
         public ICommandAutomation CreateAutomation(IComponentContext context)
         {
             Guard.NotNull(() => context, context);
 
-            return new AnonymousCommandAutomation(command, context);
+            return new AnonymousCommandAutomation(command, argumentType, context);
         }
 
         #region Annotations
@@ -57,19 +60,24 @@ namespace NuPattern.Automation
 
         private class AnonymousCommandAutomation : ICommandAutomation, IDisposable
         {
-            private Action<T> command;
+            // TODO: should pre-compile invocation, resolving on the context, etc.
+            private static readonly MethodInfo AsMethod = typeof(IComponent).GetMethod("As");
+            private Delegate command;
+            private Type argumentType;
             private IComponentContext scope;
             private object annotations;
 
-            public AnonymousCommandAutomation(Action<T> command, IComponentContext context)
+            public AnonymousCommandAutomation(Delegate command, Type argumentType, IComponentContext context)
             {
                 this.command = command;
-                this.scope = context.BeginScope(builder => builder.RegisterInstance(((IComponent)context.Resolve(typeof(IComponent))).As<T>()));
+                this.argumentType = argumentType;
+                this.scope = context.BeginScope(builder => builder.RegisterInstance(
+                    AsMethod.MakeGenericMethod(argumentType).Invoke(context.Resolve(typeof(IComponent)), null)));
             }
 
             public void Execute()
             {
-                command.Invoke((T)scope.Resolve(typeof(T)));
+                command.DynamicInvoke(scope.Resolve(argumentType));
             }
 
             public void Dispose()

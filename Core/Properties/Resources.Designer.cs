@@ -223,11 +223,29 @@ namespace NuPattern.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No product schema with identifier &apos;{id}&apos; was found..
+        /// </summary>
+        internal static string ProductStore_ProductSchemaNotFound {
+            get {
+                return ResourceManager.GetString("ProductStore_ProductSchemaNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot rename product &apos;{oldName}&apos; to &apos;{newName}&apos; because the store &apos;{store}&apos; already has a product with the same name..
         /// </summary>
         internal static string ProductStore_RenamedDuplicateProduct {
             get {
                 return ResourceManager.GetString("ProductStore_RenamedDuplicateProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No toolkit with identifier &apos;{id}&apos; was found..
+        /// </summary>
+        internal static string ProductStore_ToolkitNotFound {
+            get {
+                return ResourceManager.GetString("ProductStore_ToolkitNotFound", resourceCulture);
             }
         }
         
@@ -282,6 +300,15 @@ namespace NuPattern.Core {
         internal static string SmartCast_SchemaRequired {
             get {
                 return ResourceManager.GetString("SmartCast_SchemaRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A toolkit with identifier &apos;{id}&apos; already exists in the catalog..
+        /// </summary>
+        internal static string ToolkitCatalog_DuplicateSchema {
+            get {
+                return ResourceManager.GetString("ToolkitCatalog_DuplicateSchema", resourceCulture);
             }
         }
     }

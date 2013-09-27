@@ -1,5 +1,6 @@
 ﻿namespace NuPattern
 {
+    using CommonComposition;
     using NuPattern.Configuration;
     using NuPattern.Schema;
     using NuPattern.Tookit.Simple;
@@ -12,12 +13,15 @@
     using System.Reactive.Linq;
     using System.Collections.Generic;
     using System.Threading;
+    using Autofac;
+    using System.Reflection;
 
     public class ToolkitBuilderFixture
     {
         [Fact]
         public void when_reusing_command_then_can_configure_multiple_events()
         {
+            var context = CreateRootContext();
             var builder = new ToolkitBuilder("Simple", "1.0");
             var changes = new List<string>();
 
@@ -39,7 +43,10 @@
 
             TestCommand.ExecutedCount = 0;
 
-            var product = InstantiateProduct(builder);
+            var catalog = context.Resolve<IToolkitCatalog>();
+            catalog.Add(builder);
+
+            var product = InstantiateProduct(context);
 
             var amazon = product.As<IAmazonWebServices>();
             amazon.AccessKey = "foo";
@@ -51,6 +58,7 @@
         [Fact]
         public void when_reusing_lambda_command_then_can_configure_multiple_events()
         {
+            var context = CreateRootContext();
             var builder = new ToolkitBuilder("Simple", "1.0");
             var changes = 0;
 
@@ -69,7 +77,10 @@
 
             TestCommand.ExecutedCount = 0;
 
-            var product = InstantiateProduct(builder);
+            var catalog = context.Resolve<IToolkitCatalog>();
+            catalog.Add(builder);
+
+            var product = InstantiateProduct(context);
 
             var amazon = product.As<IAmazonWebServices>();
             amazon.AccessKey = "foo";
@@ -81,6 +92,7 @@
         [Fact]
         public void when_building_toolkit_then_can_specify_event_automation()
         {
+            var context = CreateRootContext();
             var builder = new ToolkitBuilder("Simple", "1.0");
             var changes = new List<string>();
 
@@ -101,7 +113,10 @@
 
             // Later in time, when the user wants to....
 
-            var product = InstantiateProduct(builder);
+            var catalog = context.Resolve<IToolkitCatalog>();
+            catalog.Add(builder);
+
+            var product = InstantiateProduct(context);
 
             // User changes a property via property browser:
 
@@ -119,6 +134,7 @@
         [Fact]
         public void when_building_toolkit_then_command_automation_can_use_dynamic_values()
         {
+            var context = CreateRootContext();
             var builder = new ToolkitBuilder("Simple", "1.0");
             var changes = new List<string>();
 
@@ -136,7 +152,10 @@
                 .PropertyChanged(aws => aws.AccessKey)
                 .Execute(aws => changes.Add(aws.AccessKey));
 
-            var product = InstantiateProduct(builder);
+            var catalog = context.Resolve<IToolkitCatalog>();
+            catalog.Add(builder);
+
+            var product = InstantiateProduct(context);
 
             // User changes a property via property browser:
 
@@ -154,25 +173,32 @@
         /// <summary>
         /// Simulates runtime behavior.
         /// </summary>
-        private static Product InstantiateProduct(ToolkitBuilder builder)
+        private static Product InstantiateProduct(IComponentContext context)
         {
-            // Runtime would call this builder when solution/project is opened:
-            //var schema = builder.Build();
-            // Fake global resolve context.
-            var rootContext = new ComponentContext();
+            var schema = context.Resolve<IToolkitCatalog>().Toolkits.First().Products.First();
 
             // User instantiates a product via Solution Builder:
             var product = new Product("MyWebService", typeof(IAmazonWebServices).FullName);
-            //ComponentMapper.SyncProduct(product, schema.Products.First());
+            ComponentMapper.SyncProduct(product, schema);
 
-            var productContext = rootContext.BeginScope(b => b.RegisterInstance(product));
-
-            //foreach (var setting in schema.Products.First().Automations)
-            //{
-            //    product.AddAutomation(setting.CreateAutomation(productContext));
-            //}
+            var productContext = context.BeginScope(b => b.RegisterInstance(product));
+            foreach (var setting in schema.Automations)
+            {
+                product.AddAutomation(setting.CreateAutomation(productContext));
+            }
 
             return product;
+        }
+
+        private static IComponentContext CreateRootContext()
+        {
+            var cb = new ContainerBuilder();
+
+            cb.RegisterComponents(typeof(ComponentContext).Assembly);
+
+            var context = new ComponentContext(cb.Build());
+
+            return context;
         }
     }
 
@@ -201,17 +227,24 @@
 
     public class TestCommandSettings
     {
+        public TestCommandSettings()
+        {
+        }
+
         public TestCommandSettings(string message)
         {
             this.Message = message;
         }
 
-        public string Message { get; private set; }
+        [Required(AllowEmptyStrings = false)]
+        public string Message { get; set; }
+
         public int Count { get; set; }
     }
 
     public class CommandConfiguration<T, TSettings>
         where T : class
+        where TSettings : new()
     {
         private CommandConfiguration commandConfiguration;
 
@@ -222,6 +255,11 @@
 
         public CommandConfiguration<T, TSettings> With<TProperty>(Expression<Func<TSettings, TProperty>> property, Func<T, TProperty> value)
         {
+            if (commandConfiguration.CommandSettings == null)
+                commandConfiguration.CommandSettings = new TSettings();
+
+            //((PropertyInfo)((MemberExpression)property.Body).Member).SetValue(commandConfiguration.CommandSettings, value())
+
             // TODO: Setup binding
             return this;
         }
@@ -232,6 +270,7 @@
         public static CommandConfiguration<T, TestCommandSettings> Test<T>(this CommandFor<T> configuration)
             where T : class
         {
+            configuration.Configuration.CommandType = typeof(TestCommand);
             return new CommandConfiguration<T, TestCommandSettings>(configuration.Configuration);
         }
     }

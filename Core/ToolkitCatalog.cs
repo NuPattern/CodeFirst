@@ -1,29 +1,32 @@
 ﻿namespace NuPattern
 {
+    using CommonComposition;
     using NuPattern.Configuration;
+    using NuPattern.Core.Properties;
     using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    public class ToolkitCatalog
+    [Component(IsSingleton = true)]
+    public class ToolkitCatalog : IToolkitCatalog
     {
-        private List<IToolkitInfo> toolkits = new List<IToolkitInfo>();
-        private IToolkitConfigurationProcessor processor;
+        private Dictionary<string, IToolkitInfo> toolkits = new Dictionary<string, IToolkitInfo>();
+        private IToolkitConfigurationService configurationService;
 
-        public ToolkitCatalog(IToolkitConfigurationProcessor processor)
+        public ToolkitCatalog(IToolkitConfigurationService configurationService)
         {
-            Guard.NotNull(() => processor, processor);
+            Guard.NotNull(() => configurationService, configurationService);
 
-           this.processor = processor;
+           this.configurationService = configurationService;
         }
 
-        public ToolkitCatalog(IToolkitConfigurationProcessor processor, IEnumerable<IToolkitBuilder> builders)
+        public ToolkitCatalog(IToolkitConfigurationService configurationService, IEnumerable<IToolkitBuilder> builders)
         {
-            Guard.NotNull(() => processor, processor);
+            Guard.NotNull(() => configurationService, configurationService);
 
-            this.processor = processor;
+            this.configurationService = configurationService;
 
             foreach (var builder in builders)
             {
@@ -31,8 +34,13 @@
             }
         }
 
+        public IEnumerable<IToolkitInfo> Toolkits { get { return toolkits.Values; } }
+
         public void Add(IToolkitBuilder builder)
         {
+            if (toolkits.ContainsKey(builder.Configuration.Identifier.Id))
+                throw new ArgumentException(Strings.ToolkitCatalog.DuplicateSchema(builder.Configuration.Identifier.Id));
+
             // Validate entire configuration graph before accepting 
             // the builder.
             builder.Configuration.Accept(new ValidatorVisitor());
@@ -46,11 +54,14 @@
                 schemaBuilder.BuildProduct(schema, product);
             }
 
-            processor.Process(schema, configuration);
-            toolkits.Add(schema);
+            configurationService.Process(schema, configuration);
+            toolkits.Add(schema.Id, schema);
         }
 
-        public IEnumerable<IToolkitInfo> Toolkits { get { return toolkits; } }
+        public IToolkitInfo Find(string toolkitId)
+        {
+            return toolkits.Find(toolkitId);
+        }
 
         private class ValidatorVisitor : IConfigurationVisitor
         {

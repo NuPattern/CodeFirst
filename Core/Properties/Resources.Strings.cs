@@ -237,6 +237,18 @@ namespace NuPattern.Core.Properties
 		
 			/// <summary>
 			/// Looks up a localized string similar to: 
+			///	No product schema with identifier '{id}' was found.
+			/// </summary>
+			public static string ProductSchemaNotFound(object id)
+			{
+				return Resources.ProductStore_ProductSchemaNotFound.FormatWith(new 
+				{
+					id = id,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
 			///	Cannot rename product '{oldName}' to '{newName}' because the store '{store}' already has a product with the same name.
 			/// </summary>
 			public static string RenamedDuplicateProduct(object oldName, object newName, object store)
@@ -246,6 +258,18 @@ namespace NuPattern.Core.Properties
 					oldName = oldName,
 					newName = newName,
 					store = store,
+				});
+			}
+		
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	No toolkit with identifier '{id}' was found.
+			/// </summary>
+			public static string ToolkitNotFound(object id)
+			{
+				return Resources.ProductStore_ToolkitNotFound.FormatWith(new 
+				{
+					id = id,
 				});
 			}
 		}
@@ -310,6 +334,26 @@ namespace NuPattern.Core.Properties
 				return Resources.SmartCast_SchemaRequired.FormatWith(new 
 				{
 					component = component,
+				});
+			}
+		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class ToolkitCatalog
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	A toolkit with identifier '{id}' already exists in the catalog.
+			/// </summary>
+			public static string DuplicateSchema(object id)
+			{
+				return Resources.ToolkitCatalog_DuplicateSchema.FormatWith(new 
+				{
+					id = id,
 				});
 			}
 		}
