@@ -61,6 +61,15 @@ namespace NuPattern.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Property named &apos;{propertyName}&apos; was not found on type &apos;{instanceType}&apos;..
+        /// </summary>
+        internal static string Binding_PropertyNotFound {
+            get {
+                return ResourceManager.GetString("Binding_PropertyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configuration error: type &apos;{type}&apos; specified in binding is not compatible with target type &apos;{target}&apos;..
         /// </summary>
         internal static string BindingFactory_IncompatibleBindingType {

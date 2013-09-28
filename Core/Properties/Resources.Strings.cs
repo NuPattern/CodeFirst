@@ -44,6 +44,27 @@ namespace NuPattern.Core.Properties
 		///	</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		public static partial class Binding
+		{
+			/// <summary>
+			/// Looks up a localized string similar to: 
+			///	Property named '{propertyName}' was not found on type '{instanceType}'.
+			/// </summary>
+			public static string PropertyNotFound(object propertyName, object instanceType)
+			{
+				return Resources.Binding_PropertyNotFound.FormatWith(new 
+				{
+					propertyName = propertyName,
+					instanceType = instanceType,
+				});
+			}
+		}
+		
+		///	<summary>
+		///	Provides access to string resources.
+		///	</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("netfx-System.Strings", "1.0.0.0")]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		public static partial class Collection
 		{
 			/// <summary>

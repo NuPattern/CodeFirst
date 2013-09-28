@@ -120,6 +120,9 @@
   <data name="BindingFactory_IncompatibleBindingType" xml:space="preserve">
     <value>Configuration error: type '{type}' specified in binding is not compatible with target type '{target}'.</value>
   </data>
+  <data name="Binding_PropertyNotFound" xml:space="preserve">
+    <value>Property named '{propertyName}' was not found on type '{instanceType}'.</value>
+  </data>
   <data name="Collection_DuplicateItemName" xml:space="preserve">
     <value>An item with the same name '{name}' already exists.</value>
   </data>

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public interface IBinding<T> : IBinding
+    public interface IBinding<out T> : IBinding
     {
         T Instance { get; }
     }

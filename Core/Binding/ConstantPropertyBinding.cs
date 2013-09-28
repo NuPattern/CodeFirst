@@ -1,24 +1,25 @@
 ﻿namespace NuPattern.Binding
 {
+    using NuPattern.Core.Properties;
     using System;
+    using System.Collections.Concurrent;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
 
     public class ConstantPropertyBinding : PropertyBinding
     {
-        private Type instanceType;
-        private string propertyName;
         private object value;
 
         public ConstantPropertyBinding(Type instanceType, string propertyName, object value)
+            : base(instanceType, propertyName)
         {
-            this.instanceType = instanceType;
-            this.propertyName = propertyName;
             this.value = value;
         }
 
         public override void Refresh(object instance)
         {
-            instanceType.GetProperty(propertyName).SetValue(instance, value, null);
+            base.SetValue(instance, value);
         }
 
         public override string ToString()
@@ -27,7 +28,7 @@
             if (value is string)
                 valueString = "\"" + valueString + "\"";
 
-            return propertyName + "=" + valueString;
+            return PropertyName + "=" + valueString;
         }
     }
 }

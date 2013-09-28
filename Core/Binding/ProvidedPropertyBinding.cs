@@ -5,26 +5,23 @@
 
     public class ProvidedPropertyBinding : PropertyBinding
     {
-        private Type instanceType;
-        private string propertyName;
         private IBinding<IValueProvider> provider;
 
         public ProvidedPropertyBinding(Type instanceType, string propertyName, IBinding<IValueProvider> providerBinding)
+            : base(instanceType, propertyName)
         {
-            this.instanceType = instanceType;
-            this.propertyName = propertyName;
             this.provider = providerBinding;
         }
 
         public override void Refresh(object instance)
         {
             provider.Refresh();
-            instanceType.GetProperty(propertyName).SetValue(instance, provider.Instance.GetValue(), null);
+            base.SetValue(instance, provider.Instance.GetValue());
         }
 
         public override string ToString()
         {
-            return propertyName + "={" + provider.ToString() + "}";
+            return this.PropertyName + "={" + provider.ToString() + "}";
         }
     }
 }
