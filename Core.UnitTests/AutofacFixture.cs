@@ -59,14 +59,71 @@
 
             var scope = container.BeginLifetimeScope();
 
+            //var foo = container.Resolve<Disposable>();
             var foo1 = scope.Resolve<Disposable>();
             var foo2 = scope.Resolve<Disposable>();
 
+            //Assert.Same(foo, foo1);
             Assert.Same(foo1, foo2);
 
             scope.Dispose();
 
             Assert.True(foo1.IsDisposed);
+        }
+
+        [Fact]
+        public void when_registering_on_scope_as_singleton_then_reuses_instance_but_disposes_transient_components_on_that_scope()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<Global>().AsSelf().SingleInstance();
+
+            var container = builder.Build();
+
+            var perRequest = container.BeginLifetimeScope(b =>
+                {
+                    b.RegisterType<Local>().AsSelf().SingleInstance();
+                    b.RegisterType<Disposable>().AsSelf();
+                });
+
+            var g1 = perRequest.Resolve<Global>();
+            var g2 = perRequest.Resolve<Global>();
+            var l1 = perRequest.Resolve<Local>();
+            var l2 = perRequest.Resolve<Local>();
+            var d1 = perRequest.Resolve<Disposable>();
+
+            Assert.Same(g1, g2);
+            Assert.Same(l1, l2);
+
+            perRequest.Dispose();
+
+            Assert.True(l1.IsDisposed);
+            Assert.True(d1.IsDisposed);
+        }
+
+        [Fact]
+        public void when_resolving_from_scope_then_resolves_locally_registered_providers()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<GlobalWithProviders>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<ProviderA>().AsSelf().AsImplementedInterfaces();
+
+            var container = builder.Build();
+
+            var perRequest = container.BeginLifetimeScope(b =>
+            {
+                b.RegisterType<ProviderB>().AsSelf().AsImplementedInterfaces();
+                b.RegisterType<ProviderC>().AsSelf().AsImplementedInterfaces();
+            });
+
+            var g1 = container.Resolve<GlobalWithProviders>();
+
+            Assert.Equal(1, g1.Providers.Count());
+
+            var g2 = perRequest.Resolve<GlobalWithProviders>();
+
+            Assert.Equal(3, g2.Providers.Count());
         }
 
         [Fact]
@@ -99,7 +156,7 @@
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyTypes(typeof(Product).Assembly, typeof(IProduct).Assembly).AsSelf().AsImplementedInterfaces();
 
-            builder.Register<Func<IComponent, IAutomationSettings, IAutomation>>(c => 
+            builder.Register<Func<IComponent, IAutomationSettings, IAutomation>>(c =>
             {
                 return (owner, settings) => new CommandAutomation(owner, (ICommandAutomationSettings)settings);
             }).Keyed<Func<IComponent, IAutomationSettings, IAutomation>>(typeof(ICommandAutomationSettings));
@@ -154,7 +211,7 @@
             public IList<IAutomation> Automations { get; private set; }
         }
 
-        public interface IComponent 
+        public interface IComponent
         {
             IList<IAutomation> Automations { get; }
         }
@@ -177,7 +234,40 @@
             }
         }
 
-        public class Global { }
+        public class GlobalWithProviders
+        {
+            public GlobalWithProviders(IEnumerable<IProvider> providers)
+            {
+                this.Providers = providers;
+            }
+
+            public IEnumerable<IProvider> Providers { get; private set; }
+        }
+
+        public interface IProvider { }
+        public class ProviderA : IProvider { }
+        public class ProviderB : IProvider { }
+        public class ProviderC : IProvider { }
+
+        public class Global : IDisposable
+        {
+            public bool IsDisposed { get; private set; }
+
+            public void Dispose()
+            {
+                this.IsDisposed = true;
+            }
+        }
+
+        public class Local : IDisposable
+        {
+            public bool IsDisposed { get; private set; }
+
+            public void Dispose()
+            {
+                this.IsDisposed = true;
+            }
+        }
 
         public class Disposable : IDisposable
         {
