@@ -106,9 +106,7 @@
     <Compile Include="Configuration\ElementSchemaConfigurator.cs" />
     <Compile Include="Configuration\ProductSchemaConfigurator.cs" />
     <Compile Include="Configuration\ToolkitConfigurationService.cs" />
-    <Compile Include="ILookupValue.cs" />
     <Compile Include="IToolkitCatalog.cs" />
-    <Compile Include="LookupValue.cs" />
     <Compile Include="Properties\Resources.Strings.cs">
       <DependentUpon>Resources.tt</DependentUpon>
       <AutoGen>True</AutoGen>
