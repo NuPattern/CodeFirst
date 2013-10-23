@@ -1,4 +1,4 @@
-﻿namespace NuPattern.Binding
+﻿namespace NuPattern
 {
     using NuPattern.Core.Properties;
     using System;

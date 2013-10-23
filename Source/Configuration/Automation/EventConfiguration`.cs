@@ -14,22 +14,17 @@
             this.configuration = configuration;
         }
 
-        public void Execute(Action<T> command)
+        public CommandFor Execute()
         {
-            configuration.CommandConfiguration = new AnonymousCommandConfiguration<T>(command);
+            var commandBinding = new BindingConfiguration();
+            configuration.CommandBinding = commandBinding;
+
+            return new CommandFor(commandBinding);
         }
 
-        public CommandFor<T> Execute()
+        public void Execute(BindingConfiguration configuration)
         {
-            var commandConfig = new CommandConfiguration();
-            configuration.CommandConfiguration = commandConfig;
-
-            return new CommandFor<T>(commandConfig);
-        }
-
-        public void Execute(ICommandConfiguration command)
-        {
-            configuration.CommandConfiguration = command;
+            this.configuration.CommandBinding = configuration;
         }
     }
 }

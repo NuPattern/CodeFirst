@@ -19,7 +19,7 @@
 
         public event EventHandler Disposed = (sender, args) => { };
 
-        public event EventHandler<PropertyChangedEventArgs> PropertyChanged = (sender, args) => { };
+        public event EventHandler<PropertyChangeEventArgs> PropertyChanged = (sender, args) => { };
 
         public Component(string name, string schemaId, Component parent)
         {
@@ -208,6 +208,8 @@
             var container = Parent as Container;
             if (container != null)
                 container.ThrowIfDuplicateRename(oldName, newName);
+
+            RaisePropertyChanged("Name", oldName, newName);
         }
 
         internal void DeleteProperty(Property property)
@@ -217,7 +219,7 @@
 
         internal void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName, oldValue, newValue));
+            PropertyChanged(this, new PropertyChangeEventArgs(propertyName, oldValue, newValue));
         }
 
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }

@@ -7,34 +7,31 @@
     using System.Reactive;
     using NuPattern.Properties;
     using NetFx.StringlyTyped;
+    using NuPattern.Configuration;
 
     public class EventAutomationSettings : IAutomationSettings
     {
         private object annotations;
 
-        public EventAutomationSettings(
-            Type eventType,
-            object eventSettings,
+        public EventAutomationSettings(BindingConfiguration binding,
             ICommandAutomationSettings commandSettings)
         {
-            Guard.NotNull(() => eventType, eventType);
+            Guard.NotNull(() => binding, binding);
 
             // TODO: eventually, either command or wizard may be specified.
             Guard.NotNull(() => commandSettings, commandSettings);
 
-            if (!(typeof(IObservable<IEventPattern<object, EventArgs>>).IsAssignableFrom(eventType)))
+            if (!(typeof(IObservable<IEventPattern<object, EventArgs>>).IsAssignableFrom(binding.Type)))
             {
                 throw new ArgumentException(Strings.EventAutomationSettings.EventTypeMustBeObservable(
                     Stringly.ToTypeName(typeof(IObservable<IEventPattern<object, EventArgs>>))));
             }
 
-            this.EventType = eventType;
-            this.EventSettings = eventSettings;
+            this.Binding = binding;
             this.CommandSettings = commandSettings;
         }
 
-        public Type EventType { get; private set; }
-        public object EventSettings { get; private set; }
+        public BindingConfiguration Binding { get; private set; }
 
         public ICommandAutomationSettings CommandSettings { get; private set; }
         // TODO: public IWizardAutomationSettings WizardSettings { get; private set; }

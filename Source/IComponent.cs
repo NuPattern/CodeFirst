@@ -7,7 +7,7 @@
 
     public interface IComponent : IInstance, IVisitableInstance, IAnnotated
     {
-        event EventHandler<PropertyChangedEventArgs> PropertyChanged;
+        event EventHandler<PropertyChangeEventArgs> PropertyChanged;
 
         IComponentContext Context { get; }
 

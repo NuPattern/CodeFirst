@@ -1,4 +1,4 @@
-﻿namespace NuPattern.Binding
+﻿namespace NuPattern
 {
     using System;
     using System.Linq;

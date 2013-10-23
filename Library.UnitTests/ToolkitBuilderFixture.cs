@@ -14,7 +14,11 @@
     using System.Collections.Generic;
     using System.Threading;
     using Autofac;
+    using Autofac.Builder;
     using System.Reflection;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using Moq;
 
     public class ToolkitBuilderFixture
     {
@@ -22,26 +26,14 @@
         public void when_reusing_command_then_can_configure_multiple_events()
         {
             var context = CreateRootContext();
-            var builder = new ToolkitBuilder("Simple", "1.0");
-            var changes = new List<string>();
+            var builder = new SimpleBuilder();
+            var traces = new List<string>();
 
-            var commandConfig = builder.Product<IAmazonWebServices>()
-                .Command().Configuration;
+            var listener = new Mock<TraceListener>(MockBehavior.Strict);
+            listener.Setup(x => x.WriteLine(It.IsAny<string>()))
+                .Callback<string>(s => traces.Add(s));
 
-            commandConfig.CommandType = typeof(TestCommand);
-            commandConfig.CommandSettings = new TestCommandSettings("foo");
-
-            builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.AccessKey)
-                .Execute(commandConfig);
-
-            builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.SecretKey)
-                .Execute(commandConfig);
-
-            TestCommand.ExecutedCount = 0;
+            System.Diagnostics.Trace.Listeners.Add(listener.Object);
 
             var catalog = context.Resolve<IToolkitCatalog>();
             catalog.Add(builder);
@@ -50,124 +42,42 @@
 
             var amazon = product.As<IAmazonWebServices>();
             amazon.AccessKey = "foo";
+
+            Assert.Equal(1, traces.Count);
+            Assert.Equal("Product: MyWebService (AccessKey: foo, SecretKey: )", traces[0]);
+
             amazon.SecretKey = "bar";
 
-            Assert.Equal(2, TestCommand.ExecutedCount);
+            Assert.Equal(2, traces.Count);
+            Assert.Equal("Product: MyWebService (AccessKey: foo, SecretKey: bar)", traces[1]);
         }
 
         [Fact]
-        public void when_reusing_lambda_command_then_can_configure_multiple_events()
+        public void when_command_depends_on_event_arg_then_it_can_access_it()
         {
             var context = CreateRootContext();
-            var builder = new ToolkitBuilder("Simple", "1.0");
-            var changes = 0;
-
-            var commandConfig = builder.Product<IAmazonWebServices>()
-                .Command(aws => changes++);
+            var builder = new ToolkitBuilder("Test", "1.0");
+            PropertyChangeEventArgs args = null;
 
             builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.AccessKey)
-                .Execute(commandConfig);
-
-            builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.SecretKey)
-                .Execute(commandConfig);
-
-            TestCommand.ExecutedCount = 0;
+                .OnEvent()
+                .PropertyChanged("Name")
+                .Execute(new BindingConfiguration(typeof(CommandWithEventArgs)));
 
             var catalog = context.Resolve<IToolkitCatalog>();
             catalog.Add(builder);
 
             var product = InstantiateProduct(context);
 
-            var amazon = product.As<IAmazonWebServices>();
-            amazon.AccessKey = "foo";
-            amazon.SecretKey = "bar";
-
-            Assert.Equal(2, changes);
-        }
-
-        [Fact]
-        public void when_building_toolkit_then_can_specify_event_automation()
-        {
-            var context = CreateRootContext();
-            var builder = new ToolkitBuilder("Simple", "1.0");
-            var changes = new List<string>();
-
-            builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.AccessKey)
-                // TODO: Wizard
-                .Execute()
-                .TraceMessage("Access Key Changed");
-
-            // TODO: allow chaining on method calls.
-
-            builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.AccessKey)
-                .Execute(aws => changes.Add(aws.AccessKey));
-
-
-            // Later in time, when the user wants to....
-
-            var catalog = context.Resolve<IToolkitCatalog>();
-            catalog.Add(builder);
-
-            var product = InstantiateProduct(context);
-
-            // User changes a property via property browser:
+            Assert.Null(CommandWithEventArgs.Event);
 
             var amazon = product.As<IAmazonWebServices>();
+            amazon.Name = "Amazon";
 
-            amazon.AccessKey = "blah";
-
-            product.Set("AccessKey", "asdf");
-
-            Assert.Equal(2, changes.Count);
-            Assert.Equal("blah", changes[0]);
-            Assert.Equal("asdf", changes[1]);
-        }
-
-        [Fact]
-        public void when_building_toolkit_then_command_automation_can_use_dynamic_values()
-        {
-            var context = CreateRootContext();
-            var builder = new ToolkitBuilder("Simple", "1.0");
-            var changes = new List<string>();
-
-            builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.AccessKey)
-                // TODO: Wizard
-                .Execute()
-                .Test()
-                .With(s => s.Message, aws => "AccessKey: " + aws.AccessKey + ", SecretKey: " + aws.SecretKey)
-                .With(s => s.Count, aws => 3);
-
-            builder.Product<IAmazonWebServices>()
-                .On()
-                .PropertyChanged(aws => aws.AccessKey)
-                .Execute(aws => changes.Add(aws.AccessKey));
-
-            var catalog = context.Resolve<IToolkitCatalog>();
-            catalog.Add(builder);
-
-            var product = InstantiateProduct(context);
-
-            // User changes a property via property browser:
-
-            var amazon = product.As<IAmazonWebServices>();
-
-            amazon.AccessKey = "blah";
-
-            product.Set("AccessKey", "asdf");
-
-            Assert.Equal(2, changes.Count);
-            Assert.Equal("blah", changes[0]);
-            Assert.Equal("asdf", changes[1]);
+            Assert.NotNull(CommandWithEventArgs.Event);
+            Assert.Equal("Name", CommandWithEventArgs.Event.EventArgs.PropertyName);
+            Assert.Equal("MyWebService", CommandWithEventArgs.Event.EventArgs.OldValue);
+            Assert.Equal("Amazon", CommandWithEventArgs.Event.EventArgs.NewValue);
         }
 
         /// <summary>
@@ -195,6 +105,10 @@
             var cb = new ContainerBuilder();
 
             cb.RegisterComponents(typeof(ComponentContext).Assembly);
+            cb.RegisterType<BindingFactory>()
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
 
             var context = new ComponentContext(cb.Build());
 
@@ -202,14 +116,23 @@
         }
     }
 
+    public class CommandWithEventArgs : ICommand
+    {
+        public static IEventPattern<object, PropertyChangeEventArgs> Event { get; set; }
+
+        public CommandWithEventArgs(IEventPattern<object, PropertyChangeEventArgs> e)
+        {
+            Event = e;
+        }
+
+        public void Execute()
+        {
+        }
+    }
+
     public class TestCommand : ICommand
     {
         private static ThreadLocal<int> executedCount = new ThreadLocal<int>(() => 0);
-
-        public TestCommand(TestCommandSettings settings)
-        {
-            this.Settings = settings;
-        }
 
         public static int ExecutedCount
         {
@@ -217,7 +140,11 @@
             set { executedCount.Value = value; }
         }
 
-        public TestCommandSettings Settings { get; private set; }
+        [Required(AllowEmptyStrings = false)]
+        public string Message { get; set; }
+
+        [DefaultValue(10)]
+        public int Count { get; set; }
 
         public void Execute()
         {
@@ -225,53 +152,14 @@
         }
     }
 
-    public class TestCommandSettings
-    {
-        public TestCommandSettings()
-        {
-        }
-
-        public TestCommandSettings(string message)
-        {
-            this.Message = message;
-        }
-
-        [Required(AllowEmptyStrings = false)]
-        public string Message { get; set; }
-
-        public int Count { get; set; }
-    }
-
-    public class CommandConfiguration<T, TSettings>
-        where T : class
-        where TSettings : new()
-    {
-        private CommandConfiguration commandConfiguration;
-
-        public CommandConfiguration(CommandConfiguration commandConfiguration)
-        {
-            this.commandConfiguration = commandConfiguration;
-        }
-
-        public CommandConfiguration<T, TSettings> With<TProperty>(Expression<Func<TSettings, TProperty>> property, Func<T, TProperty> value)
-        {
-            if (commandConfiguration.CommandSettings == null)
-                commandConfiguration.CommandSettings = new TSettings();
-
-            //((PropertyInfo)((MemberExpression)property.Body).Member).SetValue(commandConfiguration.CommandSettings, value())
-
-            // TODO: Setup binding
-            return this;
-        }
-    }
-
     public static class TestCommandExtensions
     {
-        public static CommandConfiguration<T, TestCommandSettings> Test<T>(this CommandFor<T> configuration)
-            where T : class
+        public static BindingConfiguration Test(this CommandFor configuration, string message, int count = 10)
         {
-            configuration.Configuration.CommandType = typeof(TestCommand);
-            return new CommandConfiguration<T, TestCommandSettings>(configuration.Configuration);
+            return new BindingConfiguration<TestCommand>()
+                .Property(x => x.Message, message)
+                .Property(x => x.Count, count)
+                .Configuration;
         }
     }
 }

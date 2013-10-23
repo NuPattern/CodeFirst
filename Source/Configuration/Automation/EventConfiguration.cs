@@ -13,13 +13,11 @@
     public class EventConfiguration : AutomationConfiguration, IValidatableObject
     {
         [Required]
-        public Type EventType { get; set; }
-
-        public object EventSettings { get; set; }
+        public BindingConfiguration EventBinding { get; set; }
 
         // TODO: eventually, validate either Wizard or Command are specified.
         [Required]
-        public ICommandConfiguration CommandConfiguration { get; set; }
+        public BindingConfiguration CommandBinding { get; set; }
         
         //public WizardConfiguration WizardConfiguration { get; set; }
 
@@ -27,25 +25,16 @@
         {
             var results = new List<ValidationResult>();
 
-            if (EventType != null && !(typeof(IObservable<IEventPattern<object, EventArgs>>).IsAssignableFrom(EventType)))
+            if (!(typeof(IObservable<IEventPattern<object, EventArgs>>).IsAssignableFrom(EventBinding.Type)))
             {
                 results.Add(new ValidationResult(Strings.EventAutomationSettings.EventTypeMustBeObservable(
                     Stringly.ToTypeName(typeof(IObservable<IEventPattern<object, EventArgs>>))), 
-                    new[] { "EventType" }));
+                    new[] { "EventBinding.Type" }));
             }
 
             // TODO: validate either Wizard or Command are specified.
             
             return results;
-        }
-
-        public override TVisitor Accept<TVisitor>(TVisitor visitor)
-        {
-            visitor.Visit(this);
-
-            CommandConfiguration.Accept(visitor);
-
-            return visitor;
         }
     }
 }

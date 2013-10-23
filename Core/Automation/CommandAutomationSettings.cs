@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.Automation
 {
+    using NuPattern.Configuration;
     using NuPattern.Schema;
     using System;
     using System.Collections.Generic;
@@ -9,19 +10,17 @@
     {
         private object annotations;
 
-        public CommandAutomationSettings(Type commandType, object commandSettings)
+        public CommandAutomationSettings(BindingConfiguration binding)
         {
-            Guard.NotNull(() => commandType, commandType);
+            Guard.NotNull(() => binding, binding);
 
-            if (!typeof(ICommand).IsAssignableFrom(commandType))
+            if (!typeof(ICommand).IsAssignableFrom(binding.Type))
                 throw new ArgumentException();
 
-            this.CommandType = commandType;
-            this.CommandSettings = commandSettings;
+            this.Binding = binding;
         }
 
-        public Type CommandType { get; private set; }
-        public object CommandSettings { get; private set; }
+        public BindingConfiguration Binding { get; private set; }
 
         #region Annotations
 

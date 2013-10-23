@@ -13,20 +13,18 @@
     public class ToolkitCatalog : IToolkitCatalog
     {
         private Dictionary<string, IToolkitInfo> toolkits = new Dictionary<string, IToolkitInfo>();
-        private IToolkitConfigurationService configurationService;
+        private List<IComponentConfigurator> configurators;
 
-        public ToolkitCatalog(IToolkitConfigurationService configurationService)
+        public ToolkitCatalog(IEnumerable<IComponentConfigurator> configurators)
+            : this(configurators, Enumerable.Empty<IToolkitBuilder>())
         {
-            Guard.NotNull(() => configurationService, configurationService);
-
-           this.configurationService = configurationService;
         }
 
-        public ToolkitCatalog(IToolkitConfigurationService configurationService, IEnumerable<IToolkitBuilder> builders)
+        public ToolkitCatalog(IEnumerable<IComponentConfigurator> configurators, IEnumerable<IToolkitBuilder> builders)
         {
-            Guard.NotNull(() => configurationService, configurationService);
+            Guard.NotNull(() => configurators, configurators);
 
-            this.configurationService = configurationService;
+            this.configurators = configurators.ToList();
 
             foreach (var builder in builders)
             {
@@ -47,20 +45,46 @@
 
             var configuration = builder.Configuration;
             var schema = new ToolkitSchema(configuration.Identifier.Id, configuration.Identifier.Version);
+
             var schemaBuilder = new SchemaBuilder();
 
+            // TODO: what about configured elements and collections? Not necessary?
             foreach (var product in configuration.ConfiguredProducts)
             {
                 schemaBuilder.BuildProduct(schema, product);
             }
 
-            configurationService.Process(schema, configuration);
+            var configVisitor = new ConfiguratorVisitor(config =>
+                {
+                    var componentSchema = schemaBuilder.Map.FindSchema(config.ComponentType);
+                    if (componentSchema != null)
+                        configurators.ForEach(c => c.Configure(componentSchema, config));
+                });
+
+            configuration.Accept(configVisitor);
+
             toolkits.Add(schema.Id, schema);
         }
 
         public IToolkitInfo Find(string toolkitId)
         {
             return toolkits.Find(toolkitId);
+        }
+
+        private class ConfiguratorVisitor : IVisitor
+        {
+            private Action<ComponentConfiguration> applyAction;
+
+            public ConfiguratorVisitor(Action<ComponentConfiguration> applyAction)
+            {
+                this.applyAction = applyAction;
+            }
+
+            public void Visit<TConfiguration>(TConfiguration configuration)
+            {
+                if (typeof(TConfiguration) == typeof(ComponentConfiguration))
+                    applyAction.Invoke(configuration as ComponentConfiguration);
+            }
         }
 
         private class ValidatorVisitor : IVisitor

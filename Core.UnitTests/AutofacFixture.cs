@@ -1,6 +1,8 @@
 ﻿namespace NuPattern.AutofacFixture
 {
     using Autofac;
+    using Autofac.Builder;
+    using Autofac.Core;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -138,6 +140,63 @@
             var bar = container.Resolve<BarWithParameter>(TypedParameter.From("Foo"));
 
             Assert.Equal("Foo", bar.Parameter);
+        }
+
+        [Fact]
+        public void when_providing_registration_source_then_can_change_instance_on_the_fly()
+        {
+            var builder = new ContainerBuilder();
+            var container = builder.Build();
+
+            var source = new EventArgsSource();
+
+            container.ComponentRegistry.AddRegistrationSource(source);
+
+            source.Args = EventArgs.Empty;
+
+            var args = container.Resolve<EventArgs>();
+
+            Assert.NotNull(args);
+            Assert.Same(EventArgs.Empty, args);
+
+            source.Args = new PropertyChangeEventArgs("Name", "Foo", "Bar");
+
+            args = container.Resolve<PropertyChangeEventArgs>();
+
+            Assert.Same(source.Args, args);
+            Assert.Same(args, container.Resolve<EventArgs>());            
+        }
+
+        public class EventArgsSource : IRegistrationSource
+        {
+            public EventArgs Args { get; set; }
+
+            public bool IsAdapterForIndividualComponents
+            {
+                get { return false; }
+            }
+
+            public IEnumerable<IComponentRegistration> RegistrationsFor(Service service, 
+                Func<Service, IEnumerable<IComponentRegistration>> registrationAccessor)
+            {
+                if (Args == null)
+                    return Enumerable.Empty<IComponentRegistration>();
+
+                var typed = service as TypedService;
+                if (typed == null)
+                    return Enumerable.Empty<IComponentRegistration>();
+
+                if (typed.ServiceType.IsAssignableFrom(Args.GetType()))
+                {
+                    return new[]
+                    {
+                        RegistrationBuilder.CreateRegistration(RegistrationBuilder.ForDelegate(
+                            typed.ServiceType, (c, p) => this.Args))
+                    };
+                }
+
+                return Enumerable.Empty<IComponentRegistration>();
+            }
         }
 
         public class BarWithParameter

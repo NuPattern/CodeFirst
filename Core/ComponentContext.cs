@@ -6,8 +6,6 @@
 
     internal class ComponentContext : IComponentContext
     {
-        private ILifetimeScope scope;
-
         public ComponentContext()
             : this(new Autofac.ContainerBuilder().Build())
         {
@@ -15,44 +13,46 @@
 
         public ComponentContext(ILifetimeScope scope)
         {
-            this.scope = scope;
+            this.Scope = scope;
 
             var builder = new ContainerBuilder();
             builder.RegisterInstance<IComponentContext>(this);
             builder.Update(scope.ComponentRegistry);
         }
 
+        public ILifetimeScope Scope { get; private set; }
+
         public object Instantiate(Type type)
         {
             // Registers on demand and later resolves.
-            if (!scope.IsRegistered(type))
+            if (!Scope.IsRegistered(type))
             {
                 var builder = new ContainerBuilder();
                 builder.RegisterType(type);
-                builder.Update(scope.ComponentRegistry);
+                builder.Update(Scope.ComponentRegistry);
             }
 
-            return scope.Resolve(type);
+            return Scope.Resolve(type);
         }
 
         public object Resolve(Type type)
         {
-            return scope.Resolve(type);
+            return Scope.Resolve(type);
         }
 
         public object ResolveOptional(Type type)
         {
-            return scope.ResolveOptional(type);
+            return Scope.ResolveOptional(type);
         }
 
         public IComponentContext BeginScope(Action<IComponentContextBuilder> configurationAction)
         {
-            return new ComponentContext(scope.BeginLifetimeScope(builder => configurationAction(new ComponentContextBuilder(builder))));
+            return new ComponentContext(Scope.BeginLifetimeScope(builder => configurationAction(new ComponentContextBuilder(builder))));
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Scope.Dispose();
         }
 
         private class ComponentContextBuilder : IComponentContextBuilder

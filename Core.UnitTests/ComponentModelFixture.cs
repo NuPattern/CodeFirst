@@ -335,7 +335,7 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("key").SetValue("foo");
 
-            var changed = default(PropertyChangedEventArgs);
+            var changed = default(PropertyChangeEventArgs);
 
             product.PropertyChanged += (sender, args) => changed = args;
 
@@ -353,7 +353,7 @@
             var product = new Product("Product", "IProduct");
             product.CreateProperty("key").SetValue("foo");
 
-            var changed = default(PropertyChangedEventArgs);
+            var changed = default(PropertyChangeEventArgs);
 
             product.PropertyChanged += (sender, args) => changed = args;
 
@@ -369,7 +369,7 @@
             product.CreateElement("Element", "IElement")
                 .CreateProperty("key").SetValue("foo");
 
-            var changed = default(PropertyChangedEventArgs);
+            var changed = default(PropertyChangeEventArgs);
 
             product.PropertyChanged += (sender, args) => changed = args;
 
@@ -390,7 +390,7 @@
                 .CreateItem("Item", "IItem")
                 .CreateProperty("key").SetValue("foo");
 
-            var changed = default(PropertyChangedEventArgs);
+            var changed = default(PropertyChangeEventArgs);
 
             product.Components.First().PropertyChanged += (sender, args) => changed = args;
 
@@ -411,7 +411,7 @@
                 .CreateItem("Item", "IItem")
                 .CreateProperty("key").SetValue("foo");
 
-            var changed = default(PropertyChangedEventArgs);
+            var changed = default(PropertyChangeEventArgs);
 
             product.PropertyChanged += (sender, args) => changed = args;
 

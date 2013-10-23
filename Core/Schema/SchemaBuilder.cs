@@ -9,6 +9,13 @@
 
     public class SchemaBuilder
     {
+        public SchemaBuilder()
+        {
+            this.Map = new SchemaTypeMap();
+        }
+
+        public SchemaTypeMap Map { get; private set; }
+
         public IProductSchema BuildProduct(IToolkitSchema toolkit, Type productType)
         {
             if (!productType.IsInterface)
@@ -23,6 +30,8 @@
 
         private void BuildType(Type type, IContainerSchema schema)
         {
+            Map.AddSchema(type, schema);
+
             foreach (var property in type.GetProperties().Where(x => x.PropertyType.IsNative()))
             {
                 if (property.Name == "Name")

@@ -1,4 +1,4 @@
-﻿namespace NuPattern.Binding
+﻿namespace NuPattern
 {
     using System;
     using System.Collections.Generic;
@@ -33,6 +33,13 @@
         public object Instance { get; private set; }
 
         public IEnumerable<PropertyBinding> Properties { get { return allProperties; } }
+
+        public void Dispose()
+        {
+            var disposable = Instance as IDisposable;
+            if (disposable != null)
+                disposable.Dispose();
+        }
 
         public void Refresh()
         {

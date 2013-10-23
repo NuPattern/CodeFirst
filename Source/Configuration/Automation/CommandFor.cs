@@ -3,13 +3,13 @@
     using System;
     using System.Linq;
 
-    public class CommandFor<T> where T : class
+    public class CommandFor
     {
-        internal CommandFor(CommandConfiguration configuration)
+        internal CommandFor(BindingConfiguration configuration)
         {
             this.Configuration = configuration;
         }
 
-        public CommandConfiguration Configuration { get; private set; }
+        public BindingConfiguration Configuration { get; private set; }
     }
 }

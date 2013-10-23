@@ -1,21 +1,16 @@
-﻿namespace NuPattern.Binding
+﻿namespace NuPattern
 {
+    using CommonComposition;
     using NuPattern.Configuration;
     using NuPattern.Core.Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    [Component(IsSingleton = true)]
     public class BindingFactory : IBindingFactory
     {
-        private IComponentContext context;
-
-        public BindingFactory(IComponentContext context)
-        {
-            this.context = context;
-        }
-
-        public IBinding<T> CreateBinding<T>(BindingConfiguration configuration)
+        public IBinding<T> CreateBinding<T>(IComponentContext context, BindingConfiguration configuration)
         {
             if (!typeof(T).IsAssignableFrom(configuration.Type))
                 throw new ArgumentException(Strings.BindingFactory.IncompatibleBindingType(configuration.Type, typeof(T)));
@@ -27,7 +22,7 @@
                 if (property.ValueProvider != null)
                 {
                     properties.Add(new ProvidedPropertyBinding(configuration.Type, property.PropertyName,
-                        CreateBinding<IValueProvider>(property.ValueProvider)));
+                        CreateBinding<IValueProvider>(context, property.ValueProvider)));
                 }
                 else
                 {

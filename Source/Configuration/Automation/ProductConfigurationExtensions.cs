@@ -5,22 +5,20 @@
 
     public static class ProductConfigurationExtensions
     {
-        public static EventFor<T> On<T>(this ProductConfiguration<T> configuration)
+        public static CommandFor Command(this IToolkitBuilder builder)
+        {
+            return new CommandFor(new BindingConfiguration());
+        }
+
+        public static ProvidedBy ProvidedBy(this IToolkitBuilder builder)
+        {
+            return NuPattern.Configuration.ProvidedBy.Default;
+        }
+
+        public static EventFor<T> OnEvent<T>(this ProductConfiguration<T> configuration)
             where T : class
         {
             return new EventFor<T>(configuration.Configuration);
-        }
-
-        public static CommandFor<T> Command<T>(this ProductConfiguration<T> configuration)
-            where T : class
-        {
-            return new CommandFor<T>(new CommandConfiguration());
-        }
-
-        public static ICommandConfiguration Command<T>(this ProductConfiguration<T> configuration, Action<T> command)
-            where T : class
-        {
-            return new AnonymousCommandConfiguration<T>(command);
         }
     }
 }

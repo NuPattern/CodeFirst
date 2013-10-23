@@ -1,4 +1,4 @@
-﻿namespace NuPattern.Binding
+﻿namespace NuPattern
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
         T Instance { get; }
     }
 
-    public interface IBinding 
+    public interface IBinding : IDisposable
     {
         void Refresh();
     }

@@ -76,15 +76,10 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
-    <Compile Include="Automation\AnonymousCommandAutomation.cs" />
     <Compile Include="Automation\CommandAutomation.cs" />
     <Compile Include="Automation\CommandAutomationSettings.cs" />
-    <Compile Include="Automation\CommandAutomationSettingsFactory.cs" />
-    <Compile Include="Automation\ConfigurableReference.cs" />
     <Compile Include="Automation\EventAutomation.cs" />
     <Compile Include="Automation\EventAutomationSettings.cs" />
-    <Compile Include="Automation\EventAutomationSettingsFactory.cs" />
-    <Compile Include="Automation\IAutomationSettingsFactory.cs" />
     <Compile Include="Binding\BindingFactory.cs" />
     <Compile Include="Binding\IBinding.cs" />
     <Compile Include="Binding\Binding.cs" />
@@ -97,21 +92,15 @@
     <Compile Include="Collection.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="ComponentContext.cs" />
-    <Compile Include="Configuration\Automation\EventAutomationConfigurator.cs" />
-    <Compile Include="Configuration\CollectionSchemaConfigurator.cs" />
-    <Compile Include="Configuration\IToolkitConfigurationService.cs" />
-    <Compile Include="Configuration\ToolkitSchemaConfigurator.cs" />
-    <Compile Include="Configuration\PropertySchemaConfigurator.cs" />
-    <Compile Include="Configuration\ISchemaConfigurator.cs" />
-    <Compile Include="Configuration\ElementSchemaConfigurator.cs" />
-    <Compile Include="Configuration\ProductSchemaConfigurator.cs" />
-    <Compile Include="Configuration\ToolkitConfigurationService.cs" />
+    <Compile Include="Configuration\EventAutomationConfigurator.cs" />
+    <Compile Include="Configuration\IComponentConfigurator.cs" />
     <Compile Include="IToolkitCatalog.cs" />
     <Compile Include="Properties\Resources.Strings.cs">
       <DependentUpon>Resources.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="SchemaTypeMap.cs" />
     <Compile Include="Schema\SchemaBuilder.cs" />
     <Compile Include="Schema\ToolkitProcessor.cs" />
     <Compile Include="netfx\System\Collections\Generic\DictionaryFind.cs" />

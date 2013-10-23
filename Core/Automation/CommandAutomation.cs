@@ -6,8 +6,7 @@
 
     public class CommandAutomation : ICommandAutomation, IDisposable
     {
-        private IComponentContext scope;
-        private ICommand command;
+        private IBinding<ICommand> command;
         private object annotations;
 
         public CommandAutomation(IComponentContext context, CommandAutomationSettings settings)
@@ -15,26 +14,21 @@
             Guard.NotNull(() => context, context);
             Guard.NotNull(() => settings, settings);
 
-            this.scope = context.BeginScope(builder =>
-            {
-                builder.RegisterType(settings.CommandType);
-                if (settings.CommandSettings != null)
-                    builder.RegisterInstance(settings.CommandSettings);
-            });
-
             // CommandAutomationSettings validates the cast is valid.
-            this.command = (ICommand)this.scope.Resolve(settings.CommandType);
+            this.command = context.Resolve<IBindingFactory>().CreateBinding<ICommand>(context, settings.Binding);
         }
 
         public void Dispose()
         {
-            scope.Dispose();
+            command.Dispose();
         }
 
         public void Execute()
         {
+            command.Refresh();
+
             // TODO: wrap tracing, try..catch, etc.
-            command.Execute();
+            command.Instance.Execute();
         }
 
         #region Annotations

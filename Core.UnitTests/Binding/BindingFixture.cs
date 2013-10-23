@@ -44,8 +44,8 @@
             };
 
             var context = new ComponentContext();
-            var factory = new BindingFactory(context);
-            var binding = factory.CreateBinding<GenerateCode>(config);
+            var factory = new BindingFactory();
+            var binding = factory.CreateBinding<GenerateCode>(context, config);
 
             var command = (GenerateCode)binding.Instance;
 

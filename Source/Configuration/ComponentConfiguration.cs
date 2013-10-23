@@ -34,11 +34,6 @@
         {
             visitor.Visit(this);
 
-            foreach (var automation in Automations)
-            {
-                automation.Accept(visitor);
-            }
-
             foreach (var property in Properties)
             {
                 property.Accept(visitor);

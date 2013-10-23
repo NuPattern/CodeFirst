@@ -10,6 +10,8 @@
         // Primitive properties
         string AccessKey { get; set; }
         string SecretKey { get; set; }
+        
+        string Name { get; set; }
 
         // Implicit Element property. 1..1, default auto-create likely
         IStorage Storage { get; set; }
