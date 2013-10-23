@@ -88,6 +88,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reflect.Overloads.tt</DependentUpon>
     </Compile>
+    <Compile Include="PropertyChangeEventArgs.cs" />
     <Compile Include="Schema\IAutomationSettings.cs" />
     <Compile Include="IComponentContext.cs" />
     <Compile Include="ILineInfo.cs" />
@@ -123,7 +124,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.tt</DependentUpon>
     </Compile>
-    <Compile Include="PropertyChangedEventArgs.cs" />
     <Compile Include="Schema\IComponentInfo.cs" />
     <Compile Include="Schema\ICollectionInfo.cs" />
     <Compile Include="Schema\IContainerInfo.cs" />

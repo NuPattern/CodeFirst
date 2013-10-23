@@ -57,7 +57,6 @@
         {
             var context = CreateRootContext();
             var builder = new ToolkitBuilder("Test", "1.0");
-            PropertyChangeEventArgs args = null;
 
             builder.Product<IAmazonWebServices>()
                 .OnEvent()
