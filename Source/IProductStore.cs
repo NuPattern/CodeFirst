@@ -5,13 +5,13 @@
 
     public interface IProductStore
     {
+        event EventHandler Closed;
+
         string Name { get; }
 
-        // event Closed;
-        // event Disposed; == Closed
-        // Close();
-
         IEnumerable<IProduct> Products { get; }
+
+        void Close();
 
         IProduct CreateProduct(string name, string toolkitId, string schemaId);
 

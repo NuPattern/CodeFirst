@@ -134,5 +134,72 @@
             Assert.Throws<ArgumentException>(() =>
                 store.CreateProduct("Foo", "SimpleToolkit", typeof(IAmazonWebServices).ToTypeFullName()));
         }
+
+        [Fact]
+        public void when_creating_product_on_disposed_store_then_throws()
+        {
+            var store = new ProductStore(
+                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                new JsonProductSerializer(),
+                Mock.Of<IToolkitCatalog>());
+
+
+            store.Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => store.CreateProduct("foo", "bar", "baz"));
+        }
+
+        [Fact]
+        public void when_closing_then_raises_closed()
+        {
+            var store = new ProductStore(
+                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                new JsonProductSerializer(),
+                Mock.Of<IToolkitCatalog>());
+
+            var closed = false;
+
+            store.Closed += (sender, args) => closed = true;
+
+            store.Close();
+
+            Assert.True(closed);
+        }
+
+        [Fact]
+        public void when_disposing_then_raises_disposed()
+        {
+            var store = new ProductStore(
+                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                new JsonProductSerializer(),
+                Mock.Of<IToolkitCatalog>());
+
+            var disposed = false;
+
+            store.Disposed += (sender, args) => disposed = true;
+
+            store.Dispose();
+
+            Assert.True(disposed);
+        }
+
+        [Fact]
+        public void when_closing_then_disposes()
+        {
+            var store = new ProductStore(
+                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                new JsonProductSerializer(),
+                Mock.Of<IToolkitCatalog>());
+
+            var disposed = false;
+
+            store.Disposed += (sender, args) => disposed = true;
+
+            store.Close();
+
+            Assert.True(disposed);
+            Assert.True(store.IsDisposed);
+        }
+
     }
 }

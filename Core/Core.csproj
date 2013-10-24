@@ -94,7 +94,9 @@
     <Compile Include="ComponentContext.cs" />
     <Compile Include="Configuration\EventAutomationConfigurator.cs" />
     <Compile Include="Configuration\IComponentConfigurator.cs" />
+    <Compile Include="INotifyDisposable.cs" />
     <Compile Include="IToolkitCatalog.cs" />
+    <Compile Include="INotifyDisposableExtension.cs" />
     <Compile Include="Properties\Resources.Strings.cs">
       <DependentUpon>Resources.tt</DependentUpon>
       <AutoGen>True</AutoGen>

@@ -7,12 +7,15 @@
     using System.IO;
     using System.Linq;
 
-    internal class ProductStore : IProductStore, IDisposable
+    internal class ProductStore : IProductStore, INotifyDisposable
     {
         private ProductStoreSettings settings;
         private IProductSerializer serializer;
         private IToolkitCatalog toolkits;
         private List<Product> products = new List<Product>();
+
+        public event EventHandler Closed = (sender, args) => { };
+        public event EventHandler Disposed = (sender, args) => { };
 
         public ProductStore(
             ProductStoreSettings settings,
@@ -33,8 +36,15 @@
 
         public IEnumerable<IProduct> Products { get { return products.AsReadOnly(); } }
 
+        public void Close()
+        {
+            Dispose();
+        }
+
         public IProduct CreateProduct(string name, string toolkitId, string schemaId)
         {
+            this.ThrowIfDisposed();
+
             Guard.NotNullOrEmpty(() => toolkitId, toolkitId);
             Guard.NotNullOrEmpty(() => schemaId, schemaId);
 
@@ -55,26 +65,18 @@
             return product;
         }
 
-        private void ThrowIfDuplicate(string name)
-        {
-            if (products.Any(x => x.Name == name))
-                throw new ArgumentException(Strings.ProductStore.DuplicateProductName(name, Name));
-        }
-
-        internal void ThrowIfDuplicateRename(string oldName, string newName)
-        {
-            if (products.Any(c => c.Name == newName))
-                throw new ArgumentException(Strings.ProductStore.RenamedDuplicateProduct(oldName, newName, Name));
-        }
-
         public void Dispose()
         {
             Clear();
             IsDisposed = true;
+            Closed(this, EventArgs.Empty);
+            Disposed(this, EventArgs.Empty);
         }
 
         public void Load(IProgress<int> progress)
         {
+            this.ThrowIfDisposed();
+
             Guard.NotNull(() => progress, progress);
 
             // TODO: store provides a component scope.
@@ -120,12 +122,26 @@
 
         public void Save(IProgress<int> progress)
         {
+            this.ThrowIfDisposed();
+
             Guard.NotNull(() => progress, progress);
 
             using (var writer = new StreamWriter(settings.StateFile, false))
             {
                 serializer.Serialize(writer, Report(products, progress));
             }
+        }
+
+        private void ThrowIfDuplicate(string name)
+        {
+            if (products.Any(x => x.Name == name))
+                throw new ArgumentException(Strings.ProductStore.DuplicateProductName(name, Name));
+        }
+
+        internal void ThrowIfDuplicateRename(string oldName, string newName)
+        {
+            if (products.Any(c => c.Name == newName))
+                throw new ArgumentException(Strings.ProductStore.RenamedDuplicateProduct(oldName, newName, Name));
         }
 
         private void OnProductDeleted(object sender, EventArgs args)
