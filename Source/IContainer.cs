@@ -5,6 +5,9 @@
 
     public interface IContainer : IComponent
     {
+        event ValueEventHandler<IComponent> ComponentAdded;
+        event ValueEventHandler<IComponent> ComponentRemoved;
+
         IEnumerable<IComponent> Components { get; }
 
         ICollection CreateCollection(string name, string schemaId);

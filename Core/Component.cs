@@ -21,6 +21,8 @@
 
         public event EventHandler<PropertyChangeEventArgs> PropertyChanged = (sender, args) => { };
 
+        public event EventHandler<PropertyChangeEventArgs> PropertyChanging = (sender, args) => { };
+
         public Component(string name, string schemaId, Component parent)
         {
             this.Name = name;
@@ -43,8 +45,11 @@
             {
                 if (value != name)
                 {
-                    OnRenaming(name, value);
+                    var oldValue = name;
+                    OnRenaming(oldValue, value);
+                    RaisePropertyChanging("Name", oldValue, value);
                     name = value;
+                    RaisePropertyChanged("Name", oldValue, value);
                 }
             }
         }
@@ -208,13 +213,16 @@
             var container = Parent as Container;
             if (container != null)
                 container.ThrowIfDuplicateRename(oldName, newName);
-
-            RaisePropertyChanged("Name", oldName, newName);
         }
 
         internal void DeleteProperty(Property property)
         {
             properties.Remove(property.Name);
+        }
+
+        internal void RaisePropertyChanging(string propertyName, object oldValue, object newValue)
+        {
+            PropertyChanging(this, new PropertyChangeEventArgs(propertyName, oldValue, newValue));
         }
 
         internal void RaisePropertyChanged(string propertyName, object oldValue, object newValue)

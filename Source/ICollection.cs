@@ -6,6 +6,9 @@
 
     public interface ICollection : IContainer
     {
+        event ValueEventHandler<IElement> ItemAdded;
+        event ValueEventHandler<IElement> ItemRemoved;
+
         IEnumerable<IElement> Items { get; }
         new ICollectionInfo Schema { get; }
 

@@ -10,6 +10,9 @@
     {
         private List<Component> components = new List<Component>();
 
+        public event ValueEventHandler<IComponent> ComponentAdded = (sender, args) => { };
+        public event ValueEventHandler<IComponent> ComponentRemoved = (sender, args) => { };
+
         public Container(string name, string schemaId, Component parent)
             : base(name, schemaId, parent)
         {
@@ -43,6 +46,8 @@
             collection.PropertyChanged += OnComponentChanged;
             collection.Disposed += OnComponentDisposed;
             components.Add(collection);
+            ComponentAdded(this, collection);
+
             return collection;
         }
 
@@ -63,6 +68,8 @@
             element.PropertyChanged += OnComponentChanged;
             element.Disposed += OnComponentDisposed;
             components.Add(element);
+            ComponentAdded(this, element);
+
             return element;
         }
 
@@ -72,6 +79,7 @@
             // call our OnComponentDisposed, at which point we unsubscribe 
             // the property changed event.
             components.Remove(component);
+            ComponentRemoved(this, component);
         }
 
         protected override void Dispose(bool disposing)

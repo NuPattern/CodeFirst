@@ -27,6 +27,7 @@
             // TODO: do nothing if property name starts with "$" or "_"?
             if (!Object.Equals(oldValue, value))
             {
+                property.Owner.RaisePropertyChanging(property.Name, oldValue, value);
                 property.SetValue(value);
                 property.Owner.RaisePropertyChanged(property.Name, oldValue, value);
             }

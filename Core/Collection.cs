@@ -10,6 +10,9 @@
     {
         private List<Element> items = new List<Element>();
 
+        public event ValueEventHandler<IElement> ItemAdded = (sender, args) => { };
+        public event ValueEventHandler<IElement> ItemRemoved = (sender, args) => { };
+
         public Collection(string name, string schemaId, Component parent)
             : base(name, schemaId, parent)
         {
@@ -46,6 +49,9 @@
             element.PropertyChanged += OnItemChanged;
             element.Disposed += OnItemDisposed;
             items.Add(element);
+
+            ItemAdded(this, element);
+
             return element;
         }
 
@@ -78,7 +84,10 @@
             // After the delete, the component is disposed, which will 
             // call our OnComponentDisposed, at which point we unsubscribe 
             // the property changed event.
-            items.Remove((Element)component);
+            var element = (Element)component;
+
+            items.Remove(element);
+            ItemRemoved(this, element);
         }
 
         private void OnItemChanged(object sender, EventArgs args)

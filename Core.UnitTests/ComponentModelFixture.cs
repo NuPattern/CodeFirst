@@ -18,6 +18,20 @@
         }
 
         [Fact]
+        public void when_creating_element_then_raises_component_added()
+        {
+            var product = new Product("Foo", "IFoo");
+            var added = default(IComponent);
+
+            product.ComponentAdded += (sender, args) => added = args.Value;
+
+            var child = product.CreateElement("Storage", "IStorage");
+
+            Assert.NotNull(added);
+            Assert.Same(added, child);
+        }
+
+        [Fact]
         public void when_element_new_name_is_duplicated_with_other_element_then_throws()
         {
             var product = new Product("Foo", "IFoo");
@@ -38,6 +52,44 @@
             var child = product.CreateElement("Storage", "IStorage");
 
             Assert.Throws<ArgumentException>(() => child.Name = "Element");
+        }
+
+        [Fact]
+        public void when_element_name_changed_then_raises_property_changing()
+        {
+            var product = new Product("Foo", "IFoo");
+            var changed = false;
+
+            product.PropertyChanging += (sender, args) =>
+                {
+                    changed = true;
+                    Assert.Equal("Name", args.PropertyName);
+                    Assert.Equal("Foo", args.OldValue);
+                    Assert.Equal("Bar", args.NewValue);
+                };
+
+            product.Name = "Bar";
+
+            Assert.True(changed);
+        }
+
+        [Fact]
+        public void when_element_name_changed_then_raises_property_changed()
+        {
+            var product = new Product("Foo", "IFoo");
+            var changed = false;
+
+            product.PropertyChanged += (sender, args) =>
+            {
+                changed = true;
+                Assert.Equal("Name", args.PropertyName);
+                Assert.Equal("Foo", args.OldValue);
+                Assert.Equal("Bar", args.NewValue);
+            };
+
+            product.Name = "Bar";
+
+            Assert.True(changed);
         }
 
         [Fact]
@@ -134,6 +186,21 @@
         }
 
         [Fact]
+        public void when_deleting_element_then_raises_component_removed()
+        {
+            var product = new Product("Foo", "IFoo");
+            var removed = default(IComponent);
+            var child = product.CreateElement("Storage", "IStorage");
+
+            product.ComponentRemoved += (sender, args) => removed = args.Value;
+
+            child.Delete();
+
+            Assert.NotNull(removed);
+            Assert.Same(removed, child);
+        }
+
+        [Fact]
         public void when_deleting_collection_item_then_removes_from_parent_collection()
         {
             var product = new Product("Foo", "IFoo");
@@ -143,6 +210,22 @@
             child.Delete();
 
             Assert.Equal(0, collection.Items.Count());
+        }
+
+        [Fact]
+        public void when_deleting_collection_item_then_raises_item_deleted()
+        {
+            var product = new Product("Foo", "IFoo");
+            var collection = product.CreateCollection("Collection", "ICollection");
+            var child = collection.CreateItem("Item", "IItem");
+
+            var deleted = default(IElement);
+            collection.ItemRemoved += (sender, args) => deleted = args.Value;
+
+            child.Delete();
+
+            Assert.NotNull(deleted);
+            Assert.Same(child, deleted);
         }
 
         [Fact]
@@ -294,6 +377,22 @@
         }
 
         [Fact]
+        public void when_creating_collection_item_then_raises_item_added()
+        {
+            var product = new Product("Product", "IProduct");
+            var collection = product.CreateCollection("Collection", "ICollection");
+
+            var item = default(IElement);
+
+            collection.ItemAdded += (sender, args) => item = args.Value;
+
+            var created = collection.CreateItem("Item", "IItem");
+
+            Assert.NotNull(item);
+            Assert.Same(created, item);
+        }
+
+        [Fact]
         public void when_creating_collection_item_then_can_access_product()
         {
             var product = new Product("Product", "IProduct");
@@ -345,6 +444,24 @@
             Assert.Equal("key", changed.PropertyName);
             Assert.Equal("foo", changed.OldValue);
             Assert.Equal("bar", changed.NewValue);
+        }
+
+        [Fact]
+        public void when_property_changing_then_notifies_component()
+        {
+            var product = new Product("Product", "IProduct");
+            product.CreateProperty("key").SetValue("foo");
+
+            var changing = default(PropertyChangeEventArgs);
+
+            product.PropertyChanging += (sender, args) => changing = args;
+
+            product.Set("key", "bar");
+
+            Assert.NotNull(changing);
+            Assert.Equal("key", changing.PropertyName);
+            Assert.Equal("foo", changing.OldValue);
+            Assert.Equal("bar", changing.NewValue);
         }
 
         [Fact]

@@ -82,6 +82,7 @@
     <Compile Include="IComponentContextBuilder.cs" />
     <Compile Include="IComponentContextExtensions.cs" />
     <Compile Include="IValueProvider.cs" />
+    <Compile Include="IWarehouse.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.Overloads.cs">
       <AutoGen>True</AutoGen>
@@ -134,6 +135,7 @@
     <Compile Include="Configuration\ToolkitBuilder.cs" />
     <Compile Include="SemanticVersion.cs" />
     <Compile Include="SemanticVersionTypeConverter.cs" />
+    <Compile Include="ValueEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Solution Items\NuPattern.snk">
