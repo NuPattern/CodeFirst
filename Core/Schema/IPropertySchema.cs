@@ -5,8 +5,14 @@
     using System.ComponentModel;
     using System.Linq;
 
-    public interface IPropertySchema : IInstanceSchema
+    public interface IPropertySchema
     {
+        string DisplayName { get; }
+
+        string Description { get; }
+
+        bool IsVisible { get; }
+
         bool IsReadOnly { get; set; }
 
         IList<Attribute> Attributes { get; }
@@ -15,7 +21,9 @@
 
         Type PropertyType { get; set; }
 
-        new IComponentSchema Parent { get; }
+        IComponentSchema Owner { get; }
+
+        bool Accept(ISchemaVisitor visitor);
 
         // object DefaultValue { get; set; }
         // ValueProvider DefaultValueProvider?

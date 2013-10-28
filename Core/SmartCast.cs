@@ -7,7 +7,7 @@
     using System;
     using System.Linq;
 
-    internal class SmartCast
+    public class SmartCast
     {
         private static readonly ProxyGenerator generator = new ProxyGenerator();
 

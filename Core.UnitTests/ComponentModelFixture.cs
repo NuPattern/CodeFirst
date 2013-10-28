@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.ComponentModelFixture
 {
+    using Moq;
     using NuPattern.Schema;
     using System;
     using System.Linq;
@@ -60,7 +61,7 @@
             var product = new Product("Foo", "IFoo");
             var changed = false;
 
-            product.PropertyChanging += (sender, args) =>
+            product.Events.PropertyChanging += (sender, args) =>
                 {
                     changed = true;
                     Assert.Equal("Name", args.PropertyName);
@@ -79,7 +80,7 @@
             var product = new Product("Foo", "IFoo");
             var changed = false;
 
-            product.PropertyChanged += (sender, args) =>
+            product.Events.PropertyChanged += (sender, args) =>
             {
                 changed = true;
                 Assert.Equal("Name", args.PropertyName);
@@ -246,7 +247,7 @@
             var child = product.CreateElement("Storage", "IStorage");
 
             var deleted = false;
-            child.Deleted += (s, e) => deleted = true;
+            child.Events.Deleted += (s, e) => deleted = true;
 
             child.Dispose();
 
@@ -432,11 +433,11 @@
         public void when_property_changes_then_notifies_component()
         {
             var product = new Product("Product", "IProduct");
-            product.CreateProperty("key").SetValue("foo");
+            product.CreateProperty("key").Value = "foo";
 
             var changed = default(PropertyChangeEventArgs);
 
-            product.PropertyChanged += (sender, args) => changed = args;
+            product.Events.PropertyChanged += (sender, args) => changed = args;
 
             product.Set("key", "bar");
 
@@ -450,11 +451,11 @@
         public void when_property_changing_then_notifies_component()
         {
             var product = new Product("Product", "IProduct");
-            product.CreateProperty("key").SetValue("foo");
+            product.CreateProperty("key").Value = "foo";
 
             var changing = default(PropertyChangeEventArgs);
 
-            product.PropertyChanging += (sender, args) => changing = args;
+            product.Events.PropertyChanging += (sender, args) => changing = args;
 
             product.Set("key", "bar");
 
@@ -468,11 +469,11 @@
         public void when_property_set_to_same_existing_value_then_does_not_raise_propertychanged()
         {
             var product = new Product("Product", "IProduct");
-            product.CreateProperty("key").SetValue("foo");
+            product.CreateProperty("key").Value = "foo";
 
             var changed = default(PropertyChangeEventArgs);
 
-            product.PropertyChanged += (sender, args) => changed = args;
+            product.Events.PropertyChanged += (sender, args) => changed = args;
 
             product.Set("key", "foo");
 
@@ -484,11 +485,11 @@
         {
             var product = new Product("Product", "IProduct");
             product.CreateElement("Element", "IElement")
-                .CreateProperty("key").SetValue("foo");
+                .CreateProperty("key").Value = "foo";
 
             var changed = default(PropertyChangeEventArgs);
 
-            product.PropertyChanged += (sender, args) => changed = args;
+            product.Events.PropertyChanged += (sender, args) => changed = args;
 
             product.Components.First().Set("key", "bar");
 
@@ -505,11 +506,11 @@
             product
                 .CreateCollection("Collection", "ICollection")
                 .CreateItem("Item", "IItem")
-                .CreateProperty("key").SetValue("foo");
+                .CreateProperty("key").Value = "foo";
 
             var changed = default(PropertyChangeEventArgs);
 
-            product.Components.First().PropertyChanged += (sender, args) => changed = args;
+            product.Components.First().Events.PropertyChanged += (sender, args) => changed = args;
 
             product.Components.OfType<ICollection>().First().Items.First().Set("key", "bar");
 
@@ -526,11 +527,11 @@
             product
                 .CreateCollection("Collection", "ICollection")
                 .CreateItem("Item", "IItem")
-                .CreateProperty("key").SetValue("foo");
+                .CreateProperty("key").Value = "foo";
 
             var changed = default(PropertyChangeEventArgs);
 
-            product.PropertyChanged += (sender, args) => changed = args;
+            product.Events.PropertyChanged += (sender, args) => changed = args;
 
             product.Components.OfType<ICollection>().First().Items.First().Set("key", "bar");
 
@@ -546,14 +547,17 @@
         [Fact]
         public void when_creating_element_then_it_has_schema()
         {
-            var product = new Product("Foo", "IFoo");
-            product.Schema = new ProductSchema("IFoo")
-            {
-                Components =
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "Test" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IFoo" &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new ElementSchema("IElement"),
-                }
-            };
+                    Mock.Of<IElementInfo>(e => e.SchemaId == "IElement")
+                });
+
+            var product = new Product("Foo", "IFoo");
+            product.Schema = info;
 
             var child = product.CreateElement("Element", "IElement");
 
@@ -563,17 +567,19 @@
         [Fact]
         public void when_creating_collection_then_it_has_schema()
         {
-            var product = new Product("Foo", "IFoo");
-            product.Schema = new ProductSchema("IFoo")
-            {
-                Components =
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "Test" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IFoo" &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new CollectionSchema("ICollection")
-                    {
-                        ItemSchema = new ElementSchema("IElement")
-                    }
-                }
-            };
+                    Mock.Of<ICollectionInfo>(e => 
+                        e.SchemaId == "ICollection" && 
+                        e.Item == Mock.Of<IElementInfo>(i => i.SchemaId == "IElement"))
+                });
+
+            var product = new Product("Foo", "IFoo");
+            product.Schema = info;
 
             var child = product.CreateCollection("Buckets", "ICollection");
 
@@ -584,13 +590,17 @@
         public void when_creating_property_then_it_has_schema()
         {
             var product = new Product("Foo", "IFoo");
-            product.Schema = new ProductSchema("IFoo")
-            {
-                Properties = 
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "Test" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IFoo" &&
+                x.Properties == new []
                 {
-                    new PropertySchema("IsPublic", typeof(bool))
-                }
-            };
+                    Mock.Of<IPropertyInfo>(p => p.Name == "IsPublic" && p.PropertyType == typeof(bool))
+                });
+
+
+            product.Schema = info;
 
             var prop = product.CreateProperty("IsPublic");
 
@@ -601,16 +611,18 @@
         public void when_creating_collection_item_then_it_has_schema()
         {
             var product = new Product("Product", "IProduct");
-            product.Schema = new ProductSchema("IFoo")
-            {
-                Components =
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "Test" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IFoo" &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new CollectionSchema("ICollection")
-                    {
-                        ItemSchema = new ElementSchema("IElement")
-                    }
-                }
-            };
+                    Mock.Of<ICollectionInfo>(e => 
+                        e.SchemaId == "ICollection" && 
+                        e.Item == Mock.Of<IElementInfo>(i => i.SchemaId == "IElement"))
+                });
+
+            product.Schema = info;
             
             var collection = product.CreateCollection("Collection", "ICollection");
             var item = collection.CreateItem("Item", "IElement");
@@ -622,19 +634,22 @@
         public void when_creating_element_then_it_has_schema_defined_properties()
         {
             var product = new Product("Foo", "IFoo");
-            product.Schema = new ProductSchema("IFoo")
-            {
-                Components =
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "Test" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IFoo" &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new ElementSchema("IElement")
-                    {
-                        Properties = 
+                    Mock.Of<IElementInfo>(e => 
+                        e.SchemaId == "IElement" && 
+                        e.Properties == new []
                         {
-                            new PropertySchema("IsPublic", typeof(bool))
-                        }
-                    },
-                }
-            };
+                            Mock.Of<IPropertyInfo>(p => p.Name == "IsPublic" && p.PropertyType == typeof(bool))
+                        })
+                });
+
+
+            product.Schema = info;
 
             var child = product.CreateElement("Element", "IElement");
 

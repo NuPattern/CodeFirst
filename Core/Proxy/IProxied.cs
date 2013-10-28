@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal interface IProxied
+    public interface IProxied
     {
         IComponent Component { get; }
     }

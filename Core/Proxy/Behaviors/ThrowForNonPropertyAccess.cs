@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal class ThrowForNonPropertyAccess : IBehavior
+    public class ThrowForNonPropertyAccess : IBehavior
     {
         public bool AppliesTo(IInvocation invocation)
         {

@@ -4,8 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public interface IComponentSchema : IInstanceSchema
+    public interface IComponentSchema
     {
+        string DisplayName { get; }
+
+        string Description { get; }
+
+        bool IsVisible { get; }
+
         /// <summary>
         /// Schema identifier, used on elements created 
         /// based on this schema.
@@ -31,6 +37,8 @@
         IEnumerable<IAutomationSettings> Automations { get; }
 
         void AddAutomation(IAutomationSettings settings);
+
+        bool Accept(ISchemaVisitor visitor);
 
         // string Icon { get; set; }
     }

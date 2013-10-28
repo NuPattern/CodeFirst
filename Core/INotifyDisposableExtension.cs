@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal static class INotifyDisposableExtension
+    public static class INotifyDisposableExtension
     {
         public static void ThrowIfDisposed(this INotifyDisposable disposable)
         {

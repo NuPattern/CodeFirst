@@ -5,10 +5,9 @@
     using System.Collections.Generic;
     using System.ComponentModel;
 
-    public interface IComponent : IInstance, IVisitableInstance, IAnnotated
+    public interface IComponent : IVisitableInstance, IAnnotated
     {
-        event EventHandler<PropertyChangeEventArgs> PropertyChanged;
-        event EventHandler<PropertyChangeEventArgs> PropertyChanging;
+        IComponentEvents Events { get; }
 
         IComponentContext Context { get; }
 
@@ -64,5 +63,7 @@
         IProperty CreateProperty(string name);
         T Get<T>(string propertyName);
         IComponent Set<T>(string propertyName, T value);
+
+        void Delete();
     }
 }

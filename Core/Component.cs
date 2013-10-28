@@ -8,29 +8,27 @@
     using System.ComponentModel;
     using System.Linq;
 
-    internal abstract class Component : IComponent, IDisposable, ILineInfo
+    public abstract class Component : IComponent, INotifyDisposable, ILineInfo
     {
+        private ComponentEvents events;
         private Dictionary<string, Property> properties = new Dictionary<string, Property>();
         private List<IAutomation> automations = new List<IAutomation>();
         private object annotations;
         private string name;
-
-        public event EventHandler Deleted = (sender, args) => { };
-
-        public event EventHandler Disposed = (sender, args) => { };
-
-        public event EventHandler<PropertyChangeEventArgs> PropertyChanged = (sender, args) => { };
-
-        public event EventHandler<PropertyChangeEventArgs> PropertyChanging = (sender, args) => { };
+        private Lazy<Product> product;
 
         public Component(string name, string schemaId, Component parent)
         {
-            this.Name = name;
+            this.name = name;
             this.SchemaId = schemaId;
             this.Parent = parent;
+            this.product = new Lazy<Product>(() => this.Ancestors().OfType<Product>().FirstOrDefault());
+            this.events = new ComponentEvents(this);
         }
 
         public bool IsDisposed { get; private set; }
+
+        public ComponentEvents Events { get { return events; } }
 
         public IComponentContext Context { get; internal set; }
 
@@ -43,13 +41,14 @@
             get { return name; }
             set
             {
+                this.ThrowIfDisposed();
                 if (value != name)
                 {
                     var oldValue = name;
                     OnRenaming(oldValue, value);
-                    RaisePropertyChanging("Name", oldValue, value);
+                    Events.RaisePropertyChanging("Name", oldValue, value);
                     name = value;
-                    RaisePropertyChanged("Name", oldValue, value);
+                    Events.RaisePropertyChanged("Name", oldValue, value);
                 }
             }
         }
@@ -61,13 +60,7 @@
 
         public Component Parent { get; private set; }
 
-        public Product Product
-        {
-            get
-            {
-                return this.Ancestors().OfType<Product>().FirstOrDefault();
-            }
-        }
+        public Product Product { get { return product.Value; } }
 
         //public Product Root
         //{
@@ -81,6 +74,8 @@
 
         public void AddAutomation(IAutomation automation)
         {
+            this.ThrowIfDisposed();
+
             Guard.NotNull(() => automation, automation);
 
             automations.Add(automation);
@@ -93,6 +88,7 @@
 
         public virtual Property CreateProperty(string name)
         {
+            this.ThrowIfDisposed();
             if (name == "Name")
                 throw new ArgumentException(Strings.Component.NamePropertyReserved);
             if (properties.ContainsKey(name))
@@ -111,6 +107,10 @@
 
         public void Delete()
         {
+            this.ThrowIfDisposed();
+
+            events.RaiseDeleting();
+
             var container = Parent as Container;
             var collection = Parent as Collection;
             if (collection != null)
@@ -118,12 +118,14 @@
             else if (container != null)
                 container.DeleteComponent(this);
 
-            Deleted(this, EventArgs.Empty);
             Dispose();
+            events.RaiseDeleted();
         }
 
         public T Get<T>(string propertyName)
         {
+            this.ThrowIfDisposed();
+
             Property property;
             if (properties.TryGetValue(propertyName, out property))
                 return property.Value == null ? default(T) : (T)property.Value;
@@ -133,6 +135,8 @@
 
         public Component Set<T>(string propertyName, T value)
         {
+            this.ThrowIfDisposed();
+
             properties.GetOrAdd(propertyName, name => CreateProperty(name)).Value = value;
             return this;
         }
@@ -187,7 +191,6 @@
         public void Dispose()
         {
             Dispose(true);
-            Disposed(this, EventArgs.Empty);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -220,16 +223,7 @@
             properties.Remove(property.Name);
         }
 
-        internal void RaisePropertyChanging(string propertyName, object oldValue, object newValue)
-        {
-            PropertyChanging(this, new PropertyChangeEventArgs(propertyName, oldValue, newValue));
-        }
-
-        internal void RaisePropertyChanged(string propertyName, object oldValue, object newValue)
-        {
-            PropertyChanged(this, new PropertyChangeEventArgs(propertyName, oldValue, newValue));
-        }
-
+        IComponentEvents IComponent.Events { get { return Events; } }
         IEnumerable<IProperty> IComponent.Properties { get { return Properties; } }
         IComponent IComponent.Parent { get { return Parent; } }
         IProduct IComponent.Product { get { return Product; } }

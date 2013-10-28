@@ -6,6 +6,7 @@
     using System.Linq;
     using Xunit;
     using NetFx.StringlyTyped;
+    using Moq;
 
     public class given_a_toolkit
     {
@@ -46,15 +47,15 @@
             var product = new Product("MyProduct", "IMyProduct");
             product.CreateProperty("Key").Value = "asdf";
             product.CreateProperty("IsVisible").Value = true;
-            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
-            {
-                Properties =
-                {
-                    new PropertySchema("Key", typeof(string)),
-                    new PropertySchema("IsVisible", typeof(bool)),
-                },
-                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
-            });
+
+            ComponentMapper.SyncProduct(product, Mock.Of<IProductInfo>(
+                x => x.Toolkit.Id == "MyToolkit" && x.Toolkit.Version == "1.0" && 
+                     x.SchemaId == "IMyProduct" && 
+                     x.Properties == new [] 
+                     {
+                         Mock.Of<IPropertyInfo>(p => p.Name == "Key" && p.PropertyType == typeof(string)),
+                         Mock.Of<IPropertyInfo>(p => p.Name == "IsVisible" && p.PropertyType == typeof(bool)),
+                     }));
 
             var cast = new SmartCast();
 
@@ -191,38 +192,42 @@
             collection.CreateItem("Bar", "IMyItem").CreateProperty("Tag").Value = "b";
             collection.CreateProperty("PropForAll").Value = "forall";
 
-            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
-            {
-                Properties =
+            var info = Mock.Of<IProductInfo>(x => 
+                x.Toolkit.Id == "MyToolkit" && 
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IMyProduct" &&
+                x.DefaultName == "MyProduct" &&
+                x.Properties == new[] 
                 {
-                    new PropertySchema("Key", typeof(string)),
-                },
-                Components = 
+                    Mock.Of<IPropertyInfo>(p => p.Name == "Key" && p.PropertyType == typeof(string)),
+                } &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new ElementSchema("IMyElement")
-                    {
-                        Properties = 
+                    Mock.Of<IElementInfo>(e => 
+                        e.SchemaId == "IMyElement" && 
+                        e.DefaultName == "MyElement" &&
+                        e.Properties == new []
                         {
-                            new PropertySchema("Port", typeof(int)),
-                        }
-                    }, 
-                    new CollectionSchema("IMyItems")
-                    {
-                        Properties = 
+                            Mock.Of<IPropertyInfo>(p => p.Name == "Port" && p.PropertyType == typeof(int)),
+                        }), 
+                    Mock.Of<ICollectionInfo>(c => 
+                        c.SchemaId == "IMyItems" && 
+                        c.DefaultName == "MyItems" &&
+                        c.Properties == new [] 
                         {
-                            new PropertySchema("PropForAll", typeof(string)),
-                        },
-                        ItemSchema = new ElementSchema("IMyItem")
-                        {
-                            Properties = 
+                            Mock.Of<IPropertyInfo>(p => p.Name == "PropForAll" && p.PropertyType == typeof(string)),
+                        } && 
+                        c.Item == Mock.Of<IElementInfo>(i => 
+                            i.SchemaId == "IMyItem" && 
+                            i.DefaultName == "MyItem" &&
+                            i.Properties == new [] 
                             {
-                                new PropertySchema("Tag", typeof(string)),
-                            }
-                        }
-                    }
-                },
-                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
-            });
+                                Mock.Of<IPropertyInfo>(p => p.Name == "Tag" && p.PropertyType == typeof(string))
+                            }))
+                });
+
+            ComponentMapper.SyncProduct(product, info);
+
             return product;
         }
     }
@@ -235,10 +240,10 @@
         public given_a_type_with_extra_reference_property()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
-            {
-                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
-            });
+            ComponentMapper.SyncProduct(product, Mock.Of<IProductInfo>(x =>
+                x.SchemaId == "IMyProduct" &&
+                x.Toolkit.Id == "MyToolkit" &&
+                x.Toolkit.Version == "1.0"));
 
             this.product = product;
         }
@@ -267,24 +272,25 @@
         public given_a_type_with_incompatible_collection_item_type()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
-            {
-                Components = 
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "MyToolkit" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IMyProduct" &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new CollectionSchema("IMyElements")
-                    {
-                        DefaultName = "MyElements",
-                        ItemSchema = new ElementSchema("IMyElement")
-                        {
-                            Properties = 
+                    Mock.Of<ICollectionInfo>(c => 
+                        c.SchemaId == "IMyElements" && 
+                        c.DefaultName == "MyElements" && 
+                        c.Item == Mock.Of<IElementInfo>(i => 
+                            i.SchemaId == "IMyElement" && 
+                            i.DefaultName == "MyElement" &&
+                            i.Properties == new [] 
                             {
-                                new PropertySchema("Key", typeof(string)),
-                            }
-                        }
-                    }
-                },
-                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
-            });
+                                Mock.Of<IPropertyInfo>(p => p.Name == "Key" && p.PropertyType == typeof(string))
+                            }))
+                });
+
+            ComponentMapper.SyncProduct(product, info);
 
             this.product = product;
         }
@@ -316,24 +322,24 @@
         public given_a_type_with_compatible_collection_item_type()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
-            {
-                Components = 
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "MyToolkit" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IMyProduct" &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new CollectionSchema("IMyElements")
-                    {
-                        DefaultName = "MyElements",
-                        ItemSchema = new ElementSchema("IMyElement")
-                        {
-                            Properties = 
+                    Mock.Of<ICollectionInfo>(c => 
+                        c.SchemaId == "IMyElements" && 
+                        c.DefaultName == "MyElements" && 
+                        c.Item == Mock.Of<IElementInfo>(i => 
+                            i.SchemaId == "IMyElement" && 
+                            i.Properties == new [] 
                             {
-                                new PropertySchema("Key", typeof(string)),
-                            }
-                        }
-                    }
-                },
-                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
-            });
+                                Mock.Of<IPropertyInfo>(p => p.Name == "Key" && p.PropertyType == typeof(string))
+                            }))
+                });
+
+            ComponentMapper.SyncProduct(product, info);
 
             this.product = product;
         }
@@ -365,21 +371,22 @@
         public given_a_type_with_collection_item_type_for_product_with_element()
         {
             var product = new Product("MyProduct", "IMyProduct");
-            ComponentMapper.SyncProduct(product, new ProductSchema("IMyProduct")
-            {
-                Components = 
+            var info = Mock.Of<IProductInfo>(x =>
+                x.Toolkit.Id == "MyToolkit" &&
+                x.Toolkit.Version == "1.0" &&
+                x.SchemaId == "IMyProduct" &&
+                x.Components == new IComponentInfo[] 
                 {
-                    new ElementSchema("IMyElement")
-                    {
-                        DefaultName = "MyElement",
-                        Properties = 
+                    Mock.Of<IElementInfo>(e => 
+                        e.SchemaId == "IMyElement" && 
+                        e.DefaultName == "MyElement" && 
+                        e.Properties == new [] 
                         {
-                            new PropertySchema("Key", typeof(string)),
-                        }
-                    }
-                },
-                Toolkit = new ToolkitSchema("MyToolkit", "1.0")
-            });
+                            Mock.Of<IPropertyInfo>(p => p.Name == "Key" && p.PropertyType == typeof(string))
+                        })
+                });
+
+            ComponentMapper.SyncProduct(product, info);
 
             this.product = product;
         }

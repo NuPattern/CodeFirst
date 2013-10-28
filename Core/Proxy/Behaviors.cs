@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    internal static class Behaviors
+    public static class Behaviors
     {
         public static readonly IBehavior[] Default = new IBehavior[]
         {

@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal class SetPropertyValue : IBehavior
+    public class SetPropertyValue : IBehavior
     {
         public bool AppliesTo(IInvocation invocation)
         {

@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal class SetComponentName : IBehavior
+    public class SetComponentName : IBehavior
     {
         public bool AppliesTo(IInvocation invocation)
         {

@@ -5,7 +5,7 @@
     using System;
     using System.Linq;
 
-    internal class GetPropertyValue : IBehavior
+    public class GetPropertyValue : IBehavior
     {
         public bool AppliesTo(IInvocation invocation)
         {

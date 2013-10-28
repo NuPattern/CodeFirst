@@ -1,5 +1,6 @@
 ﻿namespace NuPattern.Schema
 {
+    using NuPattern.Configuration;
     using NuPattern.Core.Properties;
     using System;
     using System.Collections.Generic;
@@ -7,22 +8,17 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal abstract class ComponentSchema : InstanceSchema, IComponentSchema, IComponentInfo
+    public abstract class ComponentSchema : IComponentSchema, IComponentInfo
     {
-        private List<IAutomationSettings> automationSettings = new List<IAutomationSettings>();
+        private List<IAutomationSettings> automations = new List<IAutomationSettings>();
+        private List<PropertySchema> properties = new List<PropertySchema>();
         private object annotations;
 
         public ComponentSchema(string schemaId)
         {
-            Guard.NotNullOrEmpty(() => schemaId, schemaId);
-
-            var properties = new ObservableCollection<PropertySchema>();
-            properties.CollectionChanged += OnPropertiesChanged;
-
             this.SchemaId = schemaId;
             this.DefaultName = schemaId;
             this.CanRename = true;
-            this.Properties = properties;
 
             if (schemaId.StartsWith("System.Collections.Generic.IEnumerable<"))
             {
@@ -40,38 +36,42 @@
         }
 
         public string SchemaId { get; private set; }
-        public string DefaultName { get; set; }
-        public bool CanRename { get; set; }
-        public ICollection<PropertySchema> Properties { get; private set; }
 
-        public PropertySchema CreatePropertySchema(string propertyName, Type propertyType)
+        public bool CanRename { get; set; }
+
+        public string Description { get; set; }
+
+        public string DefaultName { get; set; }
+
+        public string DisplayName { get; set; }
+
+        public bool IsVisible { get; set; }
+
+        public IEnumerable<IPropertySchema> Properties { get { return properties; } }
+
+        public IEnumerable<IAutomationSettings> Automations { get { return automations; } }
+
+        public IPropertySchema CreatePropertySchema(string propertyName, Type propertyType)
         {
+            Guard.NotNullOrEmpty(() => propertyName, propertyName);
+            Guard.NotNull(() => propertyType, propertyType);
+
             if (propertyName == "Name")
                 throw new ArgumentException(Strings.ComponentSchema.NamePropertyReserved);
             if (Properties.Any(x => x.Name == propertyName))
                 throw new ArgumentException(Strings.ComponentSchema.DuplicatePropertyName(propertyName));
 
-            var property = new PropertySchema(propertyName, propertyType);
-            Properties.Add(property);
+            var property = new PropertySchema(propertyName, propertyType, this);
+            properties.Add(property);
             return property;
         }
 
-        public IEnumerable<IAutomationSettings> Automations { get { return automationSettings; } }
-
         public void AddAutomation(IAutomationSettings settings)
         {
-            automationSettings.Add(settings);
+            automations.Add(settings);
         }
 
-        public override TVisitor Accept<TVisitor>(TVisitor visitor)
-        {
-            foreach (var property in Properties)
-            {
-                property.Accept(visitor);
-            }
-
-            return visitor;
-        }
+        public abstract bool Accept(ISchemaVisitor visitor);
 
         #region Annotations
 
@@ -97,32 +97,6 @@
 
         #endregion
 
-        IEnumerable<IPropertyInfo> IComponentInfo.Properties { get { return Properties; } }
-
-        IEnumerable<IPropertySchema> IComponentSchema.Properties { get { return Properties; } }
-
-        IPropertySchema IComponentSchema.CreatePropertySchema(string propertyName, Type propertyType)
-        {
-            return CreatePropertySchema(propertyName, propertyType);
-        }
-
-        private void OnPropertiesChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (var property in e.NewItems.OfType<PropertySchema>())
-                {
-                    property.Parent = this;
-                }
-            }
-
-            if (e.OldItems != null)
-            {
-                foreach (var property in e.OldItems.OfType<PropertySchema>())
-                {
-                    property.Parent = null;
-                }
-            }
-        }
+        IEnumerable<IPropertyInfo> IComponentInfo.Properties { get { return properties; } }
     }
 }

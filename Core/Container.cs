@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal abstract class Container : Component, IContainer
+    public abstract class Container : Component, IContainer
     {
         private List<Component> components = new List<Component>();
 
@@ -26,7 +26,7 @@
         public new IContainerInfo Schema
         {
             get { return (IContainerInfo)base.Schema; }
-            set { base.Schema = value; }
+            internal set { base.Schema = value; }
         }
 
         public Collection CreateCollection(string name, string schemaId)
@@ -43,8 +43,8 @@
                     ComponentMapper.SyncCollection(collection, schema);
             }
 
-            collection.PropertyChanged += OnComponentChanged;
-            collection.Disposed += OnComponentDisposed;
+            collection.Events.PropertyChanged += OnComponentChanged;
+            collection.Events.Deleted += OnComponentDeleted;
             components.Add(collection);
             ComponentAdded(this, collection);
 
@@ -65,8 +65,8 @@
                     ComponentMapper.SyncElement(element, schema);
             }
 
-            element.PropertyChanged += OnComponentChanged;
-            element.Disposed += OnComponentDisposed;
+            element.Events.PropertyChanged += OnComponentChanged;
+            element.Events.Deleted += OnComponentDeleted;
             components.Add(element);
             ComponentAdded(this, element);
 
@@ -97,12 +97,13 @@
 
         private void OnComponentChanged(object sender, EventArgs args)
         {
-            RaisePropertyChanged(((Component)sender).Name, sender, sender);
+            var component = (IComponent)sender;
+            Events.RaisePropertyChanged(component.Name, sender, sender);
         }
 
-        private void OnComponentDisposed(object sender, EventArgs args)
+        private void OnComponentDeleted(object sender, EventArgs args)
         {
-            ((Component)sender).PropertyChanged -= OnComponentChanged;
+            ((IComponent)sender).Events.PropertyChanged -= OnComponentChanged;
         }
 
         private void ThrowIfDuplicate(string name)

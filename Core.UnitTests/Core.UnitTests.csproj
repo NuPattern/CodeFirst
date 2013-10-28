@@ -91,9 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleToolkit.cs" />
     <Compile Include="ComponentMapperFixture.cs" />
-    <Compile Include="Schema\ComponentSchemaFixture.cs" />
-    <Compile Include="Schema\ContainerSchemaFixture.cs" />
-    <Compile Include="Schema\ModelFixture.cs" />
+    <Compile Include="Schema\ProductSchemaFixture.cs" />
     <Compile Include="Schema\PropertySchemaFixture.cs" />
     <Compile Include="Schema\SchemaBuilderFixture.cs" />
     <Compile Include="Schema\SchemaFixture.cs" />

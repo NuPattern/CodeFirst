@@ -60,7 +60,7 @@
         public void when_loading_store_then_loads_product_and_associates_schema_and_store()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>(c => c.Find("SimpleToolkit") ==
                     Mock.Of<IToolkitInfo>(t => t.Products == new[] 
@@ -81,7 +81,7 @@
         public void when_loaded_product_deleted_then_removes_from_store_and_resets_store()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>());
 
@@ -99,7 +99,7 @@
         public void when_renaming_product_duplicate_name_then_throws()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>(c => c.Find("SimpleToolkit") ==
                     Mock.Of<IToolkitInfo>(t => t.Products == new[] 
@@ -119,7 +119,7 @@
         public void when_creating_duplicate_named_product_then_throws()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>(c => c.Find("SimpleToolkit") ==
                     Mock.Of<IToolkitInfo>(t => t.Products == new[] 
@@ -139,7 +139,7 @@
         public void when_creating_product_on_disposed_store_then_throws()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>());
 
@@ -153,7 +153,7 @@
         public void when_closing_then_raises_closed()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>());
 
@@ -170,7 +170,7 @@
         public void when_disposing_then_raises_disposed()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>());
 
@@ -187,7 +187,7 @@
         public void when_closing_then_disposes()
         {
             var store = new ProductStore(
-                new ProductStoreSettings("MySolution", "ProductStoreFixture.Simple.json"),
+                "ProductStoreFixture.Simple.json",
                 new JsonProductSerializer(),
                 Mock.Of<IToolkitCatalog>());
 
@@ -201,5 +201,43 @@
             Assert.True(store.IsDisposed);
         }
 
+        [Fact]
+        public void when_creating_product_then_store_forwards_events_until_delete()
+        {
+            var store = new ProductStore(
+                "ProductStoreFixture.Simple.json",
+                new JsonProductSerializer(),
+                Mock.Of<IToolkitCatalog>(c => c.Find("SimpleToolkit") == Mock.Of<IToolkitInfo>(t => t.Products == new[] 
+                    { 
+                        Mock.Of<IProductInfo>(p => 
+                            p.Toolkit == Mock.Of<IToolkitInfo>(i => i.Id == "SimpleToolkit" && i.Version == "1.0") &&
+                            p.SchemaId == typeof(IAmazonWebServices).FullName && 
+                            p.Components == new [] 
+                            {
+                                Mock.Of<IElementInfo>(e =>
+                                    e.SchemaId == typeof(IStorage).FullName && 
+                                    e.DefaultName == "Storage" && 
+                                    e.Properties == new []
+                                    {
+                                        Mock.Of<IPropertyInfo>(ak => ak.Name == "RefreshOnLoad" && ak.PropertyType == typeof(bool)),
+                                    }
+                                )
+                            } && 
+                            p.Properties == new []
+                            {
+                                Mock.Of<IPropertyInfo>(ak => ak.Name == "AccessKey" && ak.PropertyType == typeof(string)),
+                                Mock.Of<IPropertyInfo>(ak => ak.Name == "SecretKey" && ak.PropertyType == typeof(string)),
+                            })
+                    })));
+
+            var created = default(IProduct);
+            store.ProductEvents.Created += (sender, args) => created = args.Value;
+
+            var product = store.CreateProduct("Simple", "SimpleToolkit", typeof(IAmazonWebServices).FullName);
+
+            Assert.Same(product, created);
+
+            product.Delete();
+        }
     }
 }

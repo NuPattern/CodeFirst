@@ -6,8 +6,11 @@
     // Properties should not have their own individual 
     // Name property, since they are always part of 
     // a component, and their Definition IS their name.
-    public interface IProperty : IInstance, IAnnotated
+    public interface IProperty : IAnnotated
     {
+        event EventHandler Deleting;
+        event EventHandler Deleted;
+
         /// <summary>
         /// Gets the name of the property.
         /// </summary>
@@ -26,5 +29,7 @@
         IPropertyInfo Schema { get; }
 
         bool ShouldSerializeValue { get; }
+
+        void Delete();
     }
 }

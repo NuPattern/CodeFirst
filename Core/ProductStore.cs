@@ -6,33 +6,46 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reactive.Disposables;
+    using System.Reactive.Linq;
+    using System.Threading.Tasks;
 
-    internal class ProductStore : IProductStore, INotifyDisposable
+    public class ProductStore : IProductStore, INotifyDisposable
     {
-        private ProductStoreSettings settings;
         private IProductSerializer serializer;
         private IToolkitCatalog toolkits;
         private List<Product> products = new List<Product>();
+        private LifetimeEvents<IProduct> productEvents;
+        private LifetimeEvents<IComponent> componentEvents;
+
+        private Dictionary<IComponent, IDisposable> eventSubscriptions = new Dictionary<IComponent, IDisposable>();
 
         public event EventHandler Closed = (sender, args) => { };
+        public event EventHandler Loaded = (sender, args) => { };
+        public event EventHandler Saved = (sender, args) => { };
         public event EventHandler Disposed = (sender, args) => { };
 
         public ProductStore(
-            ProductStoreSettings settings,
+            string storeFile,
             IProductSerializer serializer,
             IToolkitCatalog toolkits)
         {
-            Guard.NotNull(() => settings, settings);
+            Guard.NotNull(() => storeFile, storeFile);
             Guard.NotNull(() => serializer, serializer);
             Guard.NotNull(() => toolkits, toolkits);
 
-            this.settings = settings;
+            this.StoreFile = storeFile;
             this.serializer = serializer;
             this.toolkits = toolkits;
+            this.productEvents = new LifetimeEvents<IProduct>(this);
+            this.componentEvents = new LifetimeEvents<IComponent>(this);
         }
 
+        public LifetimeEvents<IProduct> ProductEvents { get { return productEvents; } }
+        public LifetimeEvents<IComponent> ComponentEvents { get { return componentEvents; } }
+
         public bool IsDisposed { get; private set; }
-        public string Name { get { return settings.StoreName; } }
+        public string StoreFile { get; private set; }
 
         public IEnumerable<IProduct> Products { get { return products.AsReadOnly(); } }
 
@@ -62,7 +75,10 @@
             ComponentMapper.SyncProduct(product, schema);
             products.Add(product);
 
-            return product;
+            productEvents.RaiseCreated(product);
+            productEvents.RaiseInstantiated(product);
+
+            return (IProduct)product;
         }
 
         public void Dispose()
@@ -82,11 +98,14 @@
             // TODO: store provides a component scope.
 
             Clear();
-            using (var reader = File.OpenText(settings.StateFile))
+
+            using (var reader = File.OpenText(StoreFile))
             {
                 var current = 0;
                 foreach (var product in serializer.Deserialize(reader))
                 {
+                    productEvents.RaiseLoading(product);
+
                     var toolkit = toolkits.Find(product.Toolkit.Id);
 
                     // TODO: for each toolkit, its installation path should 
@@ -109,15 +128,26 @@
                         else
                         {
                             ComponentMapper.SyncProduct(product, schema);
+
+                            // Raise loading after automation + schema is in place
+                            // Raise loaded right after
+
+                            //product.Accept(InstanceVisitor.Create())
                         }
                     }
 
                     progress.Report(++current);
-                    product.Deleted += OnProductDeleted;
+                    product.Events.Deleting += OnProductDeleting;
+                    product.Events.Deleted += OnProductDeleted;
                     product.Store = this;
                     products.Add(product);
+
+                    productEvents.RaiseCreated(product);
+                    productEvents.RaiseLoaded(product);
                 }
             }
+
+            Loaded(this, EventArgs.Empty);
         }
 
         public void Save(IProgress<int> progress)
@@ -126,22 +156,32 @@
 
             Guard.NotNull(() => progress, progress);
 
-            using (var writer = new StreamWriter(settings.StateFile, false))
+            using (var writer = new StreamWriter(StoreFile, false))
             {
                 serializer.Serialize(writer, Report(products, progress));
             }
+
+            Saved(this, EventArgs.Empty);
         }
+
+        ILifetimeEvents<IProduct> IProductStore.ProductEvents { get { return ProductEvents; } }
+        ILifetimeEvents<IComponent> IProductStore.ComponentEvents { get { return ComponentEvents; } }
 
         private void ThrowIfDuplicate(string name)
         {
             if (products.Any(x => x.Name == name))
-                throw new ArgumentException(Strings.ProductStore.DuplicateProductName(name, Name));
+                throw new ArgumentException(Strings.ProductStore.DuplicateProductName(name, StoreFile));
         }
 
         internal void ThrowIfDuplicateRename(string oldName, string newName)
         {
             if (products.Any(c => c.Name == newName))
-                throw new ArgumentException(Strings.ProductStore.RenamedDuplicateProduct(oldName, newName, Name));
+                throw new ArgumentException(Strings.ProductStore.RenamedDuplicateProduct(oldName, newName, StoreFile));
+        }
+
+        private void OnProductDeleting(object sender, EventArgs args)
+        {
+            productEvents.RaiseDeleting((IProduct)sender);
         }
 
         private void OnProductDeleted(object sender, EventArgs args)
@@ -149,7 +189,9 @@
             var product = (Product)sender;
             products.Remove(product);
             product.Store = null;
-            product.Disposed -= OnProductDeleted;
+            product.Events.Deleting -= OnProductDeleting;
+            product.Events.Deleted -= OnProductDeleted;
+            productEvents.RaiseDeleted(product);
         }
 
         private void Clear()
@@ -157,7 +199,7 @@
             foreach (var product in products.ToArray())
             {
                 // Avoids the event calling back for each product.
-                product.Disposed -= OnProductDeleted;
+                product.Events.Deleted -= OnProductDeleted;
                 product.Dispose();
             }
 

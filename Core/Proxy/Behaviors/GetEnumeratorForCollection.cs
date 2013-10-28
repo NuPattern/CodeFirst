@@ -7,7 +7,7 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
-    internal class GetEnumeratorForCollection : IBehavior
+    public class GetEnumeratorForCollection : IBehavior
     {
         // Cache compiled enumerator factories to avoid reflection invoke on 
         // every collection enumeration. Note that we cannot cache the 

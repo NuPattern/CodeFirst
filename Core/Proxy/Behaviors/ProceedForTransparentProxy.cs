@@ -10,7 +10,7 @@
     /// We let all of these calls to go through to the underlying 
     /// target, which is the real runtime object.
     /// </summary>
-    internal class ProceedForTransparentProxy : IBehavior
+    public class ProceedForTransparentProxy : IBehavior
     {
         public bool AppliesTo(IInvocation invocation)
         {

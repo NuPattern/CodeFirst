@@ -3,7 +3,7 @@
     using Castle.DynamicProxy;
     using System;
 
-    internal interface IBehavior
+    public interface IBehavior
     {
         bool AppliesTo(IInvocation invocation);
         BehaviorAction ExecuteFor(IInvocation invocation);

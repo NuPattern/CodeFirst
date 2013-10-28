@@ -53,6 +53,7 @@
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
     <Compile Include="Annotator.cs" />
+    <Compile Include="PropertyChangeEventArgs`.cs" />
     <Compile Include="Configuration\Automation\ProvidedBy.cs" />
     <Compile Include="Configuration\BindingConfiguration`.cs" />
     <Compile Include="Configuration\AutomationConfiguration.cs" />
@@ -81,6 +82,8 @@
     <Compile Include="ICommand.cs" />
     <Compile Include="IComponentContextBuilder.cs" />
     <Compile Include="IComponentContextExtensions.cs" />
+    <Compile Include="IComponentEvents.cs" />
+    <Compile Include="ILifetimeEvents`.cs" />
     <Compile Include="IValueProvider.cs" />
     <Compile Include="IWarehouse.cs" />
     <Compile Include="netfx\System\Reflection\Reflect.cs" />
@@ -104,7 +107,6 @@
     <Compile Include="IProperty.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="IComponent.cs" />
-    <Compile Include="IInstance.cs" />
     <Compile Include="IProductStore.cs" />
     <Compile Include="IToolkitIdentifier.cs" />
     <Compile Include="netfx\StringlyTyped\IStringlyScope.cs" />

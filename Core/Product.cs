@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal class Product : Container, IProduct
+    public class Product : Container, IProduct
     {
         public Product(string name, string schemaId)
             : base(name, schemaId, null)
@@ -18,9 +18,9 @@
             set { base.Schema = value; }
         }
 
-        public ProductStore Store { get; internal set; }
+        public ProductStore Store { get; set; }
 
-        public ToolkitIdentifier Toolkit { get; internal set; }
+        public ToolkitIdentifier Toolkit { get; set; }
 
         public override TVisitor Accept<TVisitor>(TVisitor visitor)
         {

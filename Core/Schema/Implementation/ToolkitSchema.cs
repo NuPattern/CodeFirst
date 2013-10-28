@@ -7,8 +7,10 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal class ToolkitSchema : IToolkitSchema, IToolkitInfo
+    public class ToolkitSchema : IToolkitSchema, IToolkitInfo
     {
+        private List<ProductSchema> products = new List<ProductSchema>();
+
         public ToolkitSchema(string toolkitId, string toolkitVersion)
             : this(toolkitId, SemanticVersion.Parse(toolkitVersion))
         {
@@ -19,63 +21,35 @@
             Guard.NotNullOrEmpty(() => toolkitId, toolkitId);
             Guard.NotNull(() => toolkitVersion, toolkitVersion);
 
-            var products = new ObservableCollection<ProductSchema>();
-            products.CollectionChanged += OnPatternsChanged;
-
             this.Id = toolkitId;
             this.Version = toolkitVersion;
-            this.Products = products;
         }
 
         public string Id { get; private set; }
         public SemanticVersion Version { get; private set; }
-        public ICollection<ProductSchema> Products { get; private set; }
+        public IEnumerable<IProductSchema> Products { get { return products; } }
 
         public IProductSchema CreateProductSchema(string schemaId)
         {
-            var schema  = new ProductSchema(schemaId);
-            Products.Add(schema);
+            var schema = new ProductSchema(schemaId, this);
+            products.Add(schema);
             return schema;
         }
 
-        public TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor : IVisitor
+        public bool Accept(ISchemaVisitor visitor)
         {
-            visitor.Visit<IToolkitSchema>(this);
-
-            foreach (var product in Products)
+            if (visitor.VisitEnter(this))
             {
-                product.Accept(visitor);
-            }
-
-            return visitor;
-        }
-
-        IEnumerable<IProductInfo> IToolkitInfo.Products { get { return Products; } }
-
-        IEnumerable<IProductSchema> IToolkitSchema.Products { get { return Products; } }
-
-        IProductSchema IToolkitSchema.CreateProductSchema(string schemaId)
-        {
-            return CreateProductSchema(schemaId);
-        }
-
-        private void OnPatternsChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-            {
-                foreach (var product in e.NewItems.OfType<ProductSchema>())
+                foreach (var product in products)
                 {
-                    product.Toolkit = this;
+                    if (!product.Accept(visitor))
+                        break;
                 }
             }
 
-            if (e.OldItems != null)
-            {
-                foreach (var product in e.OldItems.OfType<ProductSchema>())
-                {
-                    product.Toolkit = null;
-                }
-            }
+            return visitor.VisitLeave(this);
         }
+
+        IEnumerable<IProductInfo> IToolkitInfo.Products { get { return products; } }
     }
 }

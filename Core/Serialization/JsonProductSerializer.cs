@@ -9,7 +9,7 @@
     using System.Linq;
     using System.Reflection;
 
-    internal class JsonProductSerializer : IProductSerializer
+    public class JsonProductSerializer : IProductSerializer
     {
         private static readonly string CurrentVersionString = typeof(JsonProductSerializer)
             .Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;

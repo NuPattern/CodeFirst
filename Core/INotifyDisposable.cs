@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NuPattern
+﻿namespace NuPattern
 {
-    internal interface INotifyDisposable : IDisposable
+    using System;
+
+    public interface INotifyDisposable : IDisposable
     {
-        event EventHandler Disposed;
         bool IsDisposed { get; }
     }
 }

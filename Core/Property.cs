@@ -5,11 +5,12 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal class Property : IProperty, ILineInfo
+    public class Property : IProperty, ILineInfo
     {
         private object value;
         private object annotations;
 
+        public event EventHandler Deleting = (sender, args) => { };
         public event EventHandler Deleted = (sender, args) => { };
 
         public Property(string name, Component owner)
@@ -32,6 +33,7 @@
 
         public void Delete()
         {
+            Deleting(this, EventArgs.Empty);
             Owner.DeleteProperty(this);
             Owner = null;
             Deleted(this, EventArgs.Empty);

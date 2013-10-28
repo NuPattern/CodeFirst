@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal class ComponentContext : IComponentContext
+    public class ComponentContext : IComponentContext
     {
         public ComponentContext()
             : this(new Autofac.ContainerBuilder().Build())

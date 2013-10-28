@@ -3,7 +3,7 @@
     using NuPattern.Schema;
     using System;
 
-    internal class Element : Container, IElement
+    public class Element : Container, IElement
     {
         public Element(string name, string schemaId, Component parent)
             : base(name, schemaId, parent)

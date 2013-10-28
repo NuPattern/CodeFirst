@@ -76,6 +76,9 @@
     <Compile Include="..\Solution Items\GlobalAssemblyInfo.g.cs">
       <Link>Properties\GlobalAssemblyInfo.g.cs</Link>
     </Compile>
+    <Compile Include="ComponentEvents.cs" />
+    <Compile Include="LifetimeEvents.cs" />
+    <Compile Include="Progress.cs" />
     <Compile Include="Automation\CommandAutomation.cs" />
     <Compile Include="Automation\CommandAutomationSettings.cs" />
     <Compile Include="Automation\EventAutomation.cs" />
@@ -103,6 +106,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="SchemaTypeMap.cs" />
+    <Compile Include="Schema\ISchemaVisitor.cs" />
     <Compile Include="Schema\SchemaBuilder.cs" />
     <Compile Include="Schema\ToolkitProcessor.cs" />
     <Compile Include="netfx\System\Collections\Generic\DictionaryFind.cs" />
@@ -113,7 +117,6 @@
     <Compile Include="Element.cs" />
     <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="Product.cs" />
-    <Compile Include="ProductStoreSettings.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -142,12 +145,10 @@
     <Compile Include="Schema\IComponentSchema.cs" />
     <Compile Include="Schema\IContainerSchema.cs" />
     <Compile Include="Schema\IElementSchema.cs" />
-    <Compile Include="Schema\IInstanceSchema.cs" />
     <Compile Include="Schema\Implementation\CollectionSchema.cs" />
     <Compile Include="Schema\Implementation\ComponentSchema.cs" />
     <Compile Include="Schema\Implementation\ContainerSchema.cs" />
     <Compile Include="Schema\Implementation\ElementSchema.cs" />
-    <Compile Include="Schema\Implementation\InstanceSchema.cs" />
     <Compile Include="Schema\Implementation\ProductSchema.cs" />
     <Compile Include="Schema\Implementation\PropertySchema.cs" />
     <Compile Include="Schema\Implementation\ToolkitSchema.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="ToolkitCatalog.cs" />
     <Compile Include="ToolkitIdentifier.cs" />
     <Compile Include="ValueHandler.cs" />
+    <Compile Include="Warehouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Solution Items\NuPattern.snk">

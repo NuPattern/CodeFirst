@@ -2,30 +2,38 @@
 {
     using System;
 
-    internal class ProductSchema : ContainerSchema, IProductSchema, IProductInfo
+    public class ProductSchema : ContainerSchema, IProductSchema, IProductInfo
     {
-        /// <summary>
-        /// Internal constructor used by tests to allow for easy 
-        /// functional construction, by allowing you to create 
-        /// the ToolkitSchema first and the product right in 
-        /// the initializer.
-        /// </summary>
-        internal ProductSchema(string schemaId)
+        private ToolkitSchema toolkit;
+
+        public ProductSchema(string schemaId, ToolkitSchema toolkit)
             : base(schemaId)
         {
+            this.toolkit = toolkit;
         }
-        
-        public ToolkitSchema Toolkit { get; internal set; }
 
-        public override TVisitor Accept<TVisitor>(TVisitor visitor)
+        public IToolkitSchema Toolkit { get { return toolkit; } }
+
+        public override bool Accept(ISchemaVisitor visitor)
         {
-            visitor.Visit<IProductSchema>(this);
+            if (visitor.VisitEnter(this))
+            {
+                foreach (var property in Properties)
+                {
+                    if (!property.Accept(visitor))
+                        break;
+                }
 
-            return base.Accept(visitor);
+                foreach (var component in Components)
+                {
+                    if (!component.Accept(visitor))
+                        break;
+                }
+            }
+
+            return visitor.VisitLeave(this);
         }
 
-        IToolkitInfo IProductInfo.Toolkit { get { return Toolkit; } }
-
-        IToolkitSchema IProductSchema.Toolkit { get { return Toolkit; } }
+        IToolkitInfo IProductInfo.Toolkit { get { return toolkit; } }
     }
 }

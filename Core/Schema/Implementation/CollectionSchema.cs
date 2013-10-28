@@ -2,36 +2,45 @@
 {
     using System;
 
-    internal class CollectionSchema : ContainerSchema, ICollectionSchema, ICollectionInfo
+    public class CollectionSchema : ContainerSchema, ICollectionSchema, ICollectionInfo
     {
+        private ElementSchema itemSchema;
+
         public CollectionSchema(string schemaId)
             : base(schemaId)
         {
         }
 
-        public ElementSchema ItemSchema { get; internal set; }
+        public IElementSchema Item { get { return itemSchema; } }
 
-        public ElementSchema CreateItemSchema(string schemaId)
+        public IElementSchema CreateItemSchema(string schemaId)
         {
-            ItemSchema = new ElementSchema(schemaId) { Parent = this };
-            return ItemSchema;
+            return (itemSchema = new ElementSchema(schemaId));
         }
 
-        public override TVisitor Accept<TVisitor>(TVisitor visitor)
+        public override bool Accept(ISchemaVisitor visitor)
         {
-            visitor.Visit<ICollectionSchema>(this);
-           
-            ItemSchema.Accept(visitor);
+            if (visitor.VisitEnter(this))
+            {
+                if (Item == null || Item.Accept(visitor))
+                {
+                    foreach (var property in Properties)
+                    {
+                        if (!property.Accept(visitor))
+                            break;
+                    }
 
-            return base.Accept(visitor);
+                    foreach (var component in Components)
+                    {
+                        if (!component.Accept(visitor))
+                            break;
+                    }
+                }
+            }
+
+            return visitor.VisitLeave(this);
         }
 
-        IElementSchema ICollectionSchema.Item { get { return ItemSchema; } }
-        IElementInfo ICollectionInfo.Item { get { return ItemSchema; } }
-
-        IElementSchema ICollectionSchema.CreateItemSchema(string schemaId)
-        {
-            return CreateItemSchema(schemaId);
-        }
+        IElementInfo ICollectionInfo.Item { get { return itemSchema; } }
     }
 }

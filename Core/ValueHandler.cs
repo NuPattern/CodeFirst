@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    internal class ValueHandler
+    public class ValueHandler
     {
         public static object Get(Property property)
         {
@@ -27,9 +27,9 @@
             // TODO: do nothing if property name starts with "$" or "_"?
             if (!Object.Equals(oldValue, value))
             {
-                property.Owner.RaisePropertyChanging(property.Name, oldValue, value);
+                property.Owner.Events.RaisePropertyChanging(property.Name, oldValue, value);
                 property.SetValue(value);
-                property.Owner.RaisePropertyChanged(property.Name, oldValue, value);
+                property.Owner.Events.RaisePropertyChanged(property.Name, oldValue, value);
             }
         }
 

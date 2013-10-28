@@ -16,8 +16,8 @@
         {
             // Setup event observer, filter according to settings.PropertyName
             eventSource = new Lazy<IObservable<IEventPattern<object,EventArgs>>>(() => Observable.FromEventPattern<PropertyChangeEventArgs>(
-                handler => component.PropertyChanged += handler,
-                handler => component.PropertyChanged -= handler)
+                handler => component.Events.PropertyChanged += handler,
+                handler => component.Events.PropertyChanged -= handler)
                 .Where(e => e.EventArgs.PropertyName == this.PropertyName));
         }
 

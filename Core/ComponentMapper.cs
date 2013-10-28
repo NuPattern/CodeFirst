@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal static class ComponentMapper
+    public static class ComponentMapper
     {
         public static Product SyncProduct(Product product, IProductInfo schema)
         {

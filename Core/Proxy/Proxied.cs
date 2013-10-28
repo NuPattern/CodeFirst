@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    internal class Proxied : IProxied
+    public class Proxied : IProxied
     {
         public Proxied(IComponent component)
         {

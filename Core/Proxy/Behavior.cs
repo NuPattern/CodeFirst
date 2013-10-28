@@ -4,7 +4,7 @@
     using System;
     using System.Linq;
 
-    internal abstract class Behavior : IBehavior
+    public abstract class Behavior : IBehavior
     {
         public virtual bool AppliesTo(IInvocation invocation)
         {

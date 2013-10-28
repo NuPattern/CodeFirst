@@ -5,22 +5,26 @@
     using System.ComponentModel;
     using System.Linq;
 
-    internal class PropertySchema : InstanceSchema, IPropertySchema, IPropertyInfo
+    public class PropertySchema : IPropertySchema, IPropertyInfo
     {
         private object annotations;
 
-        public PropertySchema(string propertyName, Type propertyType)
+        public PropertySchema(string propertyName, Type propertyType, IComponentSchema owner)
         {
-            Guard.NotNullOrEmpty(() => propertyName, propertyName);
-            Guard.NotNull(() => propertyType, propertyType);
-
             this.Name = propertyName;
             this.PropertyType = propertyType;
+            this.Owner = owner;
 
             this.Attributes = new List<Attribute>();
         }
 
         public IList<Attribute> Attributes { get; private set; }
+
+        public string Description { get; set; }
+
+        public string DisplayName { get; set; }
+
+        public bool IsVisible { get; set; }
 
         public string Name { get; private set; }
 
@@ -28,16 +32,11 @@
 
         public Type PropertyType { get; set; }
 
-        public new ComponentSchema Parent
-        {
-            get { return (ComponentSchema)base.Parent; }
-            set { base.Parent = value; }
-        }
+        public IComponentSchema Owner { get; private set; }
 
-        public override TVisitor Accept<TVisitor>(TVisitor visitor)
+        public bool Accept(ISchemaVisitor visitor)
         {
-            visitor.Visit<IPropertySchema>(this);
-            return visitor;
+            return visitor.VisitProperty(this);
         }
 
         #region Annotations
@@ -63,12 +62,5 @@
         }
 
         #endregion
-
-        IComponentSchema IPropertySchema.Parent { get { return Parent; } }
-
-        // object DefaultValue { get; set; };
-        // ValueProvider DefaultValueProvider?
-        // TypeConverter TypeConverter { get; set; }
-        // ValueProvider ValueProvider { get; set; }
     }
 }

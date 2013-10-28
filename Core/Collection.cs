@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal class Collection : Container, ICollection
+    public class Collection : Container, ICollection
     {
         private List<Element> items = new List<Element>();
 
@@ -46,8 +46,8 @@
             if (Schema != null && Schema.Item != null)
                 ComponentMapper.SyncElement(element, Schema.Item);
 
-            element.PropertyChanged += OnItemChanged;
-            element.Disposed += OnItemDisposed;
+            element.Events.PropertyChanged += OnItemChanged;
+            element.Events.Deleted += OnItemDeleted;
             items.Add(element);
 
             ItemAdded(this, element);
@@ -92,12 +92,12 @@
 
         private void OnItemChanged(object sender, EventArgs args)
         {
-            RaisePropertyChanged("Items", sender, sender);
+            Events.RaisePropertyChanged("Items", sender, sender);
         }
 
-        private void OnItemDisposed(object sender, EventArgs args)
+        private void OnItemDeleted(object sender, EventArgs args)
         {
-            ((Component)sender).PropertyChanged -= OnItemChanged;
+            ((IComponent)sender).Events.PropertyChanged -= OnItemChanged;
         }
 
         IEnumerable<IElement> ICollection.Items { get { return Items; } }

@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
 
-    internal enum BehaviorAction
+    public enum BehaviorAction
     {
         Continue,
         Stop,

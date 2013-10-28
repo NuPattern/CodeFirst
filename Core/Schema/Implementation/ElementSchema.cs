@@ -2,18 +2,31 @@
 {
     using System;
 
-    internal class ElementSchema : ContainerSchema, IElementSchema, IElementInfo
+    public class ElementSchema : ContainerSchema, IElementSchema, IElementInfo
     {
-        internal ElementSchema(string schemaId)
+        public ElementSchema(string schemaId)
             : base(schemaId)
         {
         }
 
-        public override TVisitor Accept<TVisitor>(TVisitor visitor)
+        public override bool Accept(ISchemaVisitor visitor)
         {
-            visitor.Visit<IElementSchema>(this);
-            
-            return base.Accept(visitor);
+            if (visitor.VisitEnter(this))
+            {
+                foreach (var property in Properties)
+                {
+                    if (!property.Accept(visitor))
+                        break;
+                }
+
+                foreach (var component in Components)
+                {
+                    if (!component.Accept(visitor))
+                        break;
+                }
+            }
+
+            return visitor.VisitLeave(this);
         }
     }
 }
